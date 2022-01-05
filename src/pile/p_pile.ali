@@ -1,0 +1,78 @@
+V "GNAT Lib v10"
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_STANDARD_STORAGE_POOLS
+RV SPARK_05
+
+U p_pile%b		p_pile.adb		a51dabfc NE OO PK GE IL KU
+W ada%s			ada.ads			ada.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+U p_pile%s		p_pile.ads		a76b5502 BN EE NE OO PK GE KU
+W ada%s			ada.ads			ada.ali
+Z ada.text_io%s		a-textio.adb		a-textio.ali
+W p_liste%s		p_liste.adb		p_liste.ali
+
+D ada.ads		20210408115627 76789da1 ada%s
+D a-except.ads		20210408115627 a7106115 ada.exceptions%s
+D a-ioexce.ads		20210408115627 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20210408115627 119b8fb3 ada.streams%s
+D a-tags.ads		20210408115627 491b781d ada.tags%s
+D a-textio.ads		20210408115627 aef4d56d ada.text_io%s
+D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20210408115627 5ab55268 interfaces%s
+D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
+D p_liste.ads		20211206041434 c14de46a p_liste%s
+D p_liste.adb		20211206041808 d34475cc p_liste%b
+D p_pile.ads		20220105100615 6626b168 p_pile%s
+D p_pile.adb		20220105100059 6dcfcff9 p_pile%b
+D system.ads		20210408115627 4635ec04 system%s
+D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
+D s-exctab.ads		20210408115627 54135002 system.exception_table%s
+D s-ficobl.ads		20210408115627 078245e4 system.file_control_block%s
+D s-parame.ads		20210408115627 48ec542b system.parameters%s
+D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
+D s-soflin.ads		20210408115627 a7318a92 system.soft_links%s
+D s-stache.ads		20210408115627 a37c21ec system.stack_checking%s
+D s-stalib.ads		20210408115627 09bd3940 system.standard_library%s
+D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
+D s-traent.ads		20210408115627 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20210408115627 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20210408115627 1b7d22d2 system.wch_con%s
+G a e
+G c Z s b [p_pile standard 7 9 none]
+X 1 ada.ads
+16K9*Ada 20e8 13|3r6 3r23
+X 6 a-textio.ads
+57K13*Text_IO 727e16 13|3w10 3r27
+X 10 p_liste.ads
+2+9 T_ELEMENT 12|8r44
+3V18 Image{string} 12|8r68
+4k9*p_liste 34e12 12|1w6 8r36
+6R9 T_CELLULE
+7P9 T_LISTE(6R9[12|8]) 12|16r36[8] 23r37[8] 30r37[8] 36r32[8] 42r31[8] 13|7r36[12|8]
+. 12r37[12|8] 17r37[12|8] 26r32[12|8] 31r31[12|8]
+9*9 Element{12|3+9} 13|36r29[12|8]
+19U15 insererEnTete 13|14s9[12|8]
+32U15 enlever 13|22s13[12|8]
+X 12 p_pile.ads
+3+9 T_ELEMENT 4r37 8r57 23r60 42r47 13|12r60 31r47
+4V18 Image{string} 4>24 8r77
+4*24 element{3+9}
+7k9*p_pile 3z9 4z18 44l5 44e11 13|5b14 39l5 39t11
+8K13*P_LISTE_ELEMENT[10|4] 9r9
+10X5*PileVide 13|20r19 34r19
+16V14*initialisation{10|7P9[8]} 17r30 13|7b14 10l9 10t23
+23U15*Empiler 23=23 23>47 13|12b15 15l9 15t16
+23p23 pile{10|7P9[8]} 24r29 13|12b23 14m23
+23*47 element{3+9} 24r37 13|12b47 14r29
+30U15*Depiler 30=23 13|17b15 24l9 24t16
+30p23 pile{10|7P9[8]} 13|17b23 19r20 22m21 22r34
+36V14*estVide{boolean} 17s22 36>22 13|19s12 26b14 29l9 29t16 33s12
+36p22 pile{10|7P9[8]} 13|26b22 28r16
+42V14*sommet{3+9} 24s22 42>21 13|22s27 31b14 38l9 38t15
+42p21 pile{10|7P9[8]} 13|31b21 33r20 36r20
+

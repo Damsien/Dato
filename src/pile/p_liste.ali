@@ -1,0 +1,100 @@
+V "GNAT Lib v10"
+P ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_LOCAL_ALLOCATORS
+RV NO_RECURSION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV SPARK_05
+
+U p_liste%b		p_liste.adb		bcfd44cb NE OO PK GE IL KU
+W ada%s			ada.ads			ada.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+U p_liste%s		p_liste.ads		c14de46a BN EE NE OO PK GE KU
+
+D ada.ads		20210408115627 76789da1 ada%s
+D a-except.ads		20210408115627 a7106115 ada.exceptions%s
+D a-ioexce.ads		20210408115627 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20210408115627 119b8fb3 ada.streams%s
+D a-tags.ads		20210408115627 491b781d ada.tags%s
+D a-textio.ads		20210408115627 aef4d56d ada.text_io%s
+D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20210408115627 5ab55268 interfaces%s
+D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
+D p_liste.ads		20211206041434 c14de46a p_liste%s
+D p_liste.adb		20211206041808 d34475cc p_liste%b
+D system.ads		20210408115627 4635ec04 system%s
+D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
+D s-exctab.ads		20210408115627 54135002 system.exception_table%s
+D s-ficobl.ads		20210408115627 078245e4 system.file_control_block%s
+D s-parame.ads		20210408115627 48ec542b system.parameters%s
+D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
+D s-soflin.ads		20210408115627 a7318a92 system.soft_links%s
+D s-stache.ads		20210408115627 a37c21ec system.stack_checking%s
+D s-stalib.ads		20210408115627 09bd3940 system.standard_library%s
+D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
+D s-traent.ads		20210408115627 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20210408115627 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20210408115627 1b7d22d2 system.wch_con%s
+G a e
+G c Z s b [p_liste standard 4 9 none]
+X 1 ada.ads
+16K9*Ada 20e8 11|1r6 1r23
+X 6 a-textio.ads
+57K13*Text_IO 727e16 11|1w10 1r27
+465U14*Put 11|28s13
+508U14*Put_Line 11|29s13 64s27 65s32 90s27 91s32
+X 10 p_liste.ads
+2+9 T_ELEMENT 3r37 9r19 19r57 24r49 26r52 26r74 29r56 29r78 32r51 11|18r57
+. 36r49 46r52 46r74 68r56 68r78 94r51
+3V18 Image{string} 3>24 11|28s17
+3*24 element{2+9}
+4k9*p_liste 2z9 3z18 34l5 34e12 11|3b14 115l5 115t12
+6R9*T_CELLULE 7r27 8c9 11e14 11|21r22 58r42 83r46
+7P9*T_LISTE(6R9) 10r19 14r36 17r29 19r40 22r36 24r32 24r67 26r35 29r39 32r34
+. 11|6r36 7r13 13r29 18r40 19r17 25r36 36r32 36r67 37r17 46r35 48r17 68r39
+. 70r17 94r34 95r17
+9*9 Element{2+9} 11|28r29 39r48 51r52 73r22 76r80 98r22 101r80 106r34
+10p9 Suivant{7P9} 11|30r33 40r32 52r36 58m27 58r65 76r33 76r68 77r40 80r38
+. 83m31 83r69 99r28 101r33 101r68 102r40 106r25 106r26 107m27 107r48 107r60
+14V14*creerListeVide{7P9} 15r30 11|6b14 11l9 11t23
+17V14*estVide{boolean} 15s22 17>22 11|13b14 16l9 16t16 50s16 55s16 72s16
+. 80s20 97s16
+17p22 l{7P9} 11|13b22 15r16
+19U15*insererEnTete 19=29 19>50 11|18b15 23l9 23t22 74s17
+19p29 l{7P9} 20r33 11|18b29 21r35 22m9
+19*50 e{2+9} 20r35 11|18b50 21r33
+22U15*afficherListe 22>29 11|25b15 30s13 34l9 34t22
+22p29 l{7P9} 11|25b29 27r12 28r23 30r27
+24V14*rechercher{7P9} 20s22 24>25 24>42 27s22 30s22 33s22 11|36b14 44l9 44t19
+24p25 l{7P9} 11|36b25 37r28
+24*42 e{2+9} 11|36b42 39r59
+26U15*insererApres 26>28 26>45 26>64 11|46b15 66l9 66t21
+26p28 l{7P9} 27r33 11|46b28 48r28 50r24
+26*45 e{2+9} 27r35 11|46b45 58r53
+26*64 data{2+9} 11|46b64 51r63
+29U15*insererAvant 29=28 29>49 29>68 11|68b15 92l9 92t21
+29p28 l{7P9} 30r33 11|68b28 70r28 72r24 73r16 74m31
+29*49 e{2+9} 30r35 11|68b49 74r33 83r57
+29*68 data{2+9} 11|68b68 73r32 76r91
+32U15*enlever 32=23 32>44 11|94b15 114t8
+32p23 l{7P9} 33r33 11|94b23 95r28 97r24 98r16 99m17 99r22
+32*44 e{2+9} 33r35 11|94b44 98r32 101r91 106r44
+X 11 p_liste.adb
+7p9 l{10|7P9} 9m9 10r16
+19p9 copie{10|7P9} 21m9 22r14
+37p9 liste{10|7P9} 39r15 39r38 40m13 40r22 43r16
+47X9 ListeVide 61r19 64r14
+47X20 DataNonPresent 56r23 65r14
+48p9 copie{10|7P9} 51r19 51r42 52m17 52r26 55r24 58r17 58r55
+69X9 ListeVide 87r19 90r14
+69X20 DataNonPresent 81r27 91r14
+70p9 copie{10|7P9} 76r23 76r58 77m21 77r30 80r28 83r21 83r59
+95p9 copie{10|7P9} 101r23 101r58 102m21 102r30 106r16 107r17 107r38
+
