@@ -4,18 +4,18 @@
 
 ## Architecture
 
-![Architecture](./doc/images/architecture.png)
-
 ```plantuml
 @startuml
 
 package "Architecture" #DDDDDD {
 
 
-package "Partie 2 : Compilation" #DDDDDD {
+package "Partie 2 : Exécution" #DDDDDD {
 
 class "Programme Intermédiaire" {
 String[] instructions
+Inserer()
+Inserer_L()
 }
 
 class Tas {
@@ -41,27 +41,43 @@ GoTo(int instruction)
 Null_Op()
 }
 
-Interpreteur --> Tas : "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+Interpreteur --> Tas : "\t\t\t\t\t\t\t\t\t\t\t\t"
 "Programme Intermédiaire" <- Interpreteur
-
 
 }
 
-package "Partie 1 : Traduction" #DDDDDD {
+package "Partie 1 : Traduction/Compilation" #DDDDDD {
 
 class "Programme source" {
 String[] instructions
 }
 
-class Traducteur {
-int CP
-TraduireOperation(op)
-TraduireCondition(String[] cond)
-TraduireBranchement(String[] branch)
+class Pile<K> {
+    Empiler(K record)
+    Depiler(K record)
 }
 
-"Programme source" <- Traducteur
-Traducteur -> "Programme Intermédiaire"
+class Compilateur {
+int CP
+int LABEL_USED
+Variable[] Declared_Variables
+bool hasProgramStarted
+bool hasProgramDebuted
+Pile<TQ> TQ
+Pile<int> CP_SI
+CreerLabel()
+TraduireOperation(op)
+TraduireCondition(line)
+TraduireTantQue(line)
+TraduireFinTantQue()
+TraduireSi()
+TraduireSinon()
+TraduireFinSi()
+}
+
+Pile ..> Compilateur
+"Programme source" <- Compilateur
+Compilateur -> "Programme Intermédiaire"
 
 
 }
@@ -83,6 +99,11 @@ int instruction
 annotation " record Instruction" {
 String regexp
 String[] template
+}
+
+annotation " record TQ" {
+String LX
+String Tx
 }
 
 }
