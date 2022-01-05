@@ -75,7 +75,7 @@ TraduireSinon()
 TraduireFinSi()
 }
 
-Pile ..> Compilateur
+Pile <.. Compilateur
 "Programme source" <- Compilateur
 Compilateur -> "Programme Intermédiaire"
 
