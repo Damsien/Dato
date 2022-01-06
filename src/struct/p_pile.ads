@@ -5,7 +5,7 @@ GENERIC
 
 -- Module spécifiant une pile d'entiers et les opérateurs à partir du type T_LISTE
 PACKAGE p_pile IS
-    PACKAGE P_LISTE_ELEMENT IS NEW p_liste(T_ELEMENT => T_ELEMENT, Image => Image);
+    PACKAGE P_LISTE_ELEMENT IS NEW P_LISTE(T_ELEMENT => T_ELEMENT, Image => Image);
     USE P_LISTE_ELEMENT;
     PileVide : EXCEPTION;
     

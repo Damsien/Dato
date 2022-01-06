@@ -1,0 +1,97 @@
+V "GNAT Lib v10"
+M P W=b
+P SS ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_LOCAL_ALLOCATORS
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_ALLOCATORS_AFTER_ELABORATION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV SPARK_05
+
+U main%b		main.adb		67a27ec1 NE OO SU IL
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W object%s		object.adb		object.ali
+Z p_liste%s		p_liste.adb		p_liste.ali
+W p_pile%s		p_pile.adb		p_pile.ali
+Z system%s		system.ads		system.ali
+Z system.concat_4%s	s-conca4.adb		s-conca4.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+Z system.img_int%s	s-imgint.adb		s-imgint.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20210408115627 76789da1 ada%s
+D a-except.ads		20210408115627 a7106115 ada.exceptions%s
+D a-ioexce.ads		20210408115627 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20210408115627 119b8fb3 ada.streams%s
+D a-tags.ads		20210408115627 491b781d ada.tags%s
+D a-textio.ads		20210408115627 aef4d56d ada.text_io%s
+D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20210408115627 5ab55268 interfaces%s
+D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
+D main.adb		20220106082741 a0abd6e3 main%b
+D object.ads		20220106082859 0fdbcc27 object%s
+D p_liste.ads		20220106072646 c14de46a p_liste%s
+D p_liste.adb		20220106072623 d34475cc p_liste%b
+D p_pile.ads		20220106072745 6626b168 p_pile%s
+D p_pile.adb		20220106072741 6dcfcff9 p_pile%b
+D system.ads		20210408115627 4635ec04 system%s
+D s-conca4.ads		20210408115627 7e642b20 system.concat_4%s
+D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
+D s-exctab.ads		20210408115627 54135002 system.exception_table%s
+D s-ficobl.ads		20210408115627 078245e4 system.file_control_block%s
+D s-imgint.ads		20210408115627 02dbe0c2 system.img_int%s
+D s-parame.ads		20210408115627 48ec542b system.parameters%s
+D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
+D s-soflin.ads		20210408115627 a7318a92 system.soft_links%s
+D s-stache.ads		20210408115627 a37c21ec system.stack_checking%s
+D s-stalib.ads		20210408115627 09bd3940 system.standard_library%s
+D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
+D s-traent.ads		20210408115627 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20210408115627 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20210408115627 1b7d22d2 system.wch_con%s
+G a e
+G c Z b b [main standard 6 11 none]
+G r i none [main standard 6 11 none] [p_liste standard 4 9 none]
+G r i none [main standard 6 11 none] [p_pile standard 7 9 none]
+X 1 ada.ads
+16K9*Ada 20e8 10|3r6 3r23
+X 6 a-textio.ads
+57K13*Text_IO 727e16 10|3w10 3r27
+465U14*Put 10|29s5
+X 10 main.adb
+6U11*main 6b11 32l5 32t9
+8R10 TQ 11e15 13r33 19r50 22r15
+9i9 Lx{integer} 15r42
+10i9 Tx{integer} 15r75
+13V14 Image{string} 13b14 13>20 16l9 16t14 19r63 29s9
+13r20 element{8R10} 15r34 15r67
+19K13 P_PILE_TQ[14|7] 20r9
+22r5 record1{8R10} 28r21
+23p5 pile_TQ{12|7P9[14|8[10|19]]} 27m5 28m13 28r13 29r22
+X 11 object.ads
+1K9*object 10|2w6 2r18 11|25e11
+X 12 p_liste.ads
+6R9 T_CELLULE
+7P9 T_LISTE(6R9[14|8[10|19]]) 10|23r31[14|8[10|19]]
+X 14 p_pile.ads
+3+9 T_ELEMENT 10|19r37
+4V18 Image{string} 10|19r54
+7k9*p_pile 10|1w6 19r30 14|44e11
+8K13 P_LISTE_ELEMENT[12|4] 10|23r15[19]
+16V14 initialisation{12|7P9[8[10|19]]} 10|27s16[19]
+23U15 Empiler 10|28s5[19]
+42V14 sommet{10|8R10} 10|29s15[19]
+

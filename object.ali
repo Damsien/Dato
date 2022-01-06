@@ -1,0 +1,51 @@
+V "GNAT Lib v10"
+P SS ZX
+
+RN
+RV NO_SECONDARY_STACK
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV SPARK_05
+
+U object%b		object.adb		89d87835 NE OO PK IL
+Z system.concat_4%s	s-conca4.adb		s-conca4.ali
+Z system.concat_6%s	s-conca6.adb		s-conca6.ali
+Z system.img_int%s	s-imgint.adb		s-imgint.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+U object%s		object.ads		0fdbcc27 EE NE OO PK IL
+
+D object.ads		20220106082859 0fdbcc27 object%s
+D object.adb		20220106082916 8603b412 object%b
+D system.ads		20210408115627 4635ec04 system%s
+D s-conca4.ads		20210408115627 7e642b20 system.concat_4%s
+D s-conca6.ads		20210408115627 d2c72db2 system.concat_6%s
+D s-imgint.ads		20210408115627 02dbe0c2 system.img_int%s
+D s-parame.ads		20210408115627 48ec542b system.parameters%s
+D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
+D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
+G a e
+G c Z s b [image_tq object 19 14 none]
+G c Z s b [image_variable object 21 14 none]
+G c Z s b [image_label object 23 14 none]
+G c Z s s [tqIP object 3 10 none]
+G c Z s s [variableIP object 8 10 none]
+G c Z s s [labelIP object 14 10 none]
+X 1 object.ads
+1K9*object 25l5 25e11 2|1b14 18l5 18t11
+3R10*TQ 6e15 19r33 2|3r33
+4i9*Lx{integer} 2|5r42
+5i9*Tx{integer} 2|5r75
+8R10*Variable 12e15 21r39 2|8r39
+9i9*intitule{integer} 2|10r42
+10i9*value{integer} 2|10r101
+11a9*typeV{string} 2|10r66
+14R10*Label 17e15 23r36 2|13r36
+15i9*Lx{integer} 2|15r42
+16i9*CP{integer} 2|15r77
+19V14*Image_TQ{string} 19>23 2|3b14 6l9 6t17
+19r23 element{3R10} 2|3b23 5r34 5r67
+21V14*Image_Variable{string} 21>29 2|8b14 11l9 11t23
+21r29 element{8R10} 2|8b29 10r34 10r58 10r93
+23V14*Image_Label{string} 23>26 2|13b14 16l9 16t20
+23r26 element{14R10} 2|13b26 15r34 15r69
+
