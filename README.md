@@ -1,6 +1,10 @@
 # interpreteur-code
 
+## Compiler
 
+```shell
+gnatmake -Isrc/struct -Isrc/compilateur -Isrc/object src/main.ad
+```
 
 ## Architecture
 
