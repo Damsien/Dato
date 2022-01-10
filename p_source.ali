@@ -1,34 +1,23 @@
 V "GNAT Lib v9"
-M P W=b
 P ZX
 
 RN
-RV NO_ALLOCATORS
-RV NO_EXCEPTION_HANDLERS
-RV NO_EXCEPTIONS
 RV NO_IO
-RV NO_IMPLICIT_CONDITIONALS
-RV NO_LOCAL_ALLOCATORS
-RV NO_RECURSION
 RV NO_SECONDARY_STACK
-RV NO_STANDARD_ALLOCATORS_AFTER_ELABORATION
 RV NO_STANDARD_STORAGE_POOLS
 RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_ELABORATION_CODE
 RV SPARK_05
 
-U main%b		main.adb		64688fb3 NE OO SU IL
+U p_source%b		p_source.adb		68afc699 OO PK IL KU
 W ada%s			ada.ads			ada.ali
-Z ada.exceptions%s	a-except.adb		a-except.ali
 Z ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
-W object%s		object.adb		object.ali
-Z p_liste%s		p_liste.adb		p_liste.ali
-W p_pile%s		p_pile.adb		p_pile.ali
-W p_source%s		p_source.adb		p_source.ali
-Z system%s		system.ads		system.ali
-Z system.exception_table%s  s-exctab.adb	s-exctab.ali
 Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
-Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+U p_source%s		p_source.ads		f1db46c3 EE NE OO PK IL KU
+W p_chaine%s		p_chaine.adb		p_chaine.ali
 
 D ada.ads		20200312110721 76789da1 ada%s
 D a-except.ads		20200312110721 291912d5 ada.exceptions%s
@@ -39,14 +28,9 @@ D a-textio.ads		20200312110721 881db35a ada.text_io%s
 D a-unccon.ads		20200312110721 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20200312110721 5ab55268 interfaces%s
 D i-cstrea.ads		20200312110721 e53d8b8e interfaces.c_streams%s
-D main.adb		20220106083635 3ab1d625 main%b
-D object.ads		20220106083023 0fdbcc27 object%s
 D p_chaine.ads		20220110094030 4ee2d140 p_chaine%s
-D p_liste.ads		20220106083023 c14de46a p_liste%s
-D p_liste.adb		20220106083023 d34475cc p_liste%b
-D p_pile.ads		20220106083023 6626b168 p_pile%s
-D p_pile.adb		20220106083023 6dcfcff9 p_pile%b
 D p_source.ads		20220106074511 bf399783 p_source%s
+D p_source.adb		20220110095111 5f8be240 p_source%b
 D system.ads		20200312110721 4635ec04 system%s
 D s-crtl.ads		20200312110721 0ebbdb71 system.crtl%s
 D s-exctab.ads		20200312110721 54135002 system.exception_table%s
@@ -61,31 +45,29 @@ D s-traent.ads		20200312110721 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20200312110721 34867c83 system.unsigned_types%s
 D s-wchcon.ads		20200312110721 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 20e8 10|4r6 4r23
+16K9*Ada 20e8 12|1r6 1r23
 X 6 a-textio.ads
-49K13*Text_IO 471e16 10|4w10 4r27
-242U14*Put 10|19s5
-X 10 main.adb
-7U11*main 7b11 25l5 25t9
-9K13 P_PILE_TQ[15|7] 10r9
-12r5 record1{11|3R10} 18r21
-13p5 pile_TQ{13|7P9[15|8[10|9]]} 17m5 18m13 18r13 19r25
-X 11 object.ads
-1K9*object 10|2w6 2r18 11|25e11
-3R10*TQ 10|9r50 12r15 11|6e15
-19V14*Image_TQ{string} 10|9r63 19s9
-X 13 p_liste.ads
-6R9 T_CELLULE
-7P9 T_LISTE(6R9[15|8[10|9]]) 10|13r31[15|8[10|9]]
-X 15 p_pile.ads
-3+9 T_ELEMENT 10|9r37
-4V18 Image{string} 10|9r54
-7k9*p_pile 10|1w6 9r30 15|44e11
-8K13 P_LISTE_ELEMENT[13|4] 10|13r15[9]
-16V14 initialisation{13|7P9[8[10|9]]} 10|17s16[9]
-23U15 Empiler 10|18s5[9]
-42V14 sommet{11|3R10} 10|19s18[9]
-X 17 p_source.ads
-3K9*p_source 10|3w6 3r20 17|15e13
-5U15*chargerInstructions 10|21s5
+49K13*Text_IO 471e16 12|1w10 1r27
+52P9*File_Type 12|8r18
+53n23*In_File{53E9} 12|11r23
+92U14*Open 12|11s9
+95a7 Name{string} 12|11r32
+98U14*Close 12|19s9
+183V13*End_Of_File{boolean} 12|14s15
+253V13*Get_Line{string} 12|15s36
+X 10 p_chaine.ads
+1K9*p_chaine 30e13 11|1w6 1r20
+3P10*T_LISTE_CHCARAC 11|12r23
+5V14*creerListeVide{3P10} 12|12s32
+11U15*ajouter 12|16s13
+X 11 p_source.ads
+3K9*p_source 10E10 15l5 15e13 12|3b14 23l5 23t13
+5U15*chargerInstructions 5>35 12|7b15 20l9 20t28
+5a35 Nom_Fichier{string} 12|7b35 11r40
+10R10 T_SOURCE 13e15 12|5r14
+12p9*instructions{10|3P10} 12|12m16 16m28
+X 12 p_source.adb
+5r5 source{11|10R10} 12m9 16m21 16r21
+8p9 Fichier{6|52P9} 11m14 11r14 14r27 15r45 19m15 19r15
+9a9 instructionCourante{string} 15m13 16r42
 
