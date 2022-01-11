@@ -1,4 +1,4 @@
-V "GNAT Lib v9"
+V "GNAT Lib v10"
 P ZX
 
 RN
@@ -12,56 +12,59 @@ RV NO_STANDARD_STORAGE_POOLS
 RV NO_DEFAULT_INITIALIZATION
 RV SPARK_05
 
-U p_liste%b		p_liste.adb		9a1422fc NE OO PK GE IL KU
+U p_liste%b		p_liste.adb		f0806ebe NE OO PK GE IL KU
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
-U p_liste%s		p_liste.ads		c14de46a BN EE NE OO PK GE KU
+U p_liste%s		p_liste.ads		a5a39a98 BN EE NE OO PK GE KU
 
-D ada.ads		20200312110721 76789da1 ada%s
-D a-except.ads		20200312110721 291912d5 ada.exceptions%s
-D a-ioexce.ads		20200312110721 e4a01f64 ada.io_exceptions%s
-D a-stream.ads		20200312110721 119b8fb3 ada.streams%s
-D a-tags.ads		20200312110721 491b781d ada.tags%s
-D a-textio.ads		20200312110721 881db35a ada.text_io%s
-D a-unccon.ads		20200312110721 0e9b276f ada.unchecked_conversion%s
-D interfac.ads		20200312110721 5ab55268 interfaces%s
-D i-cstrea.ads		20200312110721 e53d8b8e interfaces.c_streams%s
-D p_liste.ads		20220106083023 c14de46a p_liste%s
-D p_liste.adb		20220106083023 d34475cc p_liste%b
-D system.ads		20200312110721 4635ec04 system%s
-D s-crtl.ads		20200312110721 0ebbdb71 system.crtl%s
-D s-exctab.ads		20200312110721 54135002 system.exception_table%s
-D s-ficobl.ads		20200312110721 078245e4 system.file_control_block%s
-D s-parame.ads		20200312110721 48ec542b system.parameters%s
-D s-secsta.ads		20200312110721 20bbe636 system.secondary_stack%s
-D s-soflin.ads		20200312110721 a7318a92 system.soft_links%s
-D s-stache.ads		20200312110721 a37c21ec system.stack_checking%s
-D s-stalib.ads		20200312110721 09bd3940 system.standard_library%s
-D s-stoele.ads		20200312110721 2dc34a04 system.storage_elements%s
-D s-traent.ads		20200312110721 005bf670 system.traceback_entries%s
-D s-unstyp.ads		20200312110721 34867c83 system.unsigned_types%s
-D s-wchcon.ads		20200312110721 1b7d22d2 system.wch_con%s
+D ada.ads		20210408115627 76789da1 ada%s
+D a-except.ads		20210408115627 a7106115 ada.exceptions%s
+D a-ioexce.ads		20210408115627 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20210408115627 119b8fb3 ada.streams%s
+D a-tags.ads		20210408115627 491b781d ada.tags%s
+D a-textio.ads		20210408115627 aef4d56d ada.text_io%s
+D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20210408115627 5ab55268 interfaces%s
+D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
+D p_liste.ads		20220111072217 a5a39a98 p_liste%s
+D p_liste.adb		20220111084424 fbd7214b p_liste%b
+D system.ads		20210408115627 4635ec04 system%s
+D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
+D s-exctab.ads		20210408115627 54135002 system.exception_table%s
+D s-ficobl.ads		20210408115627 078245e4 system.file_control_block%s
+D s-parame.ads		20210408115627 48ec542b system.parameters%s
+D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
+D s-soflin.ads		20210408115627 a7318a92 system.soft_links%s
+D s-stache.ads		20210408115627 a37c21ec system.stack_checking%s
+D s-stalib.ads		20210408115627 09bd3940 system.standard_library%s
+D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
+D s-traent.ads		20210408115627 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20210408115627 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20210408115627 1b7d22d2 system.wch_con%s
+G a e
+G c Z s b [p_liste standard 4 9 none]
 X 1 ada.ads
 16K9*Ada 20e8 11|1r6 1r23
 X 6 a-textio.ads
-49K13*Text_IO 471e16 11|1w10 1r27
-242U14*Put 11|28s13
-263U14*Put_Line 11|29s13 64s27 65s32 90s27 91s32
+57K13*Text_IO 727e16 11|1w10 1r27
+465U14*Put 11|28s13
+508U14*Put_Line 11|29s13 64s27 65s32 90s27 91s32
 X 10 p_liste.ads
-2+9 T_ELEMENT 3r37 9r19 19r57 24r49 26r52 26r74 29r56 29r78 32r51 11|18r57
-. 36r49 46r52 46r74 68r56 68r78 94r51
+2+9 T_ELEMENT 3r37 9r19 19r57 24r49 26r52 26r74 29r56 29r78 32r51 35r49 11|18r57
+. 36r49 46r52 46r74 68r56 68r78 94r51 117r49
 3V18 Image{string} 3>24 11|28s17
 3*24 element{2+9}
-4k9*p_liste 2z9 3z18 34l5 34e12 11|3b14 115l5 115t12
-6R9*T_CELLULE 7r27 8c9 11e14 11|21r22 58r42 83r46
+4k9*p_liste 2z9 3z18 37l5 37e12 11|3b14 132l5 132t12
+6R9*T_CELLULE 7r27 8c9 11e14 11|21r22 58r42 83r46 122r34 127r46
 7P9*T_LISTE(6R9) 10r19 14r36 17r29 19r40 22r36 24r32 24r67 26r35 29r39 32r34
-. 11|6r36 7r13 13r29 18r40 19r17 25r36 36r32 36r67 37r17 46r35 48r17 68r39
-. 70r17 94r34 95r17
+. 35r33 11|6r36 7r13 13r29 18r40 19r17 25r36 36r32 36r67 37r17 46r35 48r17
+. 68r39 70r17 94r34 95r17 117r33 118r24
 9*9 Element{2+9} 11|28r29 39r48 51r52 73r22 76r80 98r22 101r80 106r34
 10p9 Suivant{7P9} 11|30r33 40r32 52r36 58m27 58r65 76r33 76r68 77r40 80r38
 . 83m31 83r69 99r28 101r33 101r68 102r40 106r25 106r26 107m27 107r48 107r60
-14V14*creerListeVide{7P9} 15r30 11|6b14 11l9 11t23
+. 124r37 125r52 127m31
+14V14*creerListeVide{7P9} 15r30 11|6b14 11l9 11t23 122s48 127s60
 17V14*estVide{boolean} 15s22 17>22 11|13b14 16l9 16t16 50s16 55s16 72s16
 . 80s20 97s16
 17p22 l{7P9} 11|13b22 15r16
@@ -84,6 +87,9 @@ X 10 p_liste.ads
 32U15*enlever 32=23 32>44 11|94b15 114t8
 32p23 l{7P9} 33r33 11|94b23 95r28 97r24 98r16 99m17 99r22
 32*44 e{2+9} 33r35 11|94b44 98r32 101r91 106r44
+35U15*ajouter 35=23 35>43 11|117b15 129l9 129t16
+35p23 l{7P9} 11|117b23 120r26
+35*43 e{2+9} 11|117b43 122r45 127r57
 X 11 p_liste.adb
 7p9 l{10|7P9} 9m9 10r16
 19p9 copie{10|7P9} 21m9 22r14
@@ -95,4 +101,5 @@ X 11 p_liste.adb
 69X20 DataNonPresent 81r27 91r14
 70p9 copie{10|7P9} 76r23 76r58 77m21 77r30 80r28 83r21 83r59
 95p9 copie{10|7P9} 101r23 101r58 102m21 102r30 106r16 107r17 107r38
+118p9 listeCourante{10|7P9} 120m9 121r12 122m13 124r19 125m17 125r34 127r13
 

@@ -112,4 +112,22 @@ PACKAGE BODY p_liste IS
             Null;
         END IF;
     END;
+
+
+    PROCEDURE ajouter(l: IN OUT T_LISTE ; e: IN T_ELEMENT) IS
+        listeCourante: T_LISTE;
+    BEGIN
+        listeCourante := l;
+        IF listeCourante = NULL THEN
+            listeCourante := new T_CELLULE'(e, creerListeVide);
+        ELSE
+            WHILE listeCourante.All.Suivant /= NULL LOOP
+                listeCourante := listeCourante.All.Suivant;
+            END LOOP;
+            listeCourante.All.Suivant := new T_CELLULE'(e, creerListeVide);
+        END IF;
+    END ajouter;
+
+
 END p_liste;
+

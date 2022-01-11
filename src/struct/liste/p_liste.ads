@@ -31,4 +31,7 @@ PACKAGE p_liste IS
 
     PROCEDURE enlever(l : IN OUT T_LISTE ; e : IN T_ELEMENT)
         WITH Post => rechercher(l,e) = Null;   
+
+    PROCEDURE ajouter(l: IN OUT T_LISTE ; e: IN T_ELEMENT);
+
 END p_liste;

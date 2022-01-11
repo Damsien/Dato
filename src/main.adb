@@ -6,6 +6,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 procedure main is
 
+
     PACKAGE P_PILE_TQ IS NEW p_pile(T_ELEMENT => TQ, Image => Image_TQ);
     USE P_PILE_TQ;
 
