@@ -130,14 +130,15 @@ PACKAGE BODY p_liste IS
     FUNCTION obtenir(l: IN T_LISTE ; i: IN Integer) RETURN T_ELEMENT IS
         e: T_ELEMENT;
         listeSuivante: T_LISTE := l;
+        not_found: Exception;
     BEGIN
-        e := NULL;
+
         FOR index in 1..i LOOP
             e := listeSuivante.All.Element;
             IF listeSuivante.All.Suivant /= NULL THEN
                 listeSuivante := listeSuivante.All.Suivant;
             ELSE
-                NULL;
+                RAISE not_found;
             END IF;
         END LOOP;
 

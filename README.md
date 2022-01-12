@@ -1,4 +1,6 @@
-# interpreteur-code
+{::options parse_block_html="true" /}
+
+# Compilateur de code
 
 ## Compiler le programme
 

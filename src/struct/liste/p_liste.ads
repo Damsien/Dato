@@ -10,6 +10,8 @@ PACKAGE p_liste IS
         Suivant : T_LISTE;
    END RECORD;
 
+   TYPE not_found: Exception;
+
    -- FONCTIONS
     FUNCTION creerListeVide RETURN T_LISTE
         WITH Post => estVide(creerListeVide'Result);
