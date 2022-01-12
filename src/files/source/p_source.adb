@@ -42,6 +42,7 @@ PACKAGE BODY p_source IS
         close(Fichier);
 
         Put(IF estVide(source.instructions) THEN "vide" ELSE "pas vide");
+        afficherListe(source.instructions);
     END chargerInstructions;
 
 

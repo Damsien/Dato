@@ -117,8 +117,8 @@ PACKAGE BODY p_liste IS
     PROCEDURE ajouter(l: IN OUT T_LISTE ; e: IN T_ELEMENT) IS
         listeCourante: T_LISTE := l;
     BEGIN
-        IF listeCourante.All = NULL THEN
-            listeCourante := new T_CELLULE'(e, creerListeVide);
+        IF listeCourante = NULL THEN
+            l := new T_CELLULE'(e, creerListeVide);
         ELSE
             WHILE listeCourante.All.Suivant /= NULL LOOP
                 listeCourante := listeCourante.All.Suivant;
@@ -138,17 +138,24 @@ PACKAGE BODY p_liste IS
             IF listeSuivante.All.Suivant /= NULL THEN
                 listeSuivante := listeSuivante.All.Suivant;
             ELSE
-                RAISE not_found;
+                IF index /= i THEN
+                    RAISE not_found;
+                ELSE
+                    NULL;
+                END IF;
             END IF;
         END LOOP;
 
         RETURN e;
+    EXCEPTION
+        WHEN not_found => Put("Index introuvable");
     END obtenir;
 
-    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN Integer) IS
+    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN T_ELEMENT) IS
         listeSuivante: T_LISTE := l;
         listeCourante: T_LISTE;
         indexCheck: Integer := 1;
+        not_found: Exception;
     BEGIN
 
         FOR index in 1..i LOOP
@@ -157,7 +164,11 @@ PACKAGE BODY p_liste IS
                 listeSuivante := listeSuivante.All.Suivant;
                 indexCheck := indexCheck+1;
             ELSE
-                NULL;
+                IF index /= i THEN
+                    RAISE not_found;
+                ELSE
+                    NULL;
+                END IF;
             END IF;
         END LOOP;
 
@@ -167,6 +178,8 @@ PACKAGE BODY p_liste IS
             NULL;
         END IF;
 
+    EXCEPTION
+        WHEN not_found => Put("Index introuvable");
     END modifier;
 
 END p_liste;

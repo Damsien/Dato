@@ -1,4 +1,3 @@
-{::options parse_block_html="true" /}
 
 # Compilateur de code
 
@@ -82,15 +81,60 @@ En analysant le code intermédiaire de notre programme, nous pouvons identifier 
 
 | Programme      | Opérations |
 | ----------- | ----------- |
-| <dd>n <span style="background-color:#ffff00">←</span> 5 </dd>     | Affectation       |
+| n **←** 5     | Affectation       |
 | i ← 1   |         |
 | Fact ← 1   |         |
-| T1 ← i < n   | Comparaison        |
-| i ← i + 1   |  Opération       |
-| IF T3 GO TO L1  |  Condition / Branchement       |
-| NULL  |  Null       |
+| T1 ← **i < n**   | Comparaison        |
+| i ← **i + 1**   |  Opération       |
+| **IF** T3 **GO TO** L1  |  Condition / Branchement       |
+| **NULL**  |  Null       |
 
+### Raffinage
 
+**<R0\> :** Comment **Interpréter et exécuter un code intermédiaire** ?
+
+- Charger le fichier
+- POUR CHAQUE LIGNE :
+  - Vérifier et appliquer les règles d'exécution (\<R1>)
+
+**<R1\> :** Comment **Vérifier et appliquer les règles d'exécution** ? 
+
+- SI _Vérifier **commentaire**_ (\<R2.1>) ALORS :
+    - _Appliquer **commentaire**_ (\<R2.1bis>)
+- SI _Vérifier **déclaration**_ (\<R2.2>) ALORS :
+    - _Appliquer **déclaration**_ (\<R2.2bis>)
+- SI _Vérifier **affectation**_ (\<R2.3>) ALORS :
+    - _Appliquer **affectation**_ (\<R2.3bis>)
+- SI _Vérifier **opération**_ (\<R2.4>) ALORS :
+    - _Appliquer **opération**_ (\<R2.4bis>)
+- SI _Vérifier **comparaison**_ (\<R2.5>) ALORS :
+    - _Appliquer **comparaison**_ (\<R2.5bis>)
+- SI _Vérifier **condition**_ (\<R2.6>) ALORS :
+    - _Appliquer **condition**_ (\<R2.6bis>)
+- SI _Vérifier **branchement**_ (\<R2.7>) ALORS :
+    - _Appliquer **branchement**_ (\<R2.7bis>)
+- SI _Vérifier **Null**_ (\<R2.8>) ALORS :
+    - _Appliquer **Null**_ (\<R2.8bis>)
+
+Après analyse, nous pouvons spécifier de nouvelles fonctions à notre module Interpréteur.
+
+```plantuml
+@startuml
+
+class Interpreteur {
+    int CP
+
+    Affecter(int e1, int e2,  char op)
+    Comparer(int e1, int e2, char op) : bool
+    Operer(int e1, int e2, char op) : int
+    Declarer(String intitule, String type)
+    GoTo(String label)
+    GoTo(int instruction)
+    Null_Op()
+    }
+
+@enduml
+```
 
 ## Architecture globale
 
@@ -206,6 +250,3 @@ String Tx
 
 @enduml
 ``` 
-
-
-{::options parse_block_html="false" /}

@@ -10,7 +10,7 @@ PACKAGE p_liste IS
         Suivant : T_LISTE;
    END RECORD;
 
-   TYPE not_found: Exception;
+   not_found: Exception;
 
    -- FONCTIONS
     FUNCTION creerListeVide RETURN T_LISTE
@@ -38,6 +38,6 @@ PACKAGE p_liste IS
 
     FUNCTION obtenir(l: IN T_LISTE ; i: IN Integer) RETURN T_ELEMENT;
 
-    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN Integer);
+    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN T_ELEMENT);
 
 END p_liste;
