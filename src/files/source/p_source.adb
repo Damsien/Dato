@@ -37,12 +37,12 @@ PACKAGE BODY p_source IS
         open(Fichier, In_File, Name => Nom_Fichier);
         WHILE End_Of_File(Fichier) = False LOOP
             instructionCourante := new String'(Get_Line(Fichier));
+            Put(instructionCourante.All);
             ajouter(source.instructions, StringToT(instructionCourante.All));
         END LOOP;
         close(Fichier);
 
-        Put(IF estVide(source.instructions) THEN "vide" ELSE "pas vide");
-        afficherListe(source.instructions);
+        --afficherListe(source.instructions);
     END chargerInstructions;
 
 
