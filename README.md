@@ -82,7 +82,7 @@ En analysant le code intermédiaire de notre programme, nous pouvons identifier 
 
 | Programme      | Opérations |
 | ----------- | ----------- |
-| n <span style="background-color:#ffff00">←</span> 5      | Affectation       |
+| <dd>n <span style="background-color:#ffff00">←</span> 5 </dd>     | Affectation       |
 | i ← 1   |         |
 | Fact ← 1   |         |
 | T1 ← i < n   | Comparaison        |
