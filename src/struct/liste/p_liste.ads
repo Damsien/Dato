@@ -34,4 +34,8 @@ PACKAGE p_liste IS
 
     PROCEDURE ajouter(l: IN OUT T_LISTE ; e: IN T_ELEMENT);
 
+    FUNCTION obtenir(l: IN T_LISTE ; i: IN Integer) RETURN T_ELEMENT;
+
+    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN Integer);
+
 END p_liste;

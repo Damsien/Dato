@@ -115,10 +115,9 @@ PACKAGE BODY p_liste IS
 
 
     PROCEDURE ajouter(l: IN OUT T_LISTE ; e: IN T_ELEMENT) IS
-        listeCourante: T_LISTE;
+        listeCourante: T_LISTE := l;
     BEGIN
-        listeCourante := l;
-        IF listeCourante = NULL THEN
+        IF listeCourante.All = NULL THEN
             listeCourante := new T_CELLULE'(e, creerListeVide);
         ELSE
             WHILE listeCourante.All.Suivant /= NULL LOOP
@@ -128,6 +127,45 @@ PACKAGE BODY p_liste IS
         END IF;
     END ajouter;
 
+    FUNCTION obtenir(l: IN T_LISTE ; i: IN Integer) RETURN T_ELEMENT IS
+        e: T_ELEMENT;
+        listeSuivante: T_LISTE := l;
+    BEGIN
+        e := NULL;
+        FOR index in 1..i LOOP
+            e := listeSuivante.All.Element;
+            IF listeSuivante.All.Suivant /= NULL THEN
+                listeSuivante := listeSuivante.All.Suivant;
+            ELSE
+                NULL;
+            END IF;
+        END LOOP;
+
+        RETURN e;
+    END obtenir;
+
+    PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN Integer) IS
+        listeSuivante: T_LISTE := l;
+        listeCourante: T_LISTE;
+        indexCheck: Integer := 1;
+    BEGIN
+
+        FOR index in 1..i LOOP
+            listeCourante := listeSuivante;
+            IF listeSuivante.All.Suivant /= NULL THEN
+                listeSuivante := listeSuivante.All.Suivant;
+                indexCheck := indexCheck+1;
+            ELSE
+                NULL;
+            END IF;
+        END LOOP;
+
+        IF indexCheck = i THEN
+            listeCourante.All.Element := new_e;
+        ELSE
+            NULL;
+        END IF;
+
+    END modifier;
 
 END p_liste;
-

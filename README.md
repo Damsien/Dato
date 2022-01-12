@@ -78,6 +78,17 @@ class Interpreteur {
 
 En analysant le code intermédiaire de notre programme, nous pouvons identifier différents mots clés et opérations :
 
+| Programme      | Opérations |
+| ----------- | ----------- |
+| n <span style="background-color:#ffff00">←</span> 5      | Affectation       |
+| i ← 1   |         |
+| Fact ← 1   |         |
+| T1 ← i < n   | Comparaison        |
+| i ← i + 1   |  Opération       |
+| IF T3 GO TO L1  |  Condition / Branchement       |
+| NULL  |  Null       |
+
+
 
 ## Architecture globale
 
