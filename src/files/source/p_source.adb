@@ -7,24 +7,16 @@ PACKAGE BODY p_source IS
     source : T_SOURCE;
 
     FUNCTION TToString(el : T_String) RETURN String IS
-        result : String(1..200);
-        ch : Character;
+        result : N_STRING;
     BEGIN
-        for i IN 1..200 loop
-            ch := el(i);
-            result(i) := ch;
-        end loop;
-        RETURN result;
+        result := new String'(el.All);
+        RETURN result.All;
     END TToString;
 
     FUNCTION StringToT(el : String) RETURN T_String IS
         result : T_String;
-        ch : Character;
     BEGIN
-        for i IN 1..el'length loop
-            ch := el(i);
-            result(i) := ch;
-        end loop;
+        result := new String'(el);
         RETURN result;
     END StringToT;
 
@@ -37,12 +29,12 @@ PACKAGE BODY p_source IS
         open(Fichier, In_File, Name => Nom_Fichier);
         WHILE End_Of_File(Fichier) = False LOOP
             instructionCourante := new String'(Get_Line(Fichier));
-            Put(instructionCourante.All);
             ajouter(source.instructions, StringToT(instructionCourante.All));
         END LOOP;
         close(Fichier);
 
-        --afficherListe(source.instructions);
+        New_Line;
+        afficherListe(source.instructions);
     END chargerInstructions;
 
 

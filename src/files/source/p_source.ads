@@ -2,7 +2,8 @@ WITH p_liste;
 
 PACKAGE p_source IS
 
-    type T_String is new String(1..200);
+    --TYPE T_String IS NEW String;
+    TYPE T_String IS ACCESS String;
 
     FUNCTION TToString(el : T_String) RETURN String;
 

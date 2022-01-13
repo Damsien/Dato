@@ -1,5 +1,4 @@
-V "GNAT Lib v10"
-A -gnatwa
+V "GNAT Lib v9"
 P SS ZX
 
 RN
@@ -15,22 +14,15 @@ Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
 U object%s		object.ads		0fdbcc27 EE NE OO PK IL
 
-D object.ads		20220110104051 0fdbcc27 object%s
-D object.adb		20220110104051 8603b412 object%b
-D system.ads		20210408115627 4635ec04 system%s
-D s-conca4.ads		20210408115627 7e642b20 system.concat_4%s
-D s-conca6.ads		20210408115627 d2c72db2 system.concat_6%s
-D s-imgint.ads		20210408115627 02dbe0c2 system.img_int%s
-D s-parame.ads		20210408115627 48ec542b system.parameters%s
-D s-secsta.ads		20210408115627 20bbe636 system.secondary_stack%s
-D s-stoele.ads		20210408115627 2dc34a04 system.storage_elements%s
-G a e
-G c Z s b [image_tq object 19 14 none]
-G c Z s b [image_variable object 21 14 none]
-G c Z s b [image_label object 23 14 none]
-G c Z s s [tqIP object 3 10 none]
-G c Z s s [variableIP object 8 10 none]
-G c Z s s [labelIP object 14 10 none]
+D object.ads		20220112071155 0fdbcc27 object%s
+D object.adb		20220112071155 8603b412 object%b
+D system.ads		20200312110721 4635ec04 system%s
+D s-conca4.ads		20200312110721 7e642b20 system.concat_4%s
+D s-conca6.ads		20200312110721 d2c72db2 system.concat_6%s
+D s-imgint.ads		20200312110721 02dbe0c2 system.img_int%s
+D s-parame.ads		20200312110721 48ec542b system.parameters%s
+D s-secsta.ads		20200312110721 20bbe636 system.secondary_stack%s
+D s-stoele.ads		20200312110721 2dc34a04 system.storage_elements%s
 X 1 object.ads
 1K9*object 25l5 25e11 2|1b14 18l5 18t11
 3R10*TQ 6e15 19r33 2|3r33
