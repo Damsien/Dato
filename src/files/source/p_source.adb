@@ -22,18 +22,19 @@ PACKAGE BODY p_source IS
     END StringToT;
 
     FUNCTION clarifyString(s: IN String) RETURN String IS
-        c: Character := s(s'First);
+        c: Character;
         index: Integer := 1;
     BEGIN
-        WHILE c = ' ' LOOP
-            c := s(index);
-            index := index + 1;
-        END LOOP;
-        New_Line;
-        Put(index, 1);
-        New_Line;
-        Put(s'Last, 1);
-        RETURN s(index..s'Last);
+        IF s'Last /= 0 THEN
+            c := s(s'First);
+            WHILE c = ' ' LOOP
+                index := index + 1;
+                c := s(index);
+            END LOOP;
+            RETURN s(index..s'Last);
+        ELSE
+            RETURN NULL;
+        END IF;
     END clarifyString;
 
     PROCEDURE chargerInstructions(Nom_Fichier : IN String) IS
