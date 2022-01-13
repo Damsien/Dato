@@ -21,6 +21,29 @@ PACKAGE BODY p_source IS
         RETURN result;
     END StringToT;
 
+    FUNCTION removeSpaces(s: IN String) RETURN STRING IS
+        c: Character := s(s'First);
+        str: String(s'First..s'Last);
+        counter: Integer := 1;
+    BEGIN
+        FOR i in s'First..s'Last LOOP
+            IF c = ' ' AND c = s(i) THEN
+                NULL;
+            ELSE
+                str(i) := s(i);
+                counter := counter + 1;
+            END IF;
+            c := str(i);
+        END LOOP;
+        New_Line;
+        Put_Line(s);
+        New_Line;
+        Put(str'First);
+        New_Line;
+        Put(counter);
+        RETURN str(str'First..counter);
+    END removeSpaces;
+
     FUNCTION clarifyString(s: IN String) RETURN String IS
         c: Character;
         index: Integer := 1;
@@ -31,9 +54,9 @@ PACKAGE BODY p_source IS
                 index := index + 1;
                 c := s(index);
             END LOOP;
-            RETURN s(index..s'Last);
+            RETURN removeSpaces(s(index..s'Last));
         ELSE
-            RETURN NULL;
+            RETURN "";
         END IF;
     END clarifyString;
 
@@ -46,10 +69,14 @@ PACKAGE BODY p_source IS
         open(Fichier, In_File, Name => Nom_Fichier);
         WHILE End_Of_File(Fichier) = False LOOP
             instructionCourante := new String'(Get_Line(Fichier));
-            ajouter(
-                source.instructions, 
-                StringToT(clarifyString(instructionCourante.All))
-            );
+            IF clarifyString(instructionCourante.All) /= "" THEN
+                ajouter(
+                    source.instructions, 
+                    StringToT(clarifyString(instructionCourante.All))
+                );
+            ELSE
+                NULL;
+            END IF;
         END LOOP;
         close(Fichier);
 

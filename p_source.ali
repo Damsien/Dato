@@ -3,6 +3,7 @@ P SS ZX
 
 RN
 RV NO_ALLOCATORS
+RV NO_DIRECT_BOOLEAN_OPERATORS
 RV NO_IO
 RV NO_LOCAL_ALLOCATORS
 RV NO_SECONDARY_STACK
@@ -12,7 +13,7 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_ELABORATION_CODE
 RV SPARK_05
 
-U p_source%b		p_source.adb		db21e36e OO PK IL KU
+U p_source%b		p_source.adb		6512e0c8 OO PK IL KU
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.strings%s		a-string.ads		a-string.ali
@@ -53,7 +54,7 @@ D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
 D p_liste.ads		20220112081235 436b077b p_liste%s
 D p_liste.adb		20220113074601 601a3a2b p_liste%b
 D p_source.ads		20220113074923 8467f60d p_source%s
-D p_source.adb		20220113082152 11af39f1 p_source%b
+D p_source.adb		20220113084358 af9c3a57 p_source%b
 D system.ads		20210408115627 4635ec04 system%s
 D s-atocou.ads		20210408115627 b45c2d8d system.atomic_counters%s
 D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
@@ -92,6 +93,7 @@ G c Z s b [clarifystring p_source 13 14 none]
 G c Z s b [chargerinstructions p_source 15 15 none]
 G c Z s s [t_sourceIP p_source 19 10 none]
 G c Z b b [stringtot p_source 17 14 none]
+G c Z b b [removespaces p_source 24 14 none]
 G r i none [s p_source 3 1 none] [p_liste standard 4 9 none]
 X 1 ada.ads
 16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r33
@@ -103,46 +105,53 @@ X 11 a-strunb.ads
 82K21*Unbounded 756e26 21|3w18 3r45
 X 13 a-textio.ads
 57K13*Text_IO 727e16 21|1w10 1r27
-64P9*File_Type 21|40r18
-66n23*In_File{66E9} 21|45r23
-114U14*Open 21|45s9
-117a7 Name{string} 21|45r32
-129U14*Close 21|53s9
-264U14*New_Line 21|28s9 55s9
-312V13*End_Of_File{boolean} 21|46s15
-492V13*Get_Line{string} 21|47s48
+64P9*File_Type 21|64r18
+66n23*In_File{66E9} 21|69r23
+114U14*Open 21|69s9
+117a7 Name{string} 21|69r32
+129U14*Close 21|81s9
+264U14*New_Line 21|38s9 40s9 42s9 83s9
+312V13*End_Of_File{boolean} 21|70s15
+492V13*Get_Line{string} 21|71s48
+508U14*Put_Line 21|39s9
 X 14 a-tiinio.ads
-80U14*Put 21|29s9[6|18]
+80U14*Put 21|41s9[6|18] 43s9[6|18]
 X 18 p_liste.ads
 2+9 T_ELEMENT 20|10r44
 3V18 Image{string} 20|10r67
 4k9*p_liste 43e12 20|1w6 10r36
 6R9*T_CELLULE
 7P9*T_LISTE(6R9[20|10]) 20|21r23[10]
-16V14*creerListeVide{7P9[20|10]} 21|43s32[20|10]
-24U15*afficherListe 21|56s9[20|10]
-37U15*ajouter 21|48s13[20|10]
+16V14*creerListeVide{7P9[20|10]} 21|67s32[20|10]
+24U15*afficherListe 21|84s9[20|10]
+37U15*ajouter 21|73s17[20|10]
 X 20 p_source.ads
-3K9*p_source 19E10 24l5 24e13 21|5b14 60l5 60t13
+3K9*p_source 19E10 24l5 24e13 21|5b14 88l5 88t13
 6P10*T_String(string) 8r29 10r57 21|10r29 17r44 18r18
 8V14*TToString{string} 8>24 10r76 21|10b14 15l9 15t18
 8p24 el{6P10} 21|10b24 13r31
 10K13*P_LISTE_CH_CHAR[18|4] 11r9
-13V14*clarifyString{string} 13>28 21|24b14 37l9 37t22 50s27
-13a28 s{string} 21|24b28 29r13 36r16
-15U15*chargerInstructions 15>35 21|39b15 57l9 57t28
-15a35 Nom_Fichier{string} 21|39b35 45r40
+13V14*clarifyString{string} 13>28 21|47b14 61l9 61t22 72s16 75s31
+13a28 s{string} 21|47b28 51r12 52r18 52r20 55r22 57r33 57r42
+15U15*chargerInstructions 15>35 21|63b15 85l9 85t28
+15a35 Nom_Fichier{string} 21|63b35 69r40
 19R10 T_SOURCE 22e15 21|8r14
-21p9*instructions{18|7P9[10]} 21|43m16 49m24 56r30
+21p9*instructions{18|7P9[10]} 21|67m16 74m28 84r30
 X 21 p_source.adb
-7P10 N_STRING(string) 11r18 41r30
-8r5 source{20|19R10} 43m9 49m17 49r17 56r23
+7P10 N_STRING(string) 11r18 65r30
+8r5 source{20|19R10} 67m9 74m21 74r21 84r23
 11p9 result{7P10} 13m9 14r16
-17V14 StringToT{20|6P10} 17b14 17>24 22l9 22t18 50s17
+17V14 StringToT{20|6P10} 17b14 17>24 22l9 22t18 75s21
 17a24 el{string} 20r31
 18p9 result{20|6P10} 20m9 21r16
-25e9 c{character}
-26i9 index{integer}
-40p9 Fichier{13|64P9} 45m14 45r14 46r27 47r57 53m15 53r15
-41p9 instructionCourante{7P10} 47m13 50r41
+24V14 removeSpaces{string} 24b14 24>27 45l9 45t21 57s20
+24a27 s{string} 25r25 25r27 26r21 26r30 29r18 29r27 30r32 33r27 39r18
+25e9 c{character} 30r16 30r28 36m13
+26a9 str{string} 33m17 36r18 41r13 44r16 44r20
+27i9 counter{integer} 34m17 34r28 43r13 44r31
+29i13 i{integer} 30r34 33r21 33r29 36r22
+48e9 c{character} 52m13 53r19 55m17
+49i9 index{integer} 54m17 54r26 55r24 57r35
+64p9 Fichier{13|64P9} 69m14 69r14 70r27 71r57 81m15 81r15
+65p9 instructionCourante{7P10} 71m13 72r30 75r45
 

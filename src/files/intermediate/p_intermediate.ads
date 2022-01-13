@@ -22,7 +22,7 @@ PRIVATE
         instructions: T_LISTE;
     END RECORD;
 
-    CP : Integer;
+    CP : Integer := 0;
 
 
 end intermediate;
