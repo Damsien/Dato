@@ -30,9 +30,21 @@ gnatmake src/main -Isrc/compiler -Isrc/files -Isrc/files/intermediate -Isrc/file
 
 ## Compilation du programme source
 
+### Analyse sémantique
+
+| Motif | Règle |
+| ----------- | ----------- |
+| - -  | Tout caractère après ce motif est autorisé |
+| Programme \<name> est | Variable **isInProgram** = true
+| \<variable> : \<Type> | Vérifier que **isInProgram** = true ET que **isDebut** = false<br/> Vérifier que Type existe <br/> Vérifier que variable n'est pas déjà déclaré |
+| Début | Vérifier que **isInProgram** = true <br/> Variable **isDebut** = true |
+| \<variable> <- \<valeur> | Vérifier que variable est déclaré <br> Vérifier le type de la valeur |
+| \<variable \| constante> \<op> \<variable \| constante> | Vérifier que op existe <br> Ajouter des variables intermédiaires (condition) <br> Ajouter des lignes |
+| Tant Que \<condition> Faire | Isoler et traiter la condition <br/> Créer des labels <br/> Ajouter des branchements |
+
 ## Interprétation du programme intermédiaire
 
-### Architecture
+### Représentation de la mémoire
 
 Dans cet exemple, nous considérons une version simplifiée de la gestion de la mémoire, contenant seulement un espace réservé au programme, et le tas pour les différentes variables. <br/>
 Le programme est lu par un interpréteur externe (qui accède à son espace mémoire), qui exécutera le programme et accèdera éventuellement au tas pour enregistrer et lire des variables stockées.
