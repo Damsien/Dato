@@ -39,11 +39,13 @@ PACKAGE p_compilateur IS
     PACKAGE P_PILE_INT IS NEW P_PILE(T_ELEMENT => Integer, Image => Integer'Image);
     USE P_PILE_INT;
 
+   NotCompile: Exception;
+
 PRIVATE
 
     TYPE T_COMPILATEUR IS
     RECORD
-        CP: Integer;
+        CP_COMPIL: Integer;
         LABEL_USED: Integer;
         Declared_Variables: P_LISTE_VARIABLE;
         hasProgramStarded: Boolean;

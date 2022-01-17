@@ -59,8 +59,12 @@ PACKAGE BODY p_source IS
         IF s'Last /= 0 THEN
             c := s(s'First);
             WHILE c = ' ' LOOP
-                index := index + 1;
-                c := s(index);
+                IF index = s'Length THEN
+                    RETURN "";
+                ELSE
+                    index := index + 1;
+                    c := s(index);
+                END IF;
             END LOOP;
             temp := new String(1..s'Last-index+1);
             FOR i in 1..temp.All'Length LOOP

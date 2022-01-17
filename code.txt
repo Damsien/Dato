@@ -1,10 +1,13 @@
 <<<<<<< HEAD
 code
 
+
+             
+
         oo
-    ii
+    ii     
     ala  aa aa     y
-oui ii
+           oui ii
 =======
 code       ss    
     ndjze dzed dze   dze d ez 

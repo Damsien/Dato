@@ -133,7 +133,7 @@ PACKAGE BODY p_liste IS
         not_found: Exception;
     BEGIN
 
-        FOR index in 1..i LOOP
+        FOR index in 1..i+1 LOOP
             e := listeSuivante.All.Element;
             IF listeSuivante.All.Suivant /= NULL THEN
                 listeSuivante := listeSuivante.All.Suivant;
