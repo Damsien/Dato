@@ -22,5 +22,4 @@ begin
     chargerInstructions("code.txt");
 
 
-
 end main;

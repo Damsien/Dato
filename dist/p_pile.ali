@@ -25,8 +25,8 @@ D a-textio.ads		20210408115627 aef4d56d ada.text_io%s
 D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20210408115627 5ab55268 interfaces%s
 D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
-D p_liste.ads		20220112081235 436b077b p_liste%s
-D p_liste.adb		20220113074601 601a3a2b p_liste%b
+D p_liste.ads		20220117105455 436b077b p_liste%s
+D p_liste.adb		20220117105518 601a3a2b p_liste%b
 D p_pile.ads		20220110153458 6626b168 p_pile%s
 D p_pile.adb		20220110104033 6dcfcff9 p_pile%b
 D system.ads		20210408115627 4635ec04 system%s
@@ -51,7 +51,7 @@ X 6 a-textio.ads
 X 10 p_liste.ads
 2+9 T_ELEMENT 12|8r44
 3V18 Image{string} 12|8r68
-4k9*p_liste 43e12 12|1w6 8r36
+4k9*p_liste 45e12 12|1w6 8r36
 6R9 T_CELLULE
 7P9 T_LISTE(6R9[12|8]) 12|16r36[8] 23r37[8] 30r37[8] 36r32[8] 42r31[8] 13|7r36[12|8]
 . 12r37[12|8] 17r37[12|8] 26r32[12|8] 31r31[12|8]

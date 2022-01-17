@@ -1,21 +1,94 @@
-WITH struct.pile;
+WITH p_source; USE p_source;
 
-procedure p_compilateur is
+PACKAGE BODY p_compilateur IS
 
-    type TQ is record
-        Lx : String(1..4);
-        Tx : String(1..4);
-    end record;
+    FUNCTION VToString(el : Variable) RETURN String IS
+    BEGIN
+        RETURN el.Intitule;
+    END TToString;
 
-    PACKAGE P_PILE_TQ IS NEW p_pile(T_ELEMENT => TQ, Image => Image);
-    USE P_PILE_TQ;
-
-    record1 : TQ := new TQ'("L1","T2");
-
-begin
+    FUNCTION TQToString(el : Variable) RETURN String IS
+    BEGIN
+        RETURN el.Tx;
+    END TToString;
 
 
-    Empiler(record1);
+
+    PROCEDURE TraiterInstructions(P_LISTE_CH_CHAR instructions) IS
+        inst: P_LISTE_CH_CHAR := l;
+    BEGIN
+        WHILE inst.All.Element /= NULL LOOP
+            LOOP
+
+                CASE inst.All.Element IS
+                    WHEN ""
 
 
-end p_compilateur;
+
+                    
+                END CASE;
+
+
+            END LOOP;
+            inst.All.Element := inst.All.Suivant;
+        END LOOP;
+
+    END TraiterInstructions;
+
+
+
+    FUNCTION CreerLabel RETURN Integer IS
+    BEGIN
+
+    END CreerLabel;
+
+
+    FUNCTION VerifierCondition(String condition) RETURN Integer IS
+    BEGIN
+
+    END VerifierCondition;
+
+    
+    PROCEDURE ValiderOperation(String op) IS
+    BEGIN
+
+    END ValiderOperation;
+
+
+    PROCEDURE TraduireAffectation(String line) IS
+    BEGIN
+
+    END TraduireAffectation;
+
+
+    PROCEDURE TraduireTantQue(String line) IS
+    BEGIN
+
+    END TraduireTantQue;
+
+
+    PROCEDURE TraduireFinTantQue IS
+    BEGIN
+
+    END TraduireTantQue;
+
+
+    PROCEDURE TraduireSi(String line) IS
+    BEGIN
+
+    END TraduireSi;
+
+
+    PROCEDURE TraduireSinon IS
+    BEGIN
+
+    END TraduireSinon;
+
+
+    PROCEDURE TraduireFinSi IS
+    BEGIN
+
+    END TraduireFinSi;
+
+
+END p_compilateur;

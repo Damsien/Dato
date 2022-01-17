@@ -182,4 +182,16 @@ PACKAGE BODY p_liste IS
         WHEN not_found => Put("Index introuvable");
     END modifier;
 
+    --FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer IS
+    --    counter: Integer := 0;
+    --    listeCourante: T_LISTE := l;
+    --BEGIN
+    --    WHILE listeCourante.All.Element /= NULL LOOP
+    --        counter := counter + 1;
+    --        listeCourante.All.Element := listeCourante.All.Suivant;
+    --    END LOOP;
+    --
+    --    RETURN counter;
+    --END taille;
+
 END p_liste;

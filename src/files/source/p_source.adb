@@ -1,6 +1,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 WITH Ada.integer_text_io; USE Ada.integer_text_io;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
 PACKAGE BODY p_source IS
 
@@ -21,32 +22,39 @@ PACKAGE BODY p_source IS
         RETURN result;
     END StringToT;
 
-    FUNCTION removeSpaces(s: IN String) RETURN STRING IS
+    FUNCTION removeSpaces(s: IN String ; l: IN Integer) RETURN String IS
         c: Character := s(s'First);
         str: String(s'First..s'Last);
-        counter: Integer := 1;
+        finalStr: N_STRING;
+        pos: Integer;
+        j: Integer := 1;
     BEGIN
+
+        pos := Index(s, "  ");
         FOR i in s'First..s'Last LOOP
-            IF c = ' ' AND c = s(i) THEN
-                NULL;
+            IF i /= pos THEN
+                str(j) := s(i);
             ELSE
-                str(i) := s(i);
-                counter := counter + 1;
+                j := j - 1;
             END IF;
-            c := str(i);
+            j := j + 1;
         END LOOP;
-        New_Line;
-        Put_Line(s);
-        New_Line;
-        Put(str'First);
-        New_Line;
-        Put(counter);
-        RETURN str(str'First..counter);
+
+        IF pos > 0 THEN
+            RETURN removeSpaces(str, l-1);
+        ELSE
+            finalStr := new String(str'First..l);
+            FOR i in str'First..l LOOP
+                finalStr.All(i) := str(i);
+            END LOOP;
+            RETURN finalStr.All;
+        END IF;
     END removeSpaces;
 
     FUNCTION clarifyString(s: IN String) RETURN String IS
         c: Character;
         index: Integer := 1;
+        temp: N_STRING;
     BEGIN
         IF s'Last /= 0 THEN
             c := s(s'First);
@@ -54,7 +62,11 @@ PACKAGE BODY p_source IS
                 index := index + 1;
                 c := s(index);
             END LOOP;
-            RETURN removeSpaces(s(index..s'Last));
+            temp := new String(1..s'Last-index+1);
+            FOR i in 1..temp.All'Length LOOP
+                temp.All(i) := s(i+index-1);
+            END LOOP;
+            RETURN removeSpaces(temp.All, temp.All'Length);
         ELSE
             RETURN "";
         END IF;

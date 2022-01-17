@@ -3,9 +3,9 @@ P SS ZX
 
 RN
 RV NO_ALLOCATORS
-RV NO_DIRECT_BOOLEAN_OPERATORS
 RV NO_IO
 RV NO_LOCAL_ALLOCATORS
+RV NO_RECURSION
 RV NO_SECONDARY_STACK
 RV NO_STANDARD_STORAGE_POOLS
 RV NO_DEFAULT_INITIALIZATION
@@ -13,10 +13,11 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_ELABORATION_CODE
 RV SPARK_05
 
-U p_source%b		p_source.adb		6512e0c8 OO PK IL KU
+U p_source%b		p_source.adb		28741e15 OO PK IL KU
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.fixed%s	a-strfix.adb		a-strfix.ali
 W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
 Z ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
@@ -43,6 +44,7 @@ D a-inteio.ads		20210408115627 f64b89a4 ada.integer_text_io%s
 D a-ioexce.ads		20210408115627 e4a01f64 ada.io_exceptions%s
 D a-stream.ads		20210408115627 119b8fb3 ada.streams%s
 D a-string.ads		20210408115627 90ac6797 ada.strings%s
+D a-strfix.ads		20210408115627 86d6bc21 ada.strings.fixed%s
 D a-strmap.ads		20210408115627 e8bb714a ada.strings.maps%s
 D a-strunb.ads		20210408115627 1656705b ada.strings.unbounded%s
 D a-tags.ads		20210408115627 491b781d ada.tags%s
@@ -51,10 +53,10 @@ D a-tiinio.ads		20210408115627 390edddb ada.text_io.integer_io%s
 D a-unccon.ads		20210408115627 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20210408115627 5ab55268 interfaces%s
 D i-cstrea.ads		20210408115627 e53d8b8e interfaces.c_streams%s
-D p_liste.ads		20220112081235 436b077b p_liste%s
-D p_liste.adb		20220113074601 601a3a2b p_liste%b
+D p_liste.ads		20220117105455 436b077b p_liste%s
+D p_liste.adb		20220117105518 601a3a2b p_liste%b
 D p_source.ads		20220113074923 8467f60d p_source%s
-D p_source.adb		20220113084358 af9c3a57 p_source%b
+D p_source.adb		20220117154231 642c78ab p_source%b
 D system.ads		20210408115627 4635ec04 system%s
 D s-atocou.ads		20210408115627 b45c2d8d system.atomic_counters%s
 D s-crtl.ads		20210408115627 0ebbdb71 system.crtl%s
@@ -92,66 +94,72 @@ G c Z s s [t_celluleIP p_source__p_liste_ch_char 8 9 10_5]
 G c Z s b [clarifystring p_source 13 14 none]
 G c Z s b [chargerinstructions p_source 15 15 none]
 G c Z s s [t_sourceIP p_source 19 10 none]
-G c Z b b [stringtot p_source 17 14 none]
-G c Z b b [removespaces p_source 24 14 none]
+G c Z b b [stringtot p_source 18 14 none]
+G c Z b b [removespaces p_source 25 14 none]
 G r i none [s p_source 3 1 none] [p_liste standard 4 9 none]
 X 1 ada.ads
-16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r33
+16K9*Ada 20e8 22|1r6 1r23 2r6 2r31 3r6 3r33 4r6 4r29
 X 6 a-inteio.ads
-18K13*Integer_Text_IO[14|46] 21|2w10 2r35
+18K13*Integer_Text_IO[15|46] 22|2w10 2r35
 X 9 a-string.ads
-16K13*Strings 35e16 21|3r10 3r37
-X 11 a-strunb.ads
-82K21*Unbounded 756e26 21|3w18 3r45
-X 13 a-textio.ads
-57K13*Text_IO 727e16 21|1w10 1r27
-64P9*File_Type 21|64r18
-66n23*In_File{66E9} 21|69r23
-114U14*Open 21|69s9
-117a7 Name{string} 21|69r32
-129U14*Close 21|81s9
-264U14*New_Line 21|38s9 40s9 42s9 83s9
-312V13*End_Of_File{boolean} 21|70s15
-492V13*Get_Line{string} 21|71s48
-508U14*Put_Line 21|39s9
-X 14 a-tiinio.ads
-80U14*Put 21|41s9[6|18] 43s9[6|18]
-X 18 p_liste.ads
-2+9 T_ELEMENT 20|10r44
-3V18 Image{string} 20|10r67
-4k9*p_liste 43e12 20|1w6 10r36
+16K13*Strings 35e16 22|3r10 3r37 4r10 4r33
+X 10 a-strfix.ads
+43K21*Fixed 596e22 22|4w18 4r41
+143V13*Index{natural} 22|33s16
+X 12 a-strunb.ads
+82K21*Unbounded 756e26 22|3w18 3r45
+X 14 a-textio.ads
+57K13*Text_IO 727e16 22|1w10 1r27
+64P9*File_Type 22|76r18
+66n23*In_File{66E9} 22|81r23
+114U14*Open 22|81s9
+117a7 Name{string} 22|81r32
+129U14*Close 22|93s9
+264U14*New_Line 22|95s9
+312V13*End_Of_File{boolean} 22|82s15
+492V13*Get_Line{string} 22|83s48
+X 19 p_liste.ads
+2+9 T_ELEMENT 21|10r44
+3V18 Image{string} 21|10r67
+4k9*p_liste 45e12 21|1w6 10r36
 6R9*T_CELLULE
-7P9*T_LISTE(6R9[20|10]) 20|21r23[10]
-16V14*creerListeVide{7P9[20|10]} 21|67s32[20|10]
-24U15*afficherListe 21|84s9[20|10]
-37U15*ajouter 21|73s17[20|10]
-X 20 p_source.ads
-3K9*p_source 19E10 24l5 24e13 21|5b14 88l5 88t13
-6P10*T_String(string) 8r29 10r57 21|10r29 17r44 18r18
-8V14*TToString{string} 8>24 10r76 21|10b14 15l9 15t18
-8p24 el{6P10} 21|10b24 13r31
-10K13*P_LISTE_CH_CHAR[18|4] 11r9
-13V14*clarifyString{string} 13>28 21|47b14 61l9 61t22 72s16 75s31
-13a28 s{string} 21|47b28 51r12 52r18 52r20 55r22 57r33 57r42
-15U15*chargerInstructions 15>35 21|63b15 85l9 85t28
-15a35 Nom_Fichier{string} 21|63b35 69r40
-19R10 T_SOURCE 22e15 21|8r14
-21p9*instructions{18|7P9[10]} 21|67m16 74m28 84r30
-X 21 p_source.adb
-7P10 N_STRING(string) 11r18 65r30
-8r5 source{20|19R10} 67m9 74m21 74r21 84r23
-11p9 result{7P10} 13m9 14r16
-17V14 StringToT{20|6P10} 17b14 17>24 22l9 22t18 75s21
-17a24 el{string} 20r31
-18p9 result{20|6P10} 20m9 21r16
-24V14 removeSpaces{string} 24b14 24>27 45l9 45t21 57s20
-24a27 s{string} 25r25 25r27 26r21 26r30 29r18 29r27 30r32 33r27 39r18
-25e9 c{character} 30r16 30r28 36m13
-26a9 str{string} 33m17 36r18 41r13 44r16 44r20
-27i9 counter{integer} 34m17 34r28 43r13 44r31
-29i13 i{integer} 30r34 33r21 33r29 36r22
-48e9 c{character} 52m13 53r19 55m17
-49i9 index{integer} 54m17 54r26 55r24 57r35
-64p9 Fichier{13|64P9} 69m14 69r14 70r27 71r57 81m15 81r15
-65p9 instructionCourante{7P10} 71m13 72r30 75r45
+7P9*T_LISTE(6R9[21|10]) 21|21r23[10]
+16V14*creerListeVide{7P9[21|10]} 22|79s32[21|10]
+24U15*afficherListe 22|96s9[21|10]
+37U15*ajouter 22|85s17[21|10]
+X 21 p_source.ads
+3K9*p_source 19E10 24l5 24e13 22|6b14 100l5 100t13
+6P10*T_String(string) 8r29 10r57 22|11r29 18r44 19r18
+8V14*TToString{string} 8>24 10r76 22|11b14 16l9 16t18
+8p24 el{6P10} 22|11b24 14r31
+10K13*P_LISTE_CH_CHAR[19|4] 11r9
+13V14*clarifyString{string} 13>28 22|54b14 73l9 73t22 84s16 87s31
+13a28 s{string} 22|54b28 59r12 60r18 60r20 63r22 65r35 67r32
+15U15*chargerInstructions 15>35 22|75b15 97l9 97t28
+15a35 Nom_Fichier{string} 22|75b35 81r40
+19R10 T_SOURCE 22e15 22|9r14
+21p9*instructions{19|7P9[10]} 22|79m16 86m28 96r30
+X 22 p_source.adb
+8P10 N_STRING(string) 12r18 28r19 57r15 77r30
+9r5 source{21|19R10} 79m9 86m21 86r21 96r23
+12p9 result{8P10} 14m9 15r16
+18V14 StringToT{21|6P10} 18b14 18>24 23l9 23t18 87s21
+18a24 el{string} 21r31
+19p9 result{21|6P10} 21m9 22r16
+25V14 removeSpaces{string} 25b14 25>27 25>42 44s20 52l9 52t21 69s20
+25a27 s{string} 26r25 26r27 27r21 27r30 33r22 34r18 34r27 36r27
+25i42 l{integer} 44r38 46r47 47r33
+26e9 c{character}
+27a9 str{string} 36m17 44r33 46r36 47r22 48r36
+28p9 finalStr{8P10} 46m13 48r17 50r20
+29i9 pos{integer} 33m9 35r21 43r12
+30i9 j{integer} 36r21 38m17 38r22 40m13 40r18
+34i13 i{integer} 35r16 36r29
+47i17 i{integer} 48r30 48r40
+55e9 c{character} 60m13 61r19 63m17
+56i9 index{integer} 62m17 62r26 63r24 65r42 67r36
+57p9 temp{8P10} 65m13 66r25 67r17 69r33 69r43
+66i17 i{integer} 67r26 67r34
+76p9 Fichier{14|64P9} 81m14 81r14 82r27 83r57 93m15 93r15
+77p9 instructionCourante{8P10} 83m13 84r30 87r45
 

@@ -1,8 +1,8 @@
 WITH p_liste;
 
-package intermediate is
+package p_intermediate is
 
-    type T_String is new String(1..200);
+    TYPE T_String IS ACCESS String;
 
     FUNCTION TToString(el : T_String) RETURN String;
 
@@ -15,14 +15,19 @@ package intermediate is
 
     Procedure Modifier(instruction : IN String ; ligne : IN Integer);
 
+    Function GetCP() : Integer;
+
+    Function GetFile() : T_INTERMEDIAIRE;
+
 PRIVATE
 
-    TYPE T_SOURCE IS
+    TYPE T_INTERMEDIAIRE IS
     RECORD
         instructions: T_LISTE;
     END RECORD;
 
     CP : Integer := 0;
+    intermediaire : T_INTERMEDIAIRE;
 
 
-end intermediate;
+end p_intermediate;
