@@ -10,7 +10,9 @@ PACKAGE p_compilateur IS
     PROCEDURE ValiderOperation(String op);
 
 
-    PROCEDURE TraiterInstructions(T_LISTE instructions);
+    PROCEDURE Traitement(String instruction);
+
+    PROCEDURE TraiterInstructions(P_LISTE_CH_CHAR instructions);
 
 
     PROCEDURE TraduireAffectation(String line);

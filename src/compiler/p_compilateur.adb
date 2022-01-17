@@ -14,6 +14,12 @@ PACKAGE BODY p_compilateur IS
 
 
 
+    PROCEDURE Traitement(String instruction) IS
+    BEGIN
+        
+    END Traitement;
+
+
     PROCEDURE TraiterInstructions(P_LISTE_CH_CHAR instructions) IS
         inst: P_LISTE_CH_CHAR := l;
     BEGIN
@@ -21,7 +27,7 @@ PACKAGE BODY p_compilateur IS
             LOOP
 
                 CASE inst.All.Element IS
-                    WHEN ""
+                    WHEN "" => ;
 
 
 

@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 code
 
         oo
     ii
     ala  aa aa     y
 oui ii
+=======
+code       ss    
+    ndjze dzed dze   dze d ez 
+        udezdze dze
+de
+>>>>>>> 7b7ea6e3079d3996358d6f8184a6c9165ec0136c
