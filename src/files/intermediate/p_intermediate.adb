@@ -30,9 +30,15 @@ package body p_intermediate is
         Put("CP : ");
         Put(CP);
         New_line;
-        existing := obtenir(intermediaire.instructions,CP);
         Put("Line :");
-        IF existing /= NULL THEN
+        BEGIN
+        existing := obtenir(intermediaire.instructions,CP);
+        EXCEPTION
+            WHEN E : P_LISTE_CH_CHAR.NOT_FOUND => 
+                                    Put_line("Gestion de l'exception");        
+                                    existing := StringToT("");
+        END;
+        IF TToString(existing)'length /= 0 THEN
             Put_line(TToString(existing));
             concat := new String'(existing.All & instruction);
             Modifier(concat.All,CP);

@@ -1,6 +1,5 @@
 WITH p_liste;
 
-
 package p_intermediate is
 
     TYPE T_String IS ACCESS String;
@@ -32,7 +31,7 @@ package p_intermediate is
 
 PRIVATE
 
-    CP : Integer := 1;
+    CP : Integer := 0;
     intermediaire : T_INTERMEDIAIRE;
 
 

@@ -10,6 +10,8 @@ PACKAGE p_source IS
     PACKAGE P_LISTE_CH_CHAR IS NEW P_LISTE(T_ELEMENT => T_String, Image => TToString);
     USE P_LISTE_CH_CHAR;
     
+    FUNCTION removeSingleSpace(s: IN String) RETURN String;
+
     FUNCTION removeSpaces (s: IN String ; l: IN Integer) RETURN String;
 
     FUNCTION clarifyString(s: IN String) RETURN String;

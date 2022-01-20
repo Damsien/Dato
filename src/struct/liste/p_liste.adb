@@ -1,4 +1,5 @@
 with Ada.Text_IO; use Ada.Text_IO; 
+WITH Ada.integer_text_io; USE Ada.integer_text_io;
 
 PACKAGE BODY p_liste IS
 
@@ -128,27 +129,38 @@ PACKAGE BODY p_liste IS
     END ajouter;
 
     FUNCTION obtenir(l: IN T_LISTE ; i: IN Integer) RETURN T_ELEMENT IS
+        stop : Boolean := False;
+        index : Integer := 0;
         e: T_ELEMENT;
         listeSuivante: T_LISTE := l;
-        not_found: Exception;
     BEGIN
 
-        FOR index in 1..i+1 LOOP
-            e := listeSuivante.All.Element;
-            IF listeSuivante.All.Suivant /= NULL THEN
-                listeSuivante := listeSuivante.All.Suivant;
-            ELSE
-                IF index /= i THEN
-                    RAISE not_found;
-                ELSE
-                    NULL;
-                END IF;
+        Put_line("Check size : ");
+        Put("i : ");
+        Put(i);
+        new_line;
+        Put("taille : ");
+        Put(taille(listeSuivante));
+    
+        IF i >= taille(listeSuivante) THEN
+            RAISE not_found;
+        END IF;
+        Put(taille(listeSuivante));
+
+        WHILE listeSuivante /= NULL AND NOT stop LOOP
+
+            IF index = i THEN
+                e := listeSuivante.All.Element;
+                stop := True;
             END IF;
+
+            listeSuivante := listeSuivante.All.Suivant;
+
+            index := index + 1;
+
         END LOOP;
 
         RETURN e;
-    EXCEPTION
-        WHEN not_found => Put("Index introuvable");
     END obtenir;
 
     PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN T_ELEMENT) IS
@@ -158,7 +170,7 @@ PACKAGE BODY p_liste IS
         not_found: Exception;
     BEGIN
 
-        FOR index in 1..i LOOP
+        FOR index in 1..i+1 LOOP
             listeCourante := listeSuivante;
             IF listeSuivante.All.Suivant /= NULL THEN
                 listeSuivante := listeSuivante.All.Suivant;
@@ -182,16 +194,16 @@ PACKAGE BODY p_liste IS
         WHEN not_found => Put("Index introuvable");
     END modifier;
 
-    --FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer IS
-    --    counter: Integer := 0;
-    --    listeCourante: T_LISTE := l;
-    --BEGIN
-    --    WHILE listeCourante.All.Element /= NULL LOOP
-    --        counter := counter + 1;
-    --        listeCourante.All.Element := listeCourante.All.Suivant;
-    --    END LOOP;
-    --
-    --    RETURN counter;
-    --END taille;
+    FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer IS
+        counter: Integer := 0;
+        listeCourante: T_LISTE := l;
+    BEGIN
+        WHILE listeCourante /= NULL LOOP
+            counter := counter + 1;
+            listeCourante := listeCourante.All.Suivant;
+        END LOOP;
+    
+        RETURN counter;
+    END taille;
 
 END p_liste;

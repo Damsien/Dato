@@ -6,7 +6,7 @@ package object is
     end record;
 
     type Variable is record
-        intitule : Integer;
+        intitule : String;
         value : Integer;
         typeV : String(1..6);
     end record;

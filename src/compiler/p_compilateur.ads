@@ -7,13 +7,15 @@ PACKAGE p_compilateur IS
 
     FUNCTION VerifierCondition(String condition) RETURN Integer;
 
-    PROCEDURE ValiderOperation(String op);
+    FUNCTION ValiderOperation(String op) RETURN Integer;
 
 
     PROCEDURE Traitement(String instruction);
 
     PROCEDURE TraiterInstructions(P_LISTE_CH_CHAR instructions);
 
+
+    PROCEDURE TraduireDeclaration(String line);
 
     PROCEDURE TraduireAffectation(String line);
 
@@ -40,6 +42,7 @@ PACKAGE p_compilateur IS
     USE P_PILE_INT;
 
    NotCompile: Exception;
+   WrongType: Exception;
 
 PRIVATE
 

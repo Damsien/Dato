@@ -18,13 +18,14 @@ cp4 : Integer;
 BEGIN
 
 f1 := GetFile;
-Inserer_L("Première ligne");
+Inserer("Première ligne");
+Inserer_L(" ||| Ajout en fin de ligne");
 --Afficher;
 cp1 := GetCP;
 -- Put(cp1);
 
 Inserer_L("Deuxième");
---Afficher;
+Afficher;
 cp2 := GetCP;
 -- Put(cp2);
 

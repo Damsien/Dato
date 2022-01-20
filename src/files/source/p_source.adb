@@ -22,6 +22,34 @@ PACKAGE BODY p_source IS
         RETURN result;
     END StringToT;
 
+    FUNCTION removeSingleSpace(s: IN String) RETURN String IS
+        c: Character := s(s'First);
+        str: String(s'First..s'Last);
+        finalStr: N_STRING;
+        pos: Integer;
+        j: Integer := 1;
+    BEGIN
+        pos := Index(s, " ");
+        FOR i in s'First..s'Last LOOP
+            IF i /= pos THEN
+                str(j) := s(i);
+            ELSE
+                j := j - 1;
+            END IF;
+            j := j + 1;
+        END LOOP;
+
+        IF pos > 0 THEN
+            RETURN removeSingleSpace(str, l-1);
+        ELSE
+            finalStr := new String(str'First..l);
+            FOR i in str'First..l LOOP
+                finalStr.All(i) := str(i);
+            END LOOP;
+            RETURN finalStr.All;
+        END IF;
+    END removeSingleSpace;
+
     FUNCTION removeSpaces(s: IN String ; l: IN Integer) RETURN String IS
         c: Character := s(s'First);
         str: String(s'First..s'Last);
