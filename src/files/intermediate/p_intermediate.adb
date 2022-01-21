@@ -27,10 +27,7 @@ package body p_intermediate is
     existing : T_String;
     concat : T_String;
     BEGIN
-        Put("CP : ");
-        Put(CP);
-        New_line;
-        Put("Line :");
+
         BEGIN
         existing := obtenir(intermediaire.instructions,CP);
         EXCEPTION
@@ -38,6 +35,7 @@ package body p_intermediate is
                                     Put_line("Gestion de l'exception");        
                                     existing := StringToT("");
         END;
+        
         IF TToString(existing)'length /= 0 THEN
             Put_line(TToString(existing));
             concat := new String'(existing.All & instruction);

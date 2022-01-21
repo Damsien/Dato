@@ -1,14 +1,12 @@
 WITH p_liste;
+WITH object; use object;
 
 PACKAGE p_source IS
 
-    --TYPE T_String IS NEW String;
-    TYPE T_String IS ACCESS String;
-
-    FUNCTION TToString(el : T_String) RETURN String;
-
-    PACKAGE P_LISTE_CH_CHAR IS NEW P_LISTE(T_ELEMENT => T_String, Image => TToString);
-    USE P_LISTE_CH_CHAR;
+    TYPE T_SOURCE IS
+    RECORD
+        instructions: P_LISTE_CH_CHAR.T_LISTE;
+    END RECORD;
     
     FUNCTION removeSingleSpace(s: IN String) RETURN String;
 
@@ -18,11 +16,5 @@ PACKAGE p_source IS
 
     PROCEDURE chargerInstructions(Nom_Fichier : IN String);
 
-PRIVATE
-
-    TYPE T_SOURCE IS
-    RECORD
-        instructions: T_LISTE;
-    END RECORD;
 
 END p_source;

@@ -19,15 +19,20 @@ BEGIN
 
 f1 := GetFile;
 Inserer("Première ligne");
+Inserer(" + petit programme");
 Inserer_L(" ||| Ajout en fin de ligne");
+
 --Afficher;
 cp1 := GetCP;
 -- Put(cp1);
 
 Inserer_L("Deuxième");
+Inserer_L("ligne");
 Afficher;
 cp2 := GetCP;
 -- Put(cp2);
+
+cp3 := GetCP;
 
 
 

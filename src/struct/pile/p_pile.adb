@@ -14,12 +14,13 @@ PACKAGE BODY p_pile IS
         insererEnTete(pile, element);
     END Empiler;
 
-    PROCEDURE Depiler(pile : IN OUT T_LISTE) IS
+    FUNCTION Depiler(pile : IN OUT T_LISTE) RETURN T_ELEMENT IS
     BEGIN
         IF estVide(pile) THEN
             RAISE PileVide;
         ELSE
             enlever(pile, sommet(pile));
+            RETURN sommet(pile)
         END IF;
     END Depiler;
 

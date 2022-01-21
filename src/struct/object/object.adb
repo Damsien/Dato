@@ -15,4 +15,18 @@ package body object is
         return "L"&Integer'Image(element.Lx)&" : CP "&Integer'Image(element.CP); 
     end Image_Label;
 
+    FUNCTION TToString(el : T_String) RETURN String IS
+        result : N_STRING;
+    BEGIN
+        result := new String'(el.All);
+        RETURN result.All;
+    END TToString;
+
+    FUNCTION StringToT(el : String) RETURN T_String IS
+        result : T_String;
+    BEGIN
+        result := new String'(el);
+        RETURN result;
+    END StringToT;
+
 end object;

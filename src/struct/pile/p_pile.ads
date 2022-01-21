@@ -7,6 +7,9 @@ GENERIC
 PACKAGE p_pile IS
     PACKAGE P_LISTE_ELEMENT IS NEW P_LISTE(T_ELEMENT => T_ELEMENT, Image => Image);
     USE P_LISTE_ELEMENT;
+
+    TYPE T_LISTE IS NEW P_LISTE_ELEMENT.T_LISTE;
+
     PileVide : EXCEPTION;
     
     -- nom : Initialisation
@@ -27,7 +30,7 @@ PACKAGE p_pile IS
     -- sémantique : Retirer l'élément au sommet de la pile
     -- pré-conditions : Not estVide(pile)
     -- post-conditions : /
-    PROCEDURE Depiler(pile : IN OUT T_LISTE);
+    FUNCTION Depiler(pile : IN OUT T_LISTE) RETURN T_ELEMENT;
 
     -- nom : estVide
     -- sémantique : Renvoi un booléen indiquant si la pile est vide

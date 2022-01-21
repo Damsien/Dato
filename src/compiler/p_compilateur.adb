@@ -1,49 +1,59 @@
 WITH p_source; USE p_source;
+WITH object; USE object;
+with Ada.Text_IO; use Ada.Text_IO;
+WITH Ada.integer_text_io; USE Ada.integer_text_io;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+WITH p_intermediate; USE p_intermediate;
+WITH object; USE object;
 
 PACKAGE BODY p_compilateur IS
 
-    CP_COMPIL := 0;
-    hasProgramStarded := False;
-    hasProgramDebuted := False;
-
     FUNCTION VToString(el : Variable) RETURN String IS
     BEGIN
-        RETURN el.Intitule;
-    END TToString;
+        RETURN el.Intitule.All;
+    END VToString;
 
-    FUNCTION TQToString(el : Variable) RETURN String IS
+    FUNCTION TQToString(el : TQ) RETURN String IS
     BEGIN
-        RETURN el.Tx;
-    END TToString;
+        RETURN Integer'Image(el.Tx);
+    END TQToString;
 
 
 
-    PROCEDURE Traitement(String instruction) IS
+    PROCEDURE Traitement(inst : String) IS
         pos: Integer;
     BEGIN
-        CASE True IS
-            WHEN inst.All.Element'Length = 0 => NULL;
-            WHEN Index(inst.All.Element, "--") > 0 =>
-                pos := Index(inst.All.Element, "--");
-                Traitement(inst.All.Element(inst.All.Element'First..pos));
-            WHEN clarifyString(inst.All.Element) = "" => NULL;
-            WHEN Index(inst.All.Element, ":") => TraduireDeclaration(inst.All.Element);
-            WHEN Index(inst.All.Element, "<-") => TraduireAffectation(inst.All.Element);
-            WHEN Index(inst.All.Element, "Programe") => hasProgramStarded := True;
-            WHEN Index(inst.All.Element, "Début") => hasProgramDebuted := True;
-            WHEN Index(inst.All.Element, "Fin") =>
-                hasProgramStarded := False;
-                hasProgramDebuted := False;
-            WHEN Index(inst.All.Element, "Tant que") => TraduireTantQue(inst.All.Element);
-            WHEN Index(inst.All.Element, "Fin tant que") => TraduireFinTantQue;
-            WHEN Index(inst.All.Element, "Si") => TraduireSi(inst.All.Element);
-            WHEN Index(inst.All.Element, "Sinon") => TraduireSinon;
-            WHEN Index(inst.All.Element, "Fin si") => TraduireFinSi;
-
-
-            WHEN others => RAISE NotCompile;
-
-        END CASE;
+        IF inst'Length = 0 THEN
+            NULL;
+        ELSIF Index(inst, "--") > 0 THEN
+            pos := Index(inst, "--");
+            Traitement(inst(inst'First..pos));
+        ELSIF clarifyString(inst) = "" THEN
+            NULL;
+        ELSIF Index(inst, ":") > 0 THEN
+            TraduireDeclaration(inst);
+        ELSIF Index(inst, "<-") > 0 THEN
+            TraduireAffectation(inst);
+        ELSIF Index(inst, "Programe") > 0 THEN
+            hasProgramStarded := True;
+        ELSIF Index(inst, "Début") > 0 THEN
+            hasProgramDebuted := True;
+        ELSIF Index(inst, "Fin") > 0 THEN
+            hasProgramStarded := False;
+            hasProgramDebuted := False;
+        ELSIF Index(inst, "Tant que") > 0 THEN
+            TraduireTantQue(inst);
+        ELSIF Index(inst, "Fin tant que") > 0 THEN
+            TraduireFinTantQue;
+        ELSIF Index(inst, "Si") > 0 THEN
+            TraduireSi(inst);
+        ELSIF Index(inst, "Sinon") > 0 THEN
+            TraduireSinon;
+        ELSIF Index(inst, "Fin si") > 0 THEN
+            TraduireFinSi;
+        ELSE
+            RAISE NotCompile;
+        END IF;
     EXCEPTION
         WHEN NotCompile =>
             Put_Line("Erreur de compilation a la ligne : ");
@@ -51,13 +61,14 @@ PACKAGE BODY p_compilateur IS
     END Traitement;
 
 
-    PROCEDURE TraiterInstructions(P_LISTE_CH_CHAR instructions) IS
-        inst: P_LISTE_CH_CHAR := l;
+    PROCEDURE TraiterInstructions(instructions : T_SOURCE ) IS
+        inst: object.P_LISTE_CH_CHAR.T_LISTE;
     BEGIN
+        inst := instructions.instructions;
         WHILE inst.All.Element /= NULL LOOP
-            Traitement(inst.All.Element);
+            Traitement(inst.All.Element.All);
             CP_COMPIL := CP_COMPIL + 1;
-            inst.All.Element := inst.All.Suivant;
+            inst := inst.All.Suivant;
         END LOOP;
 
     END TraiterInstructions;
@@ -66,60 +77,115 @@ PACKAGE BODY p_compilateur IS
 
     FUNCTION CreerLabel RETURN Integer IS
     BEGIN
-
+        LABEL_USED := LABEL_USED + 1;
+        RETURN LABEL_USED;
     END CreerLabel;
 
 
-    FUNCTION VerifierCondition(String condition) RETURN Integer IS
+    FUNCTION VerifierCondition(condition : String) RETURN Integer IS
     BEGIN
-
+    RETURN 0;
     END VerifierCondition;
 
-    
-    FUNCTION ValiderOperation(String op) RETURN Integer IS
-        value1: String;
-        value2: String;
-        result: String;
-        operation
+
+    FUNCTION CheckValue(val : String) RETURN String IS
+        value: Integer;
+        listeCourante: P_LISTE_VARIABLE.T_LISTE;
+        variable_error: Exception;
     BEGIN
-        CASE True IS
-            WHEN Index(inst.All.Element, "+") > 0 =>
-                value1 := op(op'First..Index(op, "+")-1);
-                value2 := op(Index(op, "+")+1..op'Last);
-                IF Index(value2, "+") > 0 OR Index(value2, "-") > 0
-                 OR Index(value2, "/") > 0 OR Index(value2, "*") > 0 THEN
-
+        value := Integer'Value(val);
+        RETURN val;
+    EXCEPTION
+        WHEN others =>
+            BEGIN
+                listeCourante := Declared_Variables;
+                WHILE listeCourante.All.Suivant /= NULL AND listeCourante.All.Element.intitule.All /= val LOOP
+                    listeCourante := listeCourante.All.Suivant;
+                END LOOP;
+                IF val = listeCourante.All.Element.intitule.All THEN
+                    RETURN val;
                 ELSE
-
+                    RAISE variable_error;
                 END IF;
+            EXCEPTION
+                WHEN variable_error =>
+                    Put_Line("Ligne ");
+                    Put(CP_COMPIL, 1);
+                    Put(" - La variable n'existe pas");
+                    RETURN ""; -- TODO : Attention si tu handle une exception, c'est comme un try/catch... 
+                              -- Tu dois retourner un élément (ou tu laisses la fonction au dessus la gérer)
+            END;
+    END CheckValue;
 
+    
+    FUNCTION ValiderOperation(op : String) RETURN String IS
+        value1: access String;
+        value2: access String;
+        operation_error: Exception;
+    BEGIN
+        IF Index(op, "+") > 0 THEN
+            value1 := new String'(CheckValue(op(op'First..Index(op, "+")-1)));
+            value2 := new String'(CheckValue(op(Index(op, "+")+1..op'Last)));
+        ELSIF Index(op, "-") > 0 THEN
+            value1 := new String'(CheckValue(op(op'First..Index(op, "-")-1)));
+            value2 := new String'(CheckValue(op(Index(op, "-")+1..op'Last)));
+        ELSIF Index(op, "*") > 0 THEN
+            value1 := new String'(CheckValue(op(op'First..Index(op, "*")-1)));
+            value2 := new String'(CheckValue(op(Index(op, "*")+1..op'Last)));
+        ELSIF Index(op, "/") > 0 THEN
+            value1 := new String'(CheckValue(op(op'First..Index(op, "/")-1)));
+            value2 := new String'(CheckValue(op(Index(op, "/")+1..op'Last)));
 
+        ELSE RETURN op;
 
-            WHEN others => RETURN op;
+        END IF;
 
-        END CASE;
+        IF Index(value2.All, "+") > 0 OR Index(value2.All, "-") > 0
+         OR Index(value2.All, "/") > 0 OR Index(value2.All, "*") > 0 THEN
+            RAISE operation_error;
+        ELSE
+            RETURN op;
+        END IF;
+
+    EXCEPTION
+        WHEN operation_error =>
+            Put_Line("Ligne ");
+            Put(CP_COMPIL, 1);
+            Put(" - This language can't handle more than one operation a line");
+            RETURN ""; -- TODO: Même problème que tout à l'heure..
     END ValiderOperation;
 
 
-    PROCEDURE TraduireDeclaration(String line) IS
-        intitule: String;
-        typeV: String;
+    PROCEDURE TraduireDeclaration(line : String) IS
+        intitule: access String;
+        typeV: access String;
+        program_error: Exception;
     BEGIN
-        intitule := removeSingleSpace(line(line'First..IndexTraduireVariableCreation(line, ":")-1));
-        typeV := removeSingleSpace(line(Index(line, ":")+1..line'Last));
-        ajouter(Declared_Variables, new Variable'(intitule, NULL, typeV));
+        IF hasProgramStarded AND Not hasProgramDebuted THEN
+            intitule := new String'(removeSingleSpace(line(line'First..Index(line, ":")-1)));
+            typeV := new String'(removeSingleSpace(line(Index(line, ":")+1..line'Last)));
+            ajouter(Declared_Variables, Variable'(intitule, 0, typeV.All));
+        ELSE
+            RAISE program_error;
+        END IF;
+        EXCEPTION
+            WHEN program_error =>
+                Put_Line("Ligne ");
+                Put(CP_COMPIL, 1);
+                Put(" - Le programme n'a pas commencé ou a déjà débuté");
     END TraduireDeclaration;
 
 
-    PROCEDURE TraduireAffectation(String line) IS
-        intitule: String;
+    PROCEDURE TraduireAffectation(line : String) IS
+        intitule: access String;
         value: Integer;
-        listeCourante: P_LISTE_VARIABLE;
+        listeCourante: P_LISTE_VARIABLE.T_LISTE; -- LISTE DE VARIABLES
     BEGIN
         listeCourante := Declared_Variables;
-        intitule := removeSingleSpaceline(line'First..Index(line, "<-")-1));
-        value := ValiderOperation(removeSingleSpace(line(Index(line, "<-")+1..line'Last)));
-        WHILE listeCourante.All.Element.intitule /= intitule LOOP
+        intitule := new String'(removeSingleSpace(line'First..Index(line, "<-")-1));
+        -- Inserer_L = ValiderOperation(removeSingleSpace(line(Index(line, "<-")+1..line'Last)));
+        --value := ValiderOperation(removeSingleSpace(line(Index(line, "<-")+1..line'Last)));
+        WHILE listeCourante.All.Element.intitule.All /= intitule.All LOOP
             listeCourante := listeCourante.All.Suivant;
         END LOOP;
         IF listeCourante.All.Element.typeV = "booleen"
@@ -130,38 +196,59 @@ PACKAGE BODY p_compilateur IS
             listeCourante.All.Element.value := value;
         END IF;
     EXCEPTION
-        WHEN Constraint_Error => Put_Line("Variable non déclarée");
-        WHEN WrongType => Put_Line("Impossible d'affecter cette valeur a ce type de variable");
+        WHEN Constraint_Error =>
+            Put_Line("Ligne ");
+            Put(CP_COMPIL, 1);
+            Put(" - Variable non déclarée");
+        WHEN WrongType =>
+            Put_Line("Ligne ");
+            Put(CP_COMPIL, 1);
+            Put(" - Impossible d'affecter cette valeur a ce type de variable");
     END TraduireAffectation;
 
 
-    PROCEDURE TraduireTantQue(String line) IS
+    PROCEDURE TraduireTantQue(line : String) IS
+        Tx : Integer;
+        Lx, Ly, Lz : Integer;
     BEGIN
-
+        Tx := VerifierCondition(line);
+        Lx := CreerLabel;
+        Ly := CreerLabel;
+        Lz := CreerLabel;
+        Inserer_L("L"&Integer'Image(Lx)&" IF T"&Integer'Image(Tx)&" GOTO L"&Integer'Image(Lz));
+        Inserer_L("GOTO L"&Integer'Image(Ly));
+        Inserer("L"&Integer'Image(Lz));
+        
+        Empiler(Pile_TQ,TQ'(Lx,Tx,new String'(line)));
     END TraduireTantQue;
 
 
     PROCEDURE TraduireFinTantQue IS
+        rec : TQ;
+        temp : Integer;
     BEGIN
+        rec := Depiler(Pile_TQ);
+        temp := VerifierCondition(rec.line.All);
+        Inserer_L("GOTO L"&Integer'Image(rec.Lx));
+        Inserer_L(Integer'Image(rec.Lx + 1) & " NULL");
+    END TraduireFinTantQue;
 
-    END TraduireTantQue;
 
-
-    PROCEDURE TraduireSi(String line) IS
+    PROCEDURE TraduireSi(line : String) IS
     BEGIN
-
+        NULL;
     END TraduireSi;
 
 
     PROCEDURE TraduireSinon IS
     BEGIN
-
+        NULL;
     END TraduireSinon;
 
 
     PROCEDURE TraduireFinSi IS
     BEGIN
-
+        NULL;
     END TraduireFinSi;
 
 

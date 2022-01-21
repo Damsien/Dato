@@ -8,20 +8,6 @@ PACKAGE BODY p_source IS
     TYPE N_STRING IS ACCESS String;
     source : T_SOURCE;
 
-    FUNCTION TToString(el : T_String) RETURN String IS
-        result : N_STRING;
-    BEGIN
-        result := new String'(el.All);
-        RETURN result.All;
-    END TToString;
-
-    FUNCTION StringToT(el : String) RETURN T_String IS
-        result : T_String;
-    BEGIN
-        result := new String'(el);
-        RETURN result;
-    END StringToT;
-
     FUNCTION removeSingleSpace(s: IN String) RETURN String IS
         c: Character := s(s'First);
         str: String(s'First..s'Last);

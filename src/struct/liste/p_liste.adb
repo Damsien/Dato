@@ -135,13 +135,6 @@ PACKAGE BODY p_liste IS
         listeSuivante: T_LISTE := l;
     BEGIN
 
-        Put_line("Check size : ");
-        Put("i : ");
-        Put(i);
-        new_line;
-        Put("taille : ");
-        Put(taille(listeSuivante));
-    
         IF i >= taille(listeSuivante) THEN
             RAISE not_found;
         END IF;
@@ -165,34 +158,30 @@ PACKAGE BODY p_liste IS
 
     PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN T_ELEMENT) IS
         listeSuivante: T_LISTE := l;
-        listeCourante: T_LISTE;
-        indexCheck: Integer := 1;
-        not_found: Exception;
+        index : Integer;
+        stop : Boolean;
     BEGIN
 
-        FOR index in 1..i+1 LOOP
-            listeCourante := listeSuivante;
-            IF listeSuivante.All.Suivant /= NULL THEN
-                listeSuivante := listeSuivante.All.Suivant;
-                indexCheck := indexCheck+1;
-            ELSE
-                IF index /= i THEN
-                    RAISE not_found;
-                ELSE
-                    NULL;
-                END IF;
-            END IF;
-        END LOOP;
-
-        IF indexCheck = i THEN
-            listeCourante.All.Element := new_e;
-        ELSE
-            NULL;
+        IF i >= taille(listeSuivante) THEN
+            RAISE not_found;
         END IF;
 
-    EXCEPTION
-        WHEN not_found => Put("Index introuvable");
+        WHILE listeSuivante /= NULL AND NOT stop LOOP
+
+            IF index = i THEN
+                Put("");
+                listeSuivante.All.Element := new_e;
+                stop := True;
+            END IF;
+
+            listeSuivante := listeSuivante.All.Suivant;
+
+            index := index + 1;
+
+        END LOOP;
+
     END modifier;
+
 
     FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer IS
         counter: Integer := 0;
