@@ -8,10 +8,16 @@ package object is
         line : access String;
     end record;
 
+    type SI is record
+        CP : Integer;
+        Lx : Integer;
+    end record;
+
     type Variable is record
         intitule : access String;
+        initialisation : Boolean := False;
         value : Integer;
-        typeV : String(1..6);
+        typeV : String(1..7);
     end record;
 
     type Label is record
@@ -19,12 +25,13 @@ package object is
         CP : Integer;
     end record;
 
+    function Image_SI(element: SI) return String;
+
     function Image_TQ(element : TQ) return String;
 
     function Image_Variable(element : Variable) return String;
 
     function Image_Label(element : Label) return String;
-
 
     TYPE T_String IS ACCESS String;
 

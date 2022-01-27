@@ -1,5 +1,11 @@
 package body object is
 
+    function Image_SI(element : SI) return String is
+    begin
+        return "CP"&Integer'Image(element.CP)&" , L"&Integer'Image(element.Lx); 
+    end Image_SI;
+
+
     function Image_TQ(element : TQ) return String is
     begin
         return "L"&Integer'Image(element.Lx)&" , T"&Integer'Image(element.Tx); 
@@ -7,7 +13,7 @@ package body object is
 
     function Image_Variable(element : Variable) return String is
     begin
-        return "T"&Integer'Image(element.intitule)&" : "&element.typeV&" := "&Integer'Image(element.value); 
+        return "T"&element.intitule.All&" : "&element.typeV&" := "&Integer'Image(element.value); 
     end Image_Variable;
 
     function Image_Label(element : Label) return String is
@@ -16,10 +22,8 @@ package body object is
     end Image_Label;
 
     FUNCTION TToString(el : T_String) RETURN String IS
-        result : N_STRING;
     BEGIN
-        result := new String'(el.All);
-        RETURN result.All;
+        RETURN el.All;
     END TToString;
 
     FUNCTION StringToT(el : String) RETURN T_String IS

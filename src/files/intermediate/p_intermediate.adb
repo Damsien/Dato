@@ -29,7 +29,7 @@ package body p_intermediate is
     BEGIN
 
         BEGIN
-        existing := obtenir(intermediaire.instructions,CP);
+        existing := P_LISTE_CH_CHAR.obtenir(intermediaire.instructions,CP);
         EXCEPTION
             WHEN E : P_LISTE_CH_CHAR.NOT_FOUND => 
                                     Put_line("Gestion de l'exception");        
@@ -42,13 +42,13 @@ package body p_intermediate is
             Modifier(concat.All,CP);
         ELSE
             Put_line(" <empty> ");
-            ajouter(intermediaire.instructions,new String'(instruction));
+            P_LISTE_CH_CHAR.ajouter(intermediaire.instructions,new String'(instruction));
         END IF;
     END Inserer;
 
     Procedure Modifier(instruction : IN String ; ligne : IN Integer) IS
     BEGIN
-            modifier(intermediaire.instructions,ligne,new String'(instruction));
+            P_LISTE_CH_CHAR.modifier(intermediaire.instructions,ligne,new String'(instruction));
     END Modifier;
 
     Function GetCP RETURN Integer IS
@@ -63,7 +63,7 @@ package body p_intermediate is
 
     Procedure Afficher IS
     BEGIN
-        afficherListe(intermediaire.instructions);
+        P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
     END Afficher;
 
 end p_intermediate;

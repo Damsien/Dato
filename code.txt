@@ -1,16 +1,17 @@
-<<<<<<< HEAD
-code
 
-
-             
-
-        oo
-    ii     
-    ala  aa aa     y
-           oui ii
-=======
-code       ss    
-    ndjze dzed dze   dze d ez 
-        udezdze dze
-de
->>>>>>> 7b7ea6e3079d3996358d6f8184a6c9165ec0136c
+-- Ce programme calcule la factorielle F d’un entier n
+Programme Facto est
+Entier : n -- Entier naturel pour lequel le programme
+-- calcule la factorielle
+Fact : Entier -- entier naturel résultat du caclul
+-- de Factorielle (n)
+i : entier -- entier naturel, variable intermédiaire
+Debut
+n <- 5
+i <- 1
+Fact <- 1
+Tant que i <= n Faire
+Fact <- Fact * i
+i <- i + 1
+Fin tant que
+Fin

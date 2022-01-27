@@ -20,7 +20,7 @@ PACKAGE BODY p_pile IS
             RAISE PileVide;
         ELSE
             enlever(pile, sommet(pile));
-            RETURN sommet(pile)
+            RETURN sommet(pile);
         END IF;
     END Depiler;
 

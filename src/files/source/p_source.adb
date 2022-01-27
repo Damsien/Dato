@@ -6,18 +6,43 @@ with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 PACKAGE BODY p_source IS
 
     TYPE N_STRING IS ACCESS String;
-    source : T_SOURCE;
 
-    FUNCTION removeSingleSpace(s: IN String) RETURN String IS
+    FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String IS
         c: Character := s(s'First);
         str: String(s'First..s'Last);
         finalStr: N_STRING;
-        pos: Integer;
+        pos: Integer := 0;
         j: Integer := 1;
     BEGIN
         pos := Index(s, " ");
-        FOR i in s'First..s'Last LOOP
+        new_line;
+        Put("First index : ");
+        Put(s'First);
+        new_line;
+        Put("pos : ");
+        Put(pos);
+        new_line;
+        put("line :");
+        put(s);
+        put("\");
+        new_line;
+        put("theoric length : ");
+        put(l);
+        new_line;
+        put("concrete length : ");
+        put(s'length);
+         new_line;
+        FOR i in s'First..l+s'First LOOP
+            New_Line;
+            Put("i : ");
+            Put(i);
+            New_Line;
+            Put("j : ");
+            Put(j);
             IF i /= pos THEN
+                --New_Line;
+                --Put("tamere");
+                --Put(s(i));
                 str(j) := s(i);
             ELSE
                 j := j - 1;
@@ -28,11 +53,7 @@ PACKAGE BODY p_source IS
         IF pos > 0 THEN
             RETURN removeSingleSpace(str, l-1);
         ELSE
-            finalStr := new String(str'First..l);
-            FOR i in str'First..l LOOP
-                finalStr.All(i) := str(i);
-            END LOOP;
-            RETURN finalStr.All;
+            RETURN s;
         END IF;
     END removeSingleSpace;
 
@@ -94,13 +115,13 @@ PACKAGE BODY p_source IS
         Fichier: File_Type;
         instructionCourante: N_STRING;
     BEGIN
-        source.instructions := creerListeVide;
+        source.instructions := P_LISTE_CH_CHAR.creerListeVide;
 
         open(Fichier, In_File, Name => Nom_Fichier);
         WHILE End_Of_File(Fichier) = False LOOP
             instructionCourante := new String'(Get_Line(Fichier));
             IF clarifyString(instructionCourante.All) /= "" THEN
-                ajouter(
+                P_LISTE_CH_CHAR.ajouter(
                     source.instructions, 
                     StringToT(clarifyString(instructionCourante.All))
                 );
@@ -110,8 +131,8 @@ PACKAGE BODY p_source IS
         END LOOP;
         close(Fichier);
 
-        New_Line;
-        afficherListe(source.instructions);
+        --New_Line;
+        --P_LISTE_CH_CHAR.afficherListe(source.instructions);
     END chargerInstructions;
 
 

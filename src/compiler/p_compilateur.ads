@@ -9,6 +9,9 @@ PACKAGE p_compilateur IS
     PACKAGE P_PILE_INT IS NEW P_PILE(T_ELEMENT => Integer, Image => Integer'Image);
     USE P_PILE_INT;
 
+    PACKAGE P_PILE_SI IS NEW P_PILE(T_ELEMENT => SI, Image => Image_SI);
+    USE P_PILE_SI;
+
     PACKAGE P_PILE_TQ IS NEW P_PILE(T_ELEMENT => TQ, Image => Image_TQ);
     USE P_PILE_TQ;
 
@@ -19,7 +22,9 @@ PACKAGE p_compilateur IS
 
     FUNCTION VerifierCondition(condition : String) RETURN Integer;
 
-    FUNCTION CheckValue(val : String) RETURN String;
+    FUNCTION CheckVarType(key : String ; value : String) RETURN String;
+
+    FUNCTION CheckVarExistence(val : String) RETURN String;
 
     FUNCTION ValiderOperation(op : String) RETURN String;
 
@@ -52,11 +57,12 @@ PACKAGE p_compilateur IS
 
     CP_COMPIL: Integer := 0;
     LABEL_USED: Integer := 0;
+    TEMP_USED: Integer := 0;
     Declared_Variables: P_LISTE_VARIABLE.T_LISTE;
     hasProgramStarded: Boolean := False;
     hasProgramDebuted: Boolean := False;
     Pile_TQ: P_PILE_TQ.T_LISTE;
-    CP_SI: P_PILE_INT.T_LISTE;
+    Pile_SI: P_PILE_SI.T_LISTE;
 
 PRIVATE
 
