@@ -1,0 +1,112 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Dato",
+	"scopeName": "source.dato",
+  	"patterns": [{ "include": "#expression" }],
+	"repository": {
+		"expression": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#controlers"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#backspace"
+				},
+				{
+					"include": "#functions"
+				},
+				{
+					"include": "#header"
+				},
+				{
+					"include": "#declarators"
+				},
+				{
+					"include": "#variables"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#numbers"
+				},
+				{
+					"include": "#structures"
+				}
+			]
+		},
+		"comments" :  {
+			"match" : "--.*",
+			"name" : "comment.line"
+		},
+
+		"strings" :  {
+			"begin" : "\"",
+			"end" : "\"",
+			"name" : "string"
+		},
+		"backspace" :  {
+			"match" : "(^| )Retour( |$)",
+			"name" : "keyword.operator.quantifier.regexp"
+		},
+		"functions" :  {
+			"match" : "(Afficher)\\(",
+			"captures": {
+				"1" : { "name" : "keyword.control.anchor.regexp"}
+			}
+		},
+
+		"operators" :  {
+			"match" : "(?i)\\b==|!=|>=|<=|>|<| OU | ET |\\+|\\-|\\*|/\\b",
+			"name" : "string.regexp"
+		},
+		"numbers" :  {
+			"match" : "\\b([<><=])*([0-9])*( |$)\\b",
+			"name" : "keyword.other.unit"
+		},
+		"controlers" : {
+			"match" : "(?i)\\b(Tant que|Sinon|Si|Fin Tant que|Fin Si|Faire|Alors)\\b",
+			"name" : "keyword"
+		},
+
+		"header": {
+			"match" : "(?i)\\bProgramme ([a-zA-Z]+) est\\b",
+			"name" : "keyword.control",
+			"captures": {
+				"1" : { "name" : "storage.type.java"}
+			}
+		},
+
+		"keywords" :  {
+			"match" : "Debut|Fin",
+			"name" : "keyword.control"
+		},
+
+
+		"declarators" : {
+			"match" : "([a-zA-Z]+) : ([a-zA-Z]+)",
+			"captures": {
+				"1" : { "name" : "variable.name"},
+				"2" : { "name" : "variable.language"}
+			}
+		},
+
+
+		"variables" :  {
+			"match" : "([a-zA-Z]+) (<-)",
+			"captures": {
+				"1" : { "name" : "variable.name"},
+				"2" : { "name" : "markup.raw"}
+			}
+		}
+	}
+}
