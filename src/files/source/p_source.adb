@@ -1,5 +1,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
 WITH Ada.integer_text_io; USE Ada.integer_text_io;
+with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
@@ -7,42 +8,63 @@ PACKAGE BODY p_source IS
 
     TYPE N_STRING IS ACCESS String;
 
+    FUNCTION Upper_Case (S : String) RETURN String IS
+
+        SUBTYPE Lower_Case_Range IS Character RANGE 'a'..'z';
+
+        Temp : String := S;
+        Offset : CONSTANT := Character'Pos('A') - Character'Pos('a');
+
+    BEGIN
+        FOR Index IN Temp'Range LOOP
+            IF Temp(Index) IN Lower_Case_Range THEN
+                Temp(Index) := Character'Val (Character'Pos(Temp(Index)) + Offset);
+            END IF;
+        END LOOP;
+        RETURN Temp;
+    END Upper_Case;
+
+    FUNCTION replaceString(s: String ; pattern_to_be_replaced: String ; replace_pattern: String) RETURN String IS
+        new_str: access String;
+        pos: Integer;
+        l1: Integer := pattern_to_be_replaced'Length;
+        l2: Integer := replace_pattern'Length;
+        i: Integer := 1;
+        j: Integer := 1;
+    BEGIN
+        new_str := new String(1..s'Length-l1+l2);
+        pos := Index(s, pattern_to_be_replaced);
+        IF pos > 0 THEN
+            WHILE i <= new_str.All'Length LOOP
+                IF i /= pos THEN
+                    new_str.All(i) := s(j);
+                ELSE
+                    FOR k in 1..l2 LOOP
+                        new_str.All(i-1+k) := replace_pattern(k);
+                    END LOOP;
+                    i := i-1+l2;
+                    j := j-1+l1;
+                END IF;
+                i := i + 1;
+                j := j + 1;
+            END LOOP;
+            RETURN replaceString(new_str.All, pattern_to_be_replaced, replace_pattern);
+        ELSE
+            -- pattern not found: do nothing
+            RETURN s;
+        END IF;
+
+    END replaceString;
+
     FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String IS
-        c: Character := s(s'First);
-        str: String(s'First..s'Last);
+        str: String(1..s'Last-s'First+1);
         finalStr: N_STRING;
-        pos: Integer := 0;
+        pos: Integer;
         j: Integer := 1;
     BEGIN
         pos := Index(s, " ");
-        new_line;
-        Put("First index : ");
-        Put(s'First);
-        new_line;
-        Put("pos : ");
-        Put(pos);
-        new_line;
-        put("line :");
-        put(s);
-        put("\");
-        new_line;
-        put("theoric length : ");
-        put(l);
-        new_line;
-        put("concrete length : ");
-        put(s'length);
-         new_line;
-        FOR i in s'First..l+s'First LOOP
-            New_Line;
-            Put("i : ");
-            Put(i);
-            New_Line;
-            Put("j : ");
-            Put(j);
+        FOR i in s'First..s'Last LOOP
             IF i /= pos THEN
-                --New_Line;
-                --Put("tamere");
-                --Put(s(i));
                 str(j) := s(i);
             ELSE
                 j := j - 1;
@@ -53,12 +75,16 @@ PACKAGE BODY p_source IS
         IF pos > 0 THEN
             RETURN removeSingleSpace(str, l-1);
         ELSE
-            RETURN s;
+            Put("");
+            finalStr := new String(str'First..l);
+            FOR i in str'First..l LOOP
+                finalStr.All(i) := str(i);
+            END LOOP;
+            RETURN finalStr.All;
         END IF;
     END removeSingleSpace;
 
     FUNCTION removeSpaces(s: IN String ; l: IN Integer) RETURN String IS
-        c: Character := s(s'First);
         str: String(s'First..s'Last);
         finalStr: N_STRING;
         pos: Integer;
@@ -120,14 +146,14 @@ PACKAGE BODY p_source IS
         open(Fichier, In_File, Name => Nom_Fichier);
         WHILE End_Of_File(Fichier) = False LOOP
             instructionCourante := new String'(Get_Line(Fichier));
-            IF clarifyString(instructionCourante.All) /= "" THEN
-                P_LISTE_CH_CHAR.ajouter(
-                    source.instructions, 
-                    StringToT(clarifyString(instructionCourante.All))
-                );
-            ELSE
-                NULL;
-            END IF;
+            --IF clarifyString(instructionCourante.All) /= "" THEN
+            P_LISTE_CH_CHAR.ajouter(
+                source.instructions, 
+                StringToT(clarifyString(instructionCourante.All))
+            );
+            --ELSE
+            --    NULL;
+            --END IF;
         END LOOP;
         close(Fichier);
 

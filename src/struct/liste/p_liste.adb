@@ -48,12 +48,12 @@ PACKAGE BODY p_liste IS
         ListeVide, DataNonPresent : Exception;
         copie : T_LISTE := l;
     BEGIN
-        IF Not estVide(l) THEN
+        IF Not p_liste.estVide(l) THEN
             WHILE copie /= Null AND THEN copie.All.Element /= data LOOP
                 copie := copie.All.Suivant;
             END LOOP;
             
-            IF estVide(copie) THEN
+            IF p_liste.estVide(copie) THEN
                 raise DataNonPresent;
             ELSE
                 copie.All.Suivant := new T_CELLULE'(e,copie.All.Suivant);
@@ -66,11 +66,16 @@ PACKAGE BODY p_liste IS
         WHEN DataNonPresent => Put_Line("L'element recherche n'est pas present");
     END insererApres;
 
+    PROCEDURE insererApresLigne(l : IN T_LISTE ; ligne : Integer ; data : IN T_ELEMENT) IS
+    BEGIN
+    NULL;
+    END insererApresLigne;
+
     PROCEDURE insererAvant(l : IN OUT T_LISTE ; e : IN T_ELEMENT ; data : IN T_ELEMENT) IS
         ListeVide, DataNonPresent : Exception;
         copie : T_LISTE := l;
     BEGIN
-        IF Not estVide(l) THEN
+        IF Not p_liste.estVide(l) THEN
             IF l.All.Element = data THEN
                 insererEnTete(l,e);
             ELSE
@@ -78,7 +83,7 @@ PACKAGE BODY p_liste IS
                     copie := copie.All.Suivant;
                 END LOOP;
                 
-                IF estVide(copie.All.Suivant) THEN
+                IF p_liste.estVide(copie.All.Suivant) THEN
                     raise DataNonPresent;
                 ELSE
                     copie.All.Suivant := new T_CELLULE'(e,copie.All.Suivant);
@@ -95,7 +100,7 @@ PACKAGE BODY p_liste IS
     PROCEDURE enlever(l : IN OUT T_LISTE ; e : IN T_ELEMENT) IS
         copie : T_LISTE := l;
     BEGIN
-        IF Not estVide(l) THEN
+        IF Not p_liste.estVide(l) THEN
             IF l.All.Element = e THEN
                 l := l.All.Suivant;
             ELSE
@@ -104,7 +109,7 @@ PACKAGE BODY p_liste IS
                 END LOOP;
             END IF;
             
-            IF copie.All.Suivant.Element = e THEN
+            IF copie.All.Suivant /= Null AND THEN copie.All.Suivant.All.Element = e THEN
                 copie.All.Suivant := copie.All.Suivant.All.Suivant;
             ELSE
                 Null;
@@ -138,7 +143,6 @@ PACKAGE BODY p_liste IS
         IF i >= taille(listeSuivante) THEN
             RAISE not_found;
         END IF;
-        Put(taille(listeSuivante));
 
         WHILE listeSuivante /= NULL AND NOT stop LOOP
 
@@ -194,5 +198,15 @@ PACKAGE BODY p_liste IS
     
         RETURN counter;
     END taille;
+
+    FUNCTION hasSuivant(l: IN T_LISTE) RETURN Boolean IS
+    BEGIN
+        RETURN (l.All.Suivant /= NULL);
+    END;
+
+    FUNCTION isNull(l: IN T_LISTE) RETURN Boolean IS
+    BEGIN
+        RETURN (l /= NULL);
+    END;
 
 END p_liste;

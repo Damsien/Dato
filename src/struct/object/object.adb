@@ -13,7 +13,7 @@ package body object is
 
     function Image_Variable(element : Variable) return String is
     begin
-        return "T"&element.intitule.All&" : "&element.typeV&" := "&Integer'Image(element.value); 
+        return element.intitule.All&" : "&element.typeV.All&" := "&Integer'Image(element.value); 
     end Image_Variable;
 
     function Image_Label(element : Label) return String is

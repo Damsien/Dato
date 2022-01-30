@@ -22,11 +22,19 @@ PACKAGE p_compilateur IS
 
     FUNCTION VerifierCondition(condition : String) RETURN Integer;
 
+    FUNCTION VarToValue(value: String) RETURN Integer;
+
+    FUNCTION IntToBool(val: String) RETURN String;
+
+    FUNCTION BoolToInt(val: String) RETURN String;
+
     FUNCTION CheckVarType(key : String ; value : String) RETURN String;
 
     FUNCTION CheckVarExistence(val : String) RETURN String;
 
-    FUNCTION ValiderOperation(op : String) RETURN String;
+    PROCEDURE FormaliserOperation(op : IN String ; value1 : IN OUT T_String ; value2 : IN OUT T_String);
+
+    FUNCTION ValiderOperation(op : String) RETURN Integer;
 
     PROCEDURE Traitement(inst : String);
 
@@ -49,22 +57,27 @@ PACKAGE p_compilateur IS
     FUNCTION VToString(el : Variable) RETURN String;
 
     FUNCTION TQToString(el : TQ) RETURN String;
+
+    PROCEDURE DeclarerVariable;
     
 
    NotCompile: Exception;
    WrongType: Exception;
 
 
-    CP_COMPIL: Integer := 0;
+    CP_COMPIL: Integer := 1;
     LABEL_USED: Integer := 0;
     TEMP_USED: Integer := 0;
     Declared_Variables: P_LISTE_VARIABLE.T_LISTE;
     hasProgramStarded: Boolean := False;
+    hasProgramEnded: Boolean := False;
     hasProgramDebuted: Boolean := False;
     Pile_TQ: P_PILE_TQ.T_LISTE;
     Pile_SI: P_PILE_SI.T_LISTE;
 
 PRIVATE
+
+    FUNCTION TrimI(e : Integer) RETURN String;
 
     --TYPE T_COMPILATEUR IS
     --RECORD

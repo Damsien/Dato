@@ -17,7 +17,7 @@ package object is
         intitule : access String;
         initialisation : Boolean := False;
         value : Integer;
-        typeV : String(1..7);
+        typeV : access String;
     end record;
 
     type Label is record

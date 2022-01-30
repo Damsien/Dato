@@ -36,7 +36,7 @@ PACKAGE p_pile IS
     -- sémantique : Renvoi un booléen indiquant si la pile est vide
     -- pré-conditions : /
     -- post-conditions : /
-    FUNCTION estVide(pile : IN T_LISTE) RETURN Boolean;
+    FUNCTION estPileVide(pile : IN T_LISTE) RETURN Boolean;
 
     -- nom : sommet
     -- sémantique : Renvoi la valeur de l'élément au sommet de la pile

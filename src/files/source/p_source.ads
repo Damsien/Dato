@@ -7,6 +7,10 @@ PACKAGE p_source IS
     RECORD
         instructions: P_LISTE_CH_CHAR.T_LISTE;
     END RECORD;
+
+    FUNCTION Upper_Case (S : String) RETURN String;
+
+    FUNCTION replaceString(s: String ; pattern_to_be_replaced: String ; replace_pattern: String) RETURN String;
     
     FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String;
 
