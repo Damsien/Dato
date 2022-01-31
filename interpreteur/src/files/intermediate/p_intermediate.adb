@@ -8,6 +8,7 @@ package body p_intermediate is
     FUNCTION TToString(el : T_String) RETURN String IS
         result : T_String;
     BEGIN
+        Put("");
         result := new String'(el.All);
         RETURN result.All;
     END TToString;
@@ -15,6 +16,7 @@ package body p_intermediate is
     FUNCTION StringToT(el : String) RETURN T_String IS
         result : T_String;
     BEGIN
+        Put("");
         result := new String'(el);
         RETURN result;
     END StringToT;
@@ -33,6 +35,7 @@ package body p_intermediate is
     PROCEDURE Inserer(instruction : IN String) IS
     existing : T_String;
     concat : T_String;
+    tmp : Integer;
     BEGIN
 
         BEGIN
@@ -42,25 +45,34 @@ package body p_intermediate is
                                     existing := StringToT("");
         END;
         
+        --Put_line(instruction);
+
         IF TToString(existing)'length /= 0 THEN
-            Put_line("CHAR : "&existing.all&"\");
-            Put_line("NB CHAR : "&Integer'Image(existing.All'Length));
+            tmp := instruction'Length;
             concat := new String'(existing.All & instruction);
-            Put_line("CONCAT : "&concat.all&"\");
-            --Put_line("CONCAT.LENGTH : "&Integer'Image(concat.All'Length));
-            p_intermediate.Modifier(concat.All,CP);
-            Put_line("FINISH");
+            tmp := concat'Length;
+            p_intermediate.Modifier(concat.All,CP);     
         ELSE
             P_LISTE_CH_CHAR.ajouter(intermediaire.instructions,new String'(instruction));
         END IF;
     END Inserer;
 
     Procedure Modifier(instruction : IN String ; ligne : IN Integer) IS
+        str : T_String;
+        tmp : Integer;
     BEGIN
             --Put_line("String : "&instruction);
             --Put_Line("Size : "&Integer'Image(instruction'Length));
-            Put("");
-            P_LISTE_CH_CHAR.modifier(intermediaire.instructions,ligne,new String'(instruction));
+            --Put_line("========= MODIFIER");
+            --Put_line("Insérer le label : "&instruction);
+            tmp := instruction'Length;
+            --Put_line("Ligne théorique : "&instruction);
+
+            str := new String(1..instruction'Length);
+            for i in 1..instruction'Length loop
+                str.All(i) := instruction(i);
+            end loop;
+            P_LISTE_CH_CHAR.modifier(intermediaire.instructions,ligne,str);
             Put("");
             --Put_line("Après coup :");
             --P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
@@ -78,6 +90,7 @@ package body p_intermediate is
 
     Procedure Afficher IS
     BEGIN
+        Put("");
         P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
     END Afficher;
 
@@ -96,8 +109,10 @@ package body p_intermediate is
         doubleTempVarName: access String;
         bad_usage: Exception;
     BEGIN
+        Put("");
         str := new String(1..(line'Last-line'First)+1);
         FOR i in 1..str.All'Last LOOP
+            put("");
             str.All(i) := line(line'First+i-1);
         END LOOP;
         index := str.All'First;
@@ -112,7 +127,9 @@ package body p_intermediate is
                 startQuote := index;
                 quoteClose := False;
                 -- Réinitialisation de la variable temporaire
+                Put("");
                 tempVarName := new String'("");
+                Put("");
                 doubleTempVarName := new String'("");
             ELSIF index > startQuote AND stopQuote <= startQuote AND Not quoteClose THEN
             -- Le contenu du string
@@ -132,7 +149,9 @@ package body p_intermediate is
                 startPlus := index;
             ELSIF index > startPlus AND stopPlus <= startPlus THEN
                 -- Sauvegarde du caractère pour former le nom de la variable finale ou la valeur brute finale
+                Put("");
                 doubleTempVarName := new String'(tempVarName.All);
+                Put("");
                 tempVarName := new String'(doubleTempVarName.All&str.All(index));
                 IF index = str.All'Last AND stopPlus < startPlus THEN
                 -- Si il n'y pas d'autres chaine à concaténer derriere
@@ -159,7 +178,9 @@ package body p_intermediate is
 
     PROCEDURE Traitement(inst: String ; line: P_LISTE_CH_CHAR.T_LISTE) IS
     BEGIN
-        Put_Line(inst);
+        --Put_line("====================");
+        --Put_line("A ligne : "&inst);
+        --P_LISTE_VARIABLE.afficherListe(Declared_Variables);
         IF Index(inst, "L") = 1 THEN
         -- C'est soit un label, soit une affectation
             IF Index(inst, " ") = Index(inst, "<-")-1 THEN
@@ -237,7 +258,9 @@ package body p_intermediate is
         var: Variable;
     BEGIN
         IF Index(line, ", ") > 0 THEN
+            Put("");
             value1 := new String'(line(line'First..Index(line, ", ")-1));
+            Put("");
             value2 := new String'(line(Index(line, ", ")+2..line'Last));
             var := (
                 new String'(value1.All),
@@ -254,6 +277,7 @@ package body p_intermediate is
                     new String'("Entier")
                 );
                 P_LISTE_VARIABLE.ajouter(Declared_Variables, var);
+                Put("");
                 value2 := new String'(value2.All(Index(value2.All, ", ")+2..line'Last));
             END LOOP;
             var := (
@@ -298,6 +322,8 @@ package body p_intermediate is
         END IF;
     END TraiterAffectation;
 
+    --Pour me rappeler de raconter la dinguerie eca
+
     FUNCTION RechercherMap(liste : P_LISTE_CLEFVALEUR.T_LISTE ; label : String) RETURN P_LISTE_CLEFVALEUR.T_LISTE IS
         listeCourante : P_LISTE_CLEFVALEUR.T_LISTE := liste;
     BEGIN
@@ -318,7 +344,10 @@ package body p_intermediate is
                 RETURN listeCourante.all.Suivant;
             END IF;
         ELSE
-            RETURN rechercherMap(label_map, line(Index(line, "GOTO ")+5..line'Last)).All.Element.Valeur;
+            RETURN rechercherMap(label_map, line(Index(line, "GOTO ")+5..line'Last)).
+            All.
+            Element.
+            Valeur;
         END IF;
     END TraiterGOTO;
 
@@ -350,44 +379,58 @@ package body p_intermediate is
     BEGIN
         Put("");
         IF Index(cond, " < ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " <")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "< ")+2..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 < valInt2);
         ELSIF Index(cond, " > ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " >")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "> ")+2..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 > valInt2);
         ELSIF Index(cond, " <= ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " <=")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "<= ")+3..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 <= valInt2);
         ELSIF Index(cond, " >= ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " >=")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, ">= ")+3..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 >= valInt2);
         ELSIF Index(cond, " = ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " =")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "= ")+2..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 = valInt2);
         ELSIF Index(cond, " != ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " !=")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "!= ")+3..cond'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN (valInt1 /= valInt2);
         ELSIF Index(cond, " OR ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " OR")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "OR ")+3..cond'Last));
             valInt2 := GetVarValue(value2.All);
             IF valInt1 = 1 THEN
@@ -404,8 +447,10 @@ package body p_intermediate is
                 END IF;
             END IF;
         ELSIF Index(cond, " AND ") > 0 THEN
+            Put("");
             value1 := new String'(cond(cond'First..Index(cond, " AND")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(cond(Index(cond, "AND ")+4..cond'Last));
             valInt2 := GetVarValue(value2.All);
             IF valInt1 = 1 THEN
@@ -433,27 +478,37 @@ package body p_intermediate is
         valInt1: Integer;
         valInt2: Integer;
     BEGIN
+        --Put_line("======= opération ========");
         IF Index(op, "+") > 0 THEN
             value1 := new String'(op(op'First..Index(op, " +")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(op(Index(op, "+ ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
+            --Put_line(""&value1.All&" + "&value2.All);
+            --Put_line(""&Integer'Image(valInt1)&" + "&Integer'Image(valInt1));
             RETURN valInt1+valInt2;
         ELSIF Index(op, "-") > 0 THEN
+            Put("");
             value1 := new String'(op(op'First..Index(op, " -")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(op(Index(op, "- ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN valInt1-valInt2;
         ELSIF Index(op, "*") > 0 THEN
             value1 := new String'(op(op'First..Index(op, " *")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(op(Index(op, "* ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
+            --Put_line(""&value1.All&" * "&value2.All);
             RETURN valInt1*valInt2;
         ELSIF Index(op, "/") > 0 THEN
+            Put("");
             value1 := new String'(op(op'First..Index(op, " /")-1));
             valInt1 := GetVarValue(value1.All);
+            Put("");
             value2 := new String'(op(Index(op, "/ ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
             RETURN valInt1/valInt2;
@@ -480,8 +535,7 @@ package body p_intermediate is
         var_exist: P_LISTE_VARIABLE.T_LISTE;
     BEGIN
         var_exist := Declared_Variables;
-        WHILE P_LISTE_VARIABLE.isNull(var_exist) AND var_exist.All.Element.intitule.All /= val LOOP
-            Put_Line("oui");
+        WHILE P_LISTE_VARIABLE.isNull(var_exist.All.Suivant) AND var_exist.All.Element.intitule.All /= val LOOP
             var_exist := var_exist.All.Suivant;
         END LOOP;
         RETURN var_exist;

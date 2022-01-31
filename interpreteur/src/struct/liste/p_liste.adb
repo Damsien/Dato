@@ -166,7 +166,11 @@ PACKAGE BODY p_liste IS
         test : access String := new String'("");
         index : Integer;
         stop : Boolean;
+        tmp : String(1..Image(new_e)'length);
     BEGIN
+
+        --Put_line("Ligne théorique bis : "&Image(new_e));
+        tmp := Image(new_e);
 
         index := 0 ;
 
@@ -176,12 +180,14 @@ PACKAGE BODY p_liste IS
 
         IF I = 0 THEN
             l.All := (new_e,l.All.suivant);
+            Put("");
         ELSE
 
             WHILE listeSuivante /= NULL AND NOT stop LOOP
 
             IF index = i THEN
                 listeSuivante.All := (new_e,listeSuivante.All.Suivant);
+                Put("");
                 stop := True;
             END IF;
 
@@ -221,6 +227,13 @@ PACKAGE BODY p_liste IS
     FUNCTION isNull(l: IN T_LISTE) RETURN Boolean IS
     BEGIN
         RETURN (l /= NULL);
+    END;
+
+    FUNCTION setEmpty(e : String) RETURN String IS
+        s : String(1..1);
+    BEGIN
+        s(1) := ' ';
+        RETURN s;
     END;
 
 END p_liste;

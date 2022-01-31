@@ -60,10 +60,12 @@ PACKAGE BODY p_source IS
     FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String IS
         str : access String;
         j: Integer := 1;
+        pos: Integer;
     BEGIN
 
-        str := new String'(s(s'First));
-        IF Index(s," ") > 0 THEN
+        str := new String'(s);
+        pos := Index(s, " ");
+        IF pos > 0 THEN
             str := new String(1..l-1);
             FOR i in s'First..s'Last LOOP
                 IF i /= pos THEN
@@ -73,40 +75,11 @@ PACKAGE BODY p_source IS
                 END IF;
                 j := j + 1;
             END LOOP;
-            removeSingleSpace(str.All, l-1);
+            RETURN removeSingleSpace(str.All, l-1);
         ELSE
             RETURN str.All;
         END IF;
 
-    END removeSingleSpace;
-
-
-    FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String IS
-        str: String(1..s'Last-s'First+1);
-        finalStr: N_STRING;
-        pos: Integer;
-        j: Integer := 1;
-    BEGIN
-        pos := Index(s, " ");
-        FOR i in s'First..s'Last LOOP
-            IF i /= pos THEN
-                str(j) := s(i);
-            ELSE
-                j := j - 1;
-            END IF;
-            j := j + 1;
-        END LOOP;
-
-        IF pos > 0 THEN
-            RETURN removeSingleSpace(str, l-1);
-        ELSE
-            Put("");
-            finalStr := new String(str'First..l);
-            FOR i in str'First..l LOOP
-                finalStr.All(i) := str(i);
-            END LOOP;
-            RETURN finalStr.All;
-        END IF;
     END removeSingleSpace;
 
     FUNCTION removeSpaces(s: IN String ; l: IN Integer) RETURN String IS

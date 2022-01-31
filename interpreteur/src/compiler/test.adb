@@ -27,10 +27,8 @@ end if;
 chargerInstructions(file.All);
 p_compilateur.TraiterInstructions(p_source.source);
 
-Put_line("===================================================================");
-p_compilateur.P_LISTE_VARIABLE.afficherListe(p_compilateur.Declared_Variables);
-Put_line("===================================================================");
 --p_intermediate.Afficher;
+--Put_line("===================================================================");
 p_intermediate.TraiterInstructions;
 
 EXCEPTION

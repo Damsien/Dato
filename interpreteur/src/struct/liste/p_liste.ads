@@ -49,4 +49,6 @@ PACKAGE p_liste IS
 
     PROCEDURE insererApresLigne(l : IN T_LISTE ; ligne : Integer ; data : IN T_ELEMENT);
 
+    FUNCTION setEmpty(e : String) RETURN String;
+
 END p_liste;

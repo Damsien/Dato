@@ -26,27 +26,33 @@ PACKAGE BODY p_compilateur IS
         ended_error: Exception;
         debuted_error: Exception;
     BEGIN
-        --Put_Line(inst);
+        --Put("============== ");
+        --Put(inst);
+        --Put(" : ");
 
         IF Not hasProgramStarded THEN
             IF hasProgramEnded THEN
                 RAISE ended_error;  -- faut vraiment forcer pour arriver la : "FIN" avant "PROGRAMME EST"
             ELSE
-                IF Index(inst, "PROGRAMME ") > 0 AND Index(inst, " EST")+3 = inst'Last THEN
+                IF inst'Length = 0 THEN
+                    --Put_Line("Ligne vide ==============");
+                    NULL;
+                ELSIF Index(inst, "--") > 0 THEN
+                    --Put_Line("Commentaire ==============");
+                    pos := Index(inst, "--");
+                    Traitement(inst(inst'First..pos-1));
+                ELSIF clarifyString(inst) = "" THEN
+                    --Put_Line("Ligne vide ==============");
+                    NULL;
+                ELSIF Index(inst, "PROGRAMME ") > 0 AND Index(inst, " EST")+3 = inst'Last THEN
                     IF Index(removeSingleSpace(inst, inst'Length), "EST") > Index(removeSingleSpace(inst, inst'Length), "PROGRAMME")+9+1
                     AND inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1)'Length = removeSingleSpace(inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1), inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1)'Length)'Length THEN
+                       --Put_Line("Program start ==============");
                         hasProgramStarded := True;
                         Inserer_L(inst);
                         p_intermediate.CP_ENTETE := p_intermediate.GetCP;
                         Inserer_L("");
                     END IF;
-                ELSIF inst'Length = 0 THEN
-                    NULL;
-                ELSIF Index(inst, "--") > 0 THEN
-                    pos := Index(inst, "--");
-                    Traitement(inst(inst'First..pos-1));
-                ELSIF clarifyString(inst) = "" THEN
-                    NULL;
                 ELSE
                     RAISE started_error;
                 END IF;
@@ -58,16 +64,21 @@ PACKAGE BODY p_compilateur IS
 
                 IF Not hasProgramDebuted THEN
                     IF inst = "DEBUT" OR inst = "DéBUT" THEN
+                        --Put_Line("Program Debut ==============");
                         hasProgramDebuted := True;
                         Inserer_L(inst);
                     ELSIF inst'Length = 0 THEN
+                        --Put_Line("Ligne vide ==============");
                         NULL;
                     ELSIF Index(inst, "--") > 0 THEN
+                        --Put_Line("Commentaire ==============");
                         pos := Index(inst, "--");
                         Traitement(inst(inst'First..pos-1));
                     ELSIF clarifyString(inst) = "" THEN
+                        --Put_Line("Program Debut ==============");
                         NULL;
                     ELSIF Index(inst, ":") > 0 THEN
+                        --Put_Line("Declaration ==============");
                         TraduireDeclaration(inst);
                     ELSE
                         RAISE debuted_error;
@@ -75,41 +86,52 @@ PACKAGE BODY p_compilateur IS
                 ELSE
 
                     IF inst = "FIN TANT QUE" THEN
+                        --Put_Line("Fin Tant Que ==============");
                         TraduireFinTantQue;
                         exist := True;
                     ELSIF inst = "SINON" THEN
+                        --Put_Line("Sinon ==============");
                         TraduireSinon;
                         exist := True;
                     ELSIF inst = "FIN SI" THEN
+                        --Put_Line("Fin Si ==============");
                         TraduireFinSi;
                         exist := True;
                     ELSIF inst = "FIN" THEN
+                        --Put_Line("Fin ==============");
                         hasProgramEnded := True;
                         Inserer_L(inst);
                         exist := True;
                     END IF;
 
-                    IF Index(inst, "<-") > 0 THEN
+                    IF inst'Length = 0 THEN
+                        NULL;
+                    ELSIF Index(inst, "--") > 0 THEN
+                        --Put_Line("Commentaire ==============");
+                        pos := Index(inst, "--");
+                        Traitement(inst(inst'First..pos-1));
+                    ELSIF clarifyString(inst) = "" THEN
+                        --Put_Line("Ligne vide ==============");
+                        NULL;
+                    ELSIF Index(inst, "<-") > 0 THEN
+                        --Put_Line("Affectation ==============");
                         TraduireAffectation(inst);
                     ELSIF Index(inst, "TANT QUE") > 0 THEN
                         IF Index(inst, "FIN TANT QUE") = 0 THEN
+                            --Put_Line("Tant Que ==============");
                             TraduireTantQue(inst);
                         END IF;
                     ELSIF Index(inst, "SI") > 0 AND Index(inst, "ALORS") > 0 THEN
                         IF inst /= "FIN SI" AND inst /= "SINON" THEN
+                            --Put_Line("Si ==============");
                             TraduireSi(inst);
                         END IF;
                     ELSIF Index(inst, "AFFICHER(") > 0 THEN
-                        Inserer_L(inst(Index(inst, "AFFICHER(")+9..Index(inst, ")")-1));
-                    ELSIF Index(inst, "RETOUR_LIGNE") > 0 THEN
-                        Inserer_L("RETOUR_LIGNE");
-                    ELSIF inst'Length = 0 THEN
-                        NULL;
-                    ELSIF Index(inst, "--") > 0 THEN
-                        pos := Index(inst, "--");
-                        Traitement(inst(inst'First..pos-1));
-                    ELSIF clarifyString(inst) = "" THEN
-                        NULL;
+                        --Put_Line("Afficher ==============");
+                        Inserer_L(inst);
+                    ELSIF Index(inst, "RETOUR") > 0 THEN
+                        --Put_Line("Retour ==============");
+                        Inserer_L("RETOUR");
                     ELSE
                         IF Not exist THEN
                             RAISE NotCompile;
@@ -175,8 +197,6 @@ PACKAGE BODY p_compilateur IS
         index : Integer := 1;
     BEGIN
 
-        Put_line("==== Début de la fonction ===");
-
         l := Declared_Variables;
 
         -- Liste des variables déclarées par un utilisateur
@@ -208,18 +228,21 @@ PACKAGE BODY p_compilateur IS
         index := 1;
         size := 4;
         while index * 10 < TEMP_USED loop
-            size := size + (index * 10 - 1 - index) * (4 + index / 10) + 1; 
+            size := size + (index * 10 - index) * (4 + index / 10) + 1; 
             index := index * 10;
         end loop;
-        size := size + (TEMP_USED - index) * (4 + index / 10);
+        size := size + (TEMP_USED  - index) * (4 + index / 10);
 
         -- Liste des variables temporaires
+        Put("");
         temp := new String(1..size);
         index := 1;
         for i in 1..TEMP_USED LOOP
 
+
             a := index;
             b := index + 3 + i/10;
+
             index := b+1;
             
             temp(a..b) := ", T"&TrimI(i);
@@ -227,12 +250,9 @@ PACKAGE BODY p_compilateur IS
         end loop;
 
         if b < size THEN
+            Put("");
             temp := new String'(temp(1..b));
         end if;
-
-        Put_line(" Declared : "&declared.ALl);
-        Put_line(" Temp : "&temp.All);
-        Put_line("Line : "&integer'Image(p_intermediate.CP_ENTETE));
 
         -- Concaténation et insertion
         IF TEMP_USED > 0 THEN
@@ -247,6 +267,7 @@ PACKAGE BODY p_compilateur IS
     FUNCTION CreerLabel RETURN Integer IS
     BEGIN
         LABEL_USED := LABEL_USED + 1;
+        --Put_line("LABEL_USED :" & Integer'Image(LABEL_USED));
         RETURN LABEL_USED;
     END CreerLabel;
 
@@ -265,11 +286,13 @@ PACKAGE BODY p_compilateur IS
     BEGIN
         Tx := TEMP_USED;
         IF Index(condition, ">=") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, ">=")-1),
                     condition(condition'First..Index(condition, ">=")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, ">=")+2..condition'Last),
@@ -282,11 +305,13 @@ PACKAGE BODY p_compilateur IS
             Tx := CreerVariableTemporaire;
             Inserer_L("T"&TrimI(Tx)&" <- T"&TrimI(Tx-2)&" OR T"&TrimI(Tx-1));
         ELSIF Index(condition, "<=") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, "<=")-1),
                     condition(condition'First..Index(condition, "<=")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, "<=")+2..condition'Last),
@@ -299,11 +324,13 @@ PACKAGE BODY p_compilateur IS
             Tx := CreerVariableTemporaire;
             Inserer_L("T"&TrimI(Tx)&" <- T"&TrimI(Tx-2)&" OR T"&TrimI(Tx-1));
         ELSIF Index(condition, ">") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, ">")-1),
                     condition(condition'First..Index(condition, ">")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, ">")+1..condition'Last),
@@ -312,11 +339,13 @@ PACKAGE BODY p_compilateur IS
             Tx := CreerVariableTemporaire;
             Inserer_L("T"&TrimI(Tx)&" <- "&condition);
         ELSIF Index(condition, "<") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, "<")-1),
                     condition(condition'First..Index(condition, "<")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, "<")+1..condition'Last),
@@ -325,11 +354,13 @@ PACKAGE BODY p_compilateur IS
             Tx := CreerVariableTemporaire;
             Inserer_L("T"&TrimI(Tx)&" <- "&condition);
         ELSIF Index(condition, "==") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, "==")-1),
                     condition(condition'First..Index(condition, "==")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, "==")+2..condition'Last),
@@ -338,11 +369,13 @@ PACKAGE BODY p_compilateur IS
             Tx := CreerVariableTemporaire;
             Inserer_L("T"&TrimI(Tx)&" <- "&condition);
         ELSIF Index(condition, "!=") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(condition'First..Index(condition, "!=")-1),
                     condition(condition'First..Index(condition, "!=")-1)'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     condition(Index(condition, "!=")+2..condition'Last),
@@ -380,11 +413,13 @@ PACKAGE BODY p_compilateur IS
         operation_type_error: Exception;
     BEGIN
         IF Index(op, "+") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     BoolToInt(op(op'First..Index(op, "+")-1)),
                     BoolToInt(op(op'First..Index(op, "+")-1))'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     BoolToInt(op(Index(op, "+")+1..op'Last)),
@@ -398,14 +433,17 @@ PACKAGE BODY p_compilateur IS
             END IF;
         ELSIF Index(op, "-") > 0 THEN
             IF Index(op, "-") = 1 THEN
+                Put("");
                 value1 := new String'("0");
             ELSE
+                Put("");
                 value1 := new String'(CheckVarExistence(
                     removeSingleSpace(
                         op(op'First..Index(op, "-")-1),
                         op(op'First..Index(op, "-")-1)'Length
                 )));
             END IF;
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     op(Index(op, "-")+1..op'Last),
@@ -418,11 +456,13 @@ PACKAGE BODY p_compilateur IS
                 NULL;
             END IF;
         ELSIF Index(op, "*") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     BoolToInt(op(op'First..Index(op, "*")-1)),
                     BoolToInt(op(op'First..Index(op, "*")-1))'Length
                 )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     BoolToInt(op(Index(op, "*")+1..op'Last)),
@@ -435,11 +475,13 @@ PACKAGE BODY p_compilateur IS
                 NULL;
             END IF;
         ELSIF Index(op, "/") > 0 THEN
+            Put("");
             value1 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     op(op'First..Index(op, "/")-1),
                     op(op'First..Index(op, "/")-1)'Length
             )));
+            Put("");
             value2 := new String'(CheckVarExistence(
                 removeSingleSpace(
                     op(Index(op, "/")+1..op'Last),
@@ -552,6 +594,7 @@ PACKAGE BODY p_compilateur IS
         WrongType: Exception;
         operation_type_error: Exception;
     BEGIN
+        Put("");
         spaceVal := new String'(removeSingleSpace(value(value'First..value'Last), value(value'First..value'Last)'Length));
 
         var := Declared_Variables;
@@ -561,9 +604,13 @@ PACKAGE BODY p_compilateur IS
 
         -- Si c'est un booleen
         IF var.All.Element.typeV.All = "BOOLEEN" THEN
+            Put("");
             spaceVal := new String'(replaceString(spaceVal.All, "VRAI", "1"));
+            Put("");
             spaceVal := new String'(replaceString(spaceVal.All, "FAUX", "0"));
+            Put("");
             spaceVal := new String'(replaceString(spaceVal.All, "OU", "+"));
+            Put("");
             spaceVal := new String'(replaceString(spaceVal.All, "ET", "*"));
             temp := ValiderOperation(spaceVal.All);
             IF Index(spaceVal.All, "+") > 0 THEN
@@ -725,7 +772,9 @@ PACKAGE BODY p_compilateur IS
         bad_var_name: Exception;
     BEGIN
         listeCourante := Declared_Variables;
+        Put("");
         intitule := new String'(removeSingleSpace(line(line'First..Index(line, "<-")-1), line(line'First..Index(line, "<-")-1)'Length));
+        Put("");
         value := new String'(removeSingleSpace(line(Index(line, "<-")+2..line'Last), line(Index(line, "<-")+2..Line'Last)'Length));
 
 
@@ -751,6 +800,7 @@ PACKAGE BODY p_compilateur IS
         ELSIF Index(value.All, "<") > 0 OR Index(value.All, "<=") > 0
          OR Index(value.All, ">=") > 0 OR Index(value.All, ">") > 0 
          OR Index(value.All, "==") > 0 OR Index(value.All, "!=") > 0 THEN
+            Put("");
             value := new String'(
                 CheckVarType(
                     intitule.All,
@@ -759,6 +809,7 @@ PACKAGE BODY p_compilateur IS
             );
 
         ELSE
+            Put("");
             value := new String'(
                 CheckVarType(
                     intitule.All,
@@ -785,6 +836,7 @@ PACKAGE BODY p_compilateur IS
         Tx : Integer;
         Lx, Ly, Lz : Integer;
         temp : Integer := 5;
+        object : TQ;
     BEGIN
         Tx := VerifierCondition(line(Index(line, "TANT QUE ")+9..Index(line, " FAIRE")-1));
         Lx := CreerLabel;
@@ -792,11 +844,13 @@ PACKAGE BODY p_compilateur IS
         Lz := CreerLabel;
         Inserer_L("L"&TrimI(Lx)&" IF T"&TrimI(Tx)&" GOTO L"&TrimI(Lz));
         Inserer_L("GOTO L"&TrimI(Ly));
-        Put("");
         Inserer("L"&TrimI(Lz)&" ");
-        Put("");
         
-        P_PILE_TQ.Empiler(Pile_TQ,TQ'(Lx,Tx,new String'(line(Index(line, "TANT QUE ")+9..Index(line, " FAIRE")-1))));
+        object := (Lx,Tx,new String'(line(Index(line, "TANT QUE ")+9..Index(line, " FAIRE")-1)));
+        --Put_line("Empiler : ");
+        --Put(Image_TQ(object));
+        --Put_line("Label : L" & Integer'Image(object.Lx));
+        P_PILE_TQ.Empiler(Pile_TQ,object);
     END TraduireTantQue;
 
 
@@ -805,6 +859,10 @@ PACKAGE BODY p_compilateur IS
         temp : Integer;
     BEGIN
         rec := P_PILE_TQ.Depiler(Pile_TQ);
+        --Put_line("Depiler : ");
+        --Put(Image_TQ(rec));
+        --new_line;
+        --Put_line("Label : L" & Integer'Image(rec.Lx));
         temp := VerifierCondition(rec.line.All);
         Inserer_L("T"&TrimI(rec.Tx)&" <- T"&TrimI(temp));
         Inserer_L("GOTO L"&TrimI(rec.Lx));
@@ -815,13 +873,19 @@ PACKAGE BODY p_compilateur IS
     PROCEDURE TraduireSi(line : String) IS
         Tx : Integer;
         Lx, Ly : Integer;
+        object: SI;
     BEGIN
         Tx := VerifierCondition(line(Index(line, "SI ")+3..Index(line, " ALORS")-1));
         Lx := CreerLabel;
         Ly := CreerLabel;
         Put("");
         Inserer_L("IF T"&TrimI(Tx)(2..TrimI(Tx)'Last)&" GOTO L"&TrimI(Lx));
-        P_PILE_SI.Empiler(Pile_SI,SI'(p_intermediate.GetCP,Ly));
+        Put("");
+        object := (p_intermediate.GetCP,Ly);
+        --Put_line("Empiler : ");
+        --Put(Image_SI(object));
+        --Put_line("Label : L" & Integer'Image(object.Lx));
+        P_PILE_SI.Empiler(Pile_SI,object);
         Inserer_L("GOTO L"&TrimI(Ly));
         Put("");
         Inserer("L"&TrimI(Lx)&" ");
@@ -833,13 +897,24 @@ PACKAGE BODY p_compilateur IS
         el : SI;
         Lx : Integer;
     BEGIN
+    
         el := P_Pile_SI.Depiler(Pile_SI);
+        --Put_line("Depiler : ");
+        --Put(Image_SI(el));
+        --new_line;
+        --Put_line("Label : L" & Integer'Image(el.Lx));
+
+
         Lx := CreerLabel;
         p_intermediate.Modifier("GOTO L"&TrimI(Lx),el.CP);
         Inserer_L("GOTO L"&TrimI(el.Lx));
         Put("");
         Inserer("L"&TrimI(Lx)&" ");
         Put("");
+        --Put_line("Empiler : ");
+        --Put(Image_SI(el));
+        --new_line;
+        --Put_line("Label : L" & Integer'Image(el.Lx));
         P_Pile_SI.Empiler(Pile_SI,el);
     END TraduireSinon;
 
@@ -848,6 +923,12 @@ PACKAGE BODY p_compilateur IS
         el : SI;
     BEGIN
         el := P_Pile_SI.Depiler(Pile_SI);
+        --Put_line("Depiler : ");
+        --Put(Image_SI(el));
+        --new_line;
+        --Put_line("Label : L" & Integer'Image(el.Lx));
+
+
         Inserer_L("L"&TrimI(el.Lx)&" NULL");
     END TraduireFinSi;
 
