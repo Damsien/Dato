@@ -1,0 +1,38 @@
+-- Ce programme calcule la factorielle F d’un entier n
+Programme Facto est
+
+    n : Entier -- Entier naturel pour lequel le programme calcule la factorielle
+
+    Fact : Entier -- entier naturel résultat du calcul de Factorielle (n)
+
+    i : Entier -- entier naturel, variable intermédiaire
+
+Debut
+
+    n <- 5
+
+    i <- 1
+
+    Fact <- 1
+
+    Tant Que i <= n Faire
+
+
+        Fact <- Fact * i
+
+        Afficher("Fact : " + Fact)
+        Retour
+
+        i <- i + 1
+
+        Afficher("i : " + i)
+        Retour
+
+        Afficher("n : " + n)
+        Retour
+
+    Fin Tant Que
+
+    Afficher("Fact de " + n + " : " + Fact)
+
+Fin

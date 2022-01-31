@@ -1,0 +1,40 @@
+-- Descriptive algorithmic type/terminology operation
+-- Ce programme présente les fonctions basiques de notre langage de programmation
+
+Programme Basique est
+
+    i : Entier -- Incrément de boucles
+
+    somme : Entier -- Somme des 10 premiers termes
+
+    s : Entier -- Message de sortie du programme
+
+Debut
+
+    i <- 10
+
+    somme <- 0
+
+    -- Test d'une boucle "Tant Que"
+
+    Tant que i >= 0 Faire
+
+        somme <- somme + i
+
+        i <- i -1
+
+    Fin Tant que
+
+    -- Test d'une condition "Si"
+
+    Si somme <= 30 Alors
+
+        s <- 0
+
+    Sinon
+
+        s <- 1
+
+    Fin Si
+
+Fin
