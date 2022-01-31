@@ -21,7 +21,11 @@ Debut
 
         somme <- somme + i
 
+<<<<<<< HEAD
         i <- i -1
+=======
+        i <- i - 1
+>>>>>>> d434b64a08fbeb171b8d21686037c7e351bc8866
 
     Fin Tant que
 
