@@ -15,23 +15,25 @@ PACKAGE BODY p_pile IS
     END Empiler;
 
     FUNCTION Depiler(pile : IN OUT T_LISTE) RETURN T_ELEMENT IS
+        temp : T_ELEMENT;
     BEGIN
-        IF estVide(pile) THEN
+        IF p_pile.estPileVide(pile) THEN
             RAISE PileVide;
         ELSE
-            enlever(pile, sommet(pile));
-            RETURN sommet(pile);
+            temp := sommet(pile);
+            enlever(pile, temp);
+            RETURN temp;
         END IF;
     END Depiler;
 
-    FUNCTION estVide(pile : IN T_LISTE) RETURN Boolean IS
+    FUNCTION estPileVide(pile : IN T_LISTE) RETURN Boolean IS
     BEGIN
-        RETURN pile = Null;
-    END estVide;
+        RETURN (pile = Null);
+    END estPileVide;
 
     FUNCTION sommet(pile : IN T_LISTE) RETURN T_ELEMENT IS
     BEGIN
-        IF estVide(pile) THEN
+        IF p_pile.estPileVide(pile) THEN
             RAISE PileVide;
         ELSE
             RETURN pile.All.Element;

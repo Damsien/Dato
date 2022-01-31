@@ -43,4 +43,10 @@ PACKAGE p_liste IS
 
     FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer;
 
+    FUNCTION hasSuivant(l: IN T_LISTE) RETURN Boolean;
+
+    FUNCTION isNull(l: IN T_LISTE) RETURN Boolean;
+
+    PROCEDURE insererApresLigne(l : IN T_LISTE ; ligne : Integer ; data : IN T_ELEMENT);
+
 END p_liste;

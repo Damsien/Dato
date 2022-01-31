@@ -1,3 +1,5 @@
+with Ada.Text_IO; use Ada.Text_IO;
+
 package body object is
 
     function Image_SI(element : SI) return String is
@@ -13,7 +15,7 @@ package body object is
 
     function Image_Variable(element : Variable) return String is
     begin
-        return "T"&element.intitule.All&" : "&element.typeV&" := "&Integer'Image(element.value); 
+        return element.intitule.All&" : "&element.typeV.All&" := "&Integer'Image(element.value); 
     end Image_Variable;
 
     function Image_Label(element : Label) return String is
@@ -32,5 +34,33 @@ package body object is
         result := new String'(el);
         RETURN result;
     END StringToT;
+
+    FUNCTION CV_ToString(el : T_CLEFVALEUR) RETURN String IS
+        s : access String;
+    BEGIN
+        s := new String'((el.Clef.All)&" -> "&el.Valeur.All.Element.all);
+        RETURN s.All;
+    END;
+
+    PROCEDURE Put(b : Boolean) IS
+    BEGIN
+        Ada.Text_IO.Put(IF b THEN "Vrai" ELSE "Faux");
+    END;
+
+    PROCEDURE Put(i : Integer) IS
+    BEGIN
+        IF Integer'Image(i)(1) = '-' THEN
+            Ada.Text_IO.Put(Integer'Image(i)(1..Integer'Image(i)'Last));
+        ELSE
+            Ada.Text_IO.Put(Integer'Image(i)(2..Integer'Image(i)'Last));
+        END IF;
+    END;
+
+    PROCEDURE Put(c : Character) IS
+        s : access String;
+    BEGIN
+        s := new String'(""&c);
+        Ada.Text_IO.Put(s.All);
+    END;
 
 end object;
