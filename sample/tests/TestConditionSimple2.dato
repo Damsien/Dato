@@ -1,0 +1,20 @@
+-- Test permettant de valider les opérations avec des conditions
+-- Le programme doit afficher le résultat 0
+-- ET et * signifient "ET"
+-- OU et + signifient "OU"
+
+Programme TestConditionSimpleDeux est
+
+    i : Booleen
+    j : Booleen
+
+Debut
+
+    i <- 1
+    j <- 0
+
+    i <- i * j
+
+    Afficher("i : " + i)
+
+Fin

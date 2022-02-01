@@ -1,0 +1,10 @@
+-- Test permettant de valider la déclaration de variable
+-- Le programme doit retourner une erreur lorsqu'il déclare une variable comportant des caractères spéciaux
+
+Programme TestDeclaration est
+
+    <i : Entier
+
+Debut
+
+Fin

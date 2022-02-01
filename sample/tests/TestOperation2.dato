@@ -1,0 +1,13 @@
+-- Test permettant de valider une opération impossible
+-- Le programme doit retourner une erreur lorsqu'on fait une opération
+-- sur une chaine de caractère
+
+Programme TestOperationDeux est
+
+    i : Booleen
+
+Debut
+
+    i <- j + "test"
+
+Fin

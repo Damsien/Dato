@@ -1,0 +1,38 @@
+-- Test permettant de valider la nautraliter des commentaires face au programme
+-- Les commentaires ne doivent pas affecter le programme principal, ils ne doivent pas etre interpretés
+
+Programme TestCommentaire est
+
+    i : Entier  -- Booleen
+    j : Booleen -- Entier
+
+Debut
+
+    i <- 3 -- i = 5 i <- 8
+    j <- 1 -- j <- 0 j = 8
+
+    i <- 4 -- Tant que Si fin
+
+    Tant que i > 0 Faire
+        
+        i <- i - 1
+
+    Fin tant que
+
+    -- Si i = 0 alors
+    -- Afficher("i = 0")
+    -- Fin si
+
+    Si i = 0 Alors
+
+        Afficher("Test valide !")
+        Retour
+
+    Sinon
+
+        Afficher("Test non valide")
+        Retour
+    
+    Fin si
+
+Fin

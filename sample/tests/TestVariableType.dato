@@ -1,0 +1,13 @@
+-- Test permettant de valider le type
+-- Le programme doit retourner une erreur lorsqu'on essaie
+-- de déclarer une variable avec un type non existant dans le dato
+-- (il n'existe à ce jour que l'entier et le booleen)
+
+Programme TestVariableType est
+
+    i : Entier
+    s : String
+
+Debut
+
+Fin

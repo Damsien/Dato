@@ -1,0 +1,48 @@
+-- Le programme corrigé
+
+Programme TestProgramme est
+
+    i : Entier  -- Le type integer n'existe pas en dato
+    j : Entier
+    b : booleen
+    l : Booleen
+
+Debut   -- Le programme doit d'abord débuter
+
+    i <- 4
+    l <- 1
+
+    j <- 1  -- La variable devait être initialisé avant d'être utilisée à la ligne 27
+
+    Tant que i > 0 Faire
+        
+        i <- i - 1  -- Une opération ne peux se faire qu'avec deux éléments maximum
+
+    Fin tant que
+
+    Si i = 0 Alors
+
+        Si j >= 1 alors
+
+            b <- 0 OU l  -- Une condition ne peux se faire qu'avec deux éléments maximum
+
+        Fin si
+
+    Sinon
+
+        NULL
+    
+    Fin si
+
+
+    Si b = 1 Alors
+
+        i <- 4
+
+    Fin si
+
+
+    Afficher("La variable i : " + i)    -- La concaténation se fait avec un '+'
+    Retour
+
+Fin     -- Le programme doit se terminer

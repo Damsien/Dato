@@ -1,0 +1,56 @@
+-- Ce programme contient 7 erreurs. A vous de les corriger !
+-- Vous pouvez vous aider de l'extension "Dato" sur Visual Studio Code
+-- Elle vous permettra d'avoir la colloration syntaxique du langage
+
+-- Vous pourrez également lancer votre programme écrit en dato
+-- Il suffit d'éxecuter le "Build & Run" en appuyant sur Ctrl+Shift+P
+-- Tappez "dato" dans la barre de recherche et appuyez sur Entrée pour éxecuter la commande
+
+-- Executer le programme au fur et à mesure vous permettra
+-- de débugger votre code grâce aux différentes erreurs retournées
+
+-- Objectifs : 
+--  1 : i doit contenir 4
+--  2 : le programme doit afficher "La variable i : 4"
+
+Programme TestProgramme est
+
+    i : Integer
+    j : Entier
+    b : booleen
+    l : Booleen
+
+    i <- 4
+    l <- 1
+
+    Tant que i > 0 Do
+        
+        i <- i - 1 - 1
+
+    Fin tant que
+
+    Si i = 0 Alors
+
+        Si j >= 1 alors
+
+            b <- 0 OU l ET 0
+
+        Fin si
+
+    Sinon
+
+        NULL
+    
+    Fin si
+
+
+    Si b = 1 Alors
+
+        i <- 4
+
+    Fin si
+
+
+    Afficher("La variable i : ", i)
+    Retour
+

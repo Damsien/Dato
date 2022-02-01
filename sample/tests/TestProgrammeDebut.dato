@@ -1,0 +1,10 @@
+-- Test permettant de valider le commencement du bloc de programme
+-- Le programme doit retourner une erreur lorsqu'il rencontre l'affecation
+
+Programme TestProgrammeDebut est
+
+    i : Entier
+
+    i <- 1
+
+Fin

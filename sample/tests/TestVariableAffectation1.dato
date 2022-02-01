@@ -1,0 +1,13 @@
+-- Test permettant de valider le type
+-- Le programme doit retourner une erreur lorsqu'on essaie d'affecter
+-- une chaine de caractère à une variable de type entier
+
+Programme TestVariableAffectationUn est
+
+    i : Entier
+
+Debut
+
+    i <- "Bonjour"
+
+Fin

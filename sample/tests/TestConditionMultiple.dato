@@ -1,0 +1,17 @@
+-- Test permettant de valider la binarité d'une condition
+-- Le programme doit retourner une erreur car il ne peut que réaliser
+-- des conditions comportant deux éléments maximum
+
+Programme TestConditionMultiple est
+
+    i : Booleen
+    j : Booleen
+
+Debut
+
+    i <- 1
+    j <- 0
+
+    i <- i OU j ET 0
+
+Fin

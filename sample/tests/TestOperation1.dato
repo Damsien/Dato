@@ -1,0 +1,14 @@
+-- Test permettant de valider une opération impossible
+-- Le programme doit retourner une erreur lorsqu'on fait une opération
+-- sur une variable non existante
+
+Programme TestOperationUn est
+
+    i : Booleen
+
+Debut
+
+    i <- 6
+    i <- i + j
+
+Fin

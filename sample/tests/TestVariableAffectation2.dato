@@ -1,0 +1,13 @@
+-- Test permettant de valider le type
+-- Le programme doit retourner une erreur lorsqu'on essaie d'affecter
+-- un entier à une variable de type booleen
+
+Programme TestVariableAffectationDeux est
+
+    j : Booleen
+
+Debut
+
+    j <- 5
+
+Fin

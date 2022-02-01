@@ -1,0 +1,17 @@
+-- Test permettant de valider la binarité d'une opération
+-- Le programme doit retourner une erreur car il ne peut que réaliser
+-- des opérations comportant deux opérandes maximum
+
+Programme TestOperationMultiple est
+
+    i : Entier
+    j : Entier
+
+Debut
+
+    i <- 1
+    j <- 3
+
+    i <- i + j + 5
+
+Fin
