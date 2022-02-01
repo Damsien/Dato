@@ -18,7 +18,6 @@ PACKAGE BODY p_compilateur IS
         RETURN TrimI(el.Tx);
     END TQToString;
 
-
     PROCEDURE Traitement(instruction : String) IS
         pos: Integer;
         exist: Boolean := False;
@@ -28,7 +27,7 @@ PACKAGE BODY p_compilateur IS
         debuted_error: Exception;
     BEGIN
         --Put("============== ");
-        --Put(inst);
+        --object.Put(inst);
         --Put(" : ");
 
         IF Not hasProgramStarded THEN
@@ -60,7 +59,18 @@ PACKAGE BODY p_compilateur IS
             END IF;
         ELSE
             IF hasProgramEnded THEN
-                RAISE ended_error;
+                IF inst'Length = 0 THEN
+                    NULL;
+                ELSIF Index(inst, "--") > 0 THEN
+                    --Put_Line("Commentaire ==============");
+                    pos := Index(inst, "--");
+                    Traitement(inst(inst'First..pos-1));
+                ELSIF clarifyString(inst) = "" THEN
+                    --Put_Line("Ligne vide ==============");
+                    NULL;
+                ELSE
+                    RAISE ended_error;
+                END IF;
             ELSE
 
                 IF Not hasProgramDebuted THEN
@@ -86,7 +96,16 @@ PACKAGE BODY p_compilateur IS
                     END IF;
                 ELSE
 
-                    IF inst = "FIN TANT QUE" THEN
+                    IF inst'Length = 0 THEN
+                        NULL;
+                    ELSIF Index(inst, "--") > 0 THEN
+                        --Put_Line("Commentaire ==============");
+                        pos := Index(inst, "--");
+                        Traitement(inst(inst'First..pos-1));
+                    ELSIF clarifyString(inst) = "" THEN
+                        --Put_Line("Ligne vide ==============");
+                        NULL;
+                    ELSIF inst = "FIN TANT QUE" THEN
                         --Put_Line("Fin Tant Que ==============");
                         TraduireFinTantQue;
                         exist := True;
@@ -201,29 +220,39 @@ PACKAGE BODY p_compilateur IS
         l := Declared_Variables;
 
         -- Liste des variables déclarées par un utilisateur
-        while l /= NULL loop
-            max := max + l.All.Element.intitule'length + 2;
-            l := l.All.Suivant;
-        end loop;
-        max := max - 2;
+        IF L /= NULL THEN
 
-        declared := new String(1..max);
+            while l /= NULL loop
+                max := max + l.All.Element.intitule'length + 2;
+                l := l.All.Suivant;
+            end loop;
+            max := max - 2;
 
-        l := Declared_Variables;
+            declared := new String(1..max);
 
-        -- - Premier élément
-        IF l /= NULL THEN
-            declared(size..l.All.Element.intitule'length) := l.All.Element.intitule.All;
-            size := size + l.All.Element.intitule'length;
-            l := l.All.Suivant;
+            l := Declared_Variables;
+
+            -- - Premier élément
+            IF l /= NULL THEN
+                declared(size..l.All.Element.intitule'length) := l.All.Element.intitule.All;
+                size := size + l.All.Element.intitule'length;
+                l := l.All.Suivant;
+            END IF;
+
+            -- - Elements suivants
+            while l /= NULL loop
+                declared(size..size+l.All.Element.intitule'length+1) := ", "&l.All.Element.intitule.All;
+                size := size + l.All.Element.intitule'length + 2;
+                l := l.All.Suivant;
+            end loop;
+
+        ELSE
+
+            declared := new String(1..1);
+            declared(1) := Character'Val(0);
+
         END IF;
-
-        -- - Elements suivants
-        while l /= NULL loop
-            declared(size..size+l.All.Element.intitule'length+1) := ", "&l.All.Element.intitule.All;
-            size := size + l.All.Element.intitule'length + 2;
-            l := l.All.Suivant;
-        end loop;
+        
 
         -- Obtenir taille de tableau nécessaire
         index := 1;
@@ -262,7 +291,7 @@ PACKAGE BODY p_compilateur IS
             Inserer_Entete(declared.All&" : Entier");
         END IF;
         NULL;
-    END;
+    END DeclarerVariable;
 
 
     FUNCTION CreerLabel RETURN Integer IS
@@ -753,7 +782,7 @@ PACKAGE BODY p_compilateur IS
                 RAISE var_already_declared;
             ELSE
                 var := (
-                    intitule,
+                    new String'(removeSingleSpace(line(line'First..Index(line, ":")-1), line(line'First..Index(line, ":")-1)'Length)),
                     False,
                     0,
                     new String'(removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length))

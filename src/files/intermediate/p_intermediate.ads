@@ -25,11 +25,13 @@ package p_intermediate is
 
     Procedure Afficher;
 
+    FUNCTION removeSubString(s: String ; sToRm: String) RETURN String;
+
 
     PROCEDURE AfficherL(line : String);
 
 
-    PROCEDURE TraiterInstructions;
+    PROCEDURE TraiterInstructions(debug: boolean);
 
     PROCEDURE Traitement(inst: String ; line: P_LISTE_CH_CHAR.T_LISTE);
 
@@ -51,6 +53,12 @@ package p_intermediate is
 
     FUNCTION GetVarValue(val: String) RETURN Integer;
 
+    PROCEDURE Ecrire;
+
+    FUNCTION RecupererNom(s : String) RETURN String;
+
+    PROCEDURE setNom(fichier : String);
+
     
 
     CP_ENTETE : Integer := 0;
@@ -64,5 +72,6 @@ PRIVATE
     intermediaire : T_INTERMEDIAIRE;
 
     label_map: P_LISTE_CLEFVALEUR.T_LISTE;
+    filename : access String;
 
 end p_intermediate;

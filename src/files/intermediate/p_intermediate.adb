@@ -95,6 +95,52 @@ package body p_intermediate is
     END Afficher;
 
 
+    PROCEDURE Ecrire IS
+        l : P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
+        F : File_Type;
+    BEGIN
+        Create (F, 
+        Out_File, 
+        filename.All);
+        while P_LISTE_CH_CHAR.isNull(l) loop
+            Put_Line (F, l.All.Element.All);
+            l := l.All.Suivant;
+        end loop;
+    END Ecrire;
+
+
+    FUNCTION removeSubString(s: String ; sToRm: String) RETURN String IS
+        str: access String;
+        j: Integer := s'First;
+        pos: Integer;
+        not_exists: Exception;
+    BEGIN
+        pos := Index(s, sToRm);
+        str := new String'(s);
+        pos := Index(s, sToRm);
+
+        IF pos > 0 THEN
+            str := new String(s'First..s'Last-sToRm'Length);
+            FOR i in s'First..s'Last LOOP
+                IF i >= pos AND i < pos+sToRm'Length THEN
+                    j := j - 1;
+                ELSE
+                    str.All(j) := s(i);
+                END IF;
+                j := j + 1;
+            END LOOP;
+        ELSE
+            RAISE not_exists;
+        END IF;
+
+        RETURN str.All;
+
+    EXCEPTION
+        WHEN not_exists =>
+            Put_Line("The string you want to remove don't exists");
+            RAISE not_exists;
+            
+    END removeSubString;
 
 
     PROCEDURE AfficherL(line : String) IS
@@ -223,9 +269,12 @@ package body p_intermediate is
 
     END Traitement;
 
-    PROCEDURE TraiterInstructions IS
+    PROCEDURE TraiterInstructions(debug: Boolean) IS
         liste: P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
     BEGIN
+        IF debug THEN
+            Put_Line("====== MODE DEBUG ACTIVE ======");
+        END IF;
 
         -- Premier tour de boucle pour initialiser les labels
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
@@ -238,6 +287,15 @@ package body p_intermediate is
                 ELSE
                 -- C'est une création de label
                     TraiterLabel(liste.All.Element.All(liste.All.Element.All'First..Index(liste.All.Element.All, " ")-1), liste);
+                    
+                    IF debug THEN
+                    -- Affichage en mode debug
+                        Put_Line("====== AJOUT D'UN LABEL | LISTE DES LABELS : ======");
+                        WHILE P_LISTE_CLEFVALEUR.isNull(label_map.All.Suivant) LOOP
+                            Put_Line(CV_ToString(label_map.All.Element));
+                        END LOOP;
+                    END IF;
+
                 END IF;
             END IF;
             liste := liste.All.Suivant;
@@ -246,6 +304,16 @@ package body p_intermediate is
         -- Deuxième tour pour effectuer les traitements
         liste := intermediaire.instructions;
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
+            IF debug THEN
+            -- Affichage en mode debug
+                Put_Line("LIGNE "&Integer'Image(CP));
+                Put_Line("INSTRUCTION : ");
+                Put_Line(liste.All.Element.All);
+                Put_Line("====== VARIABLES DECLAREES : ======");
+                WHILE P_LISTE_VARIABLE.isNull(Declared_Variables.All.Suivant) LOOP
+                    Put_Line(Image_Variable(Declared_Variables.All.Element));
+                END LOOP;
+            END IF;
             -- Check pour ce qui ne concerne pas le GOTO
             Traitement(liste.All.Element.All, liste);
             IF Index(liste.All.Element.All, "GOTO") > 0 THEN
@@ -562,5 +630,26 @@ package body p_intermediate is
     BEGIN
         RETURN "";
     END Empty;
+
+    FUNCTION RecupererNom(s : String) RETURN String IS
+    BEGIN
+        -- Linux / Mac
+        IF Index(s, "/") > 0 THEN
+            RETURN RecupererNom(s(Index(s, "/")+1..s'Last));
+        -- Windows
+        ELSIF Index(s, "\") > 0 THEN
+            RETURN RecupererNom(s(Index(s, "\")+1..s'Last));
+        END IF;
+        RETURN s;
+    END;
+
+    PROCEDURE setNom(fichier : String) IS
+        s : String(1..fichier'Length);
+    BEGIN
+        s := fichier;
+        p_intermediate.filename := new String'(s(s'First..s'Last-4)&"toda");
+    END;
+
+
 
 end p_intermediate;
