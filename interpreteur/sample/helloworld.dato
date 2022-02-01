@@ -3,7 +3,7 @@ Programme Facto est
 
 Debut
 
-    Afficher("Hello world !") <> 32
+    Afficher("Hello world !")
     Retour
 
 Fin

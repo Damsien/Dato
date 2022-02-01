@@ -65,6 +65,8 @@ Debut
 
         produit <- produit * somme
 
+        j <- j + 1
+
     Fin Tant que
 
     -- Test d'une condition "Si"
@@ -78,5 +80,11 @@ Debut
         s <- 1
 
     Fin Si
+
+    Afficher("Somme : " + Somme)
+    Retour
+
+    Afficher("Produit : " + Produit)
+    Retour
 
 Fin

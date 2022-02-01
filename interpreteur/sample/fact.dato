@@ -15,24 +15,18 @@ Debut
 
     Fact <- 1
 
-    Tant Que i <= n Faire
+    Tant Que i <= n Faire 
 
 
-        Fact <- Fact * i
+        Fact <- Fact * i 
 
-        Afficher("Fact : " + Fact)
-        Retour
-
-        i <- i + 1
-
-        Afficher("i : " + i)
-        Retour
-
-        Afficher("n : " + n)
-        Retour
+        i <- i + 1 
 
     Fin Tant Que
 
     Afficher("Fact de " + n + " : " + Fact)
+    Retour
+    Retour
+    Afficher(Fact)
 
 Fin

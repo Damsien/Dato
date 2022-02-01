@@ -10,4 +10,4 @@ fi
 mkdir dist 2>/dev/null
 cd dist/
 
-gnatmake ../$SRC $(ls ../src -R  | grep -oP '../src/.*(?=:)' | sed -e 's_.*_-I&_' | paste -s)
+echo gnatmake ../$SRC $(ls ../src -R  | grep -oP '../src/.*(?=:)' | sed -e 's_.*_-I&_' | paste -s)
