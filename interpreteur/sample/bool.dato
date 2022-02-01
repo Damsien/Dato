@@ -4,14 +4,19 @@
 Programme Bool est
 
     a : Booleen
-    i : entier
+    --a : entier
 
 Debut
 
-    a <- FAUX
-    i <- "oui"
-    Si i >= a alors
-        i <- i + 1
-    fin si
+    a <- VRAI
+
+    Afficher("Bonjour " + a)
+    Retour
+
+    --a <- FAUX
+    --i <- "oui"
+    --Si i >= a alors
+    --    i <- i + 1
+    --fin si
 
 Fin

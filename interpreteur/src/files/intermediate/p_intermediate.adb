@@ -105,6 +105,7 @@ package body p_intermediate is
         stopPlus: Integer := 1;
         quoteClose: Boolean := True;
         index: Integer;
+        spaceCounter: Integer := 0;
         tempVarName: access String := new String'("");
         doubleTempVarName: access String;
         bad_usage: Exception;
@@ -136,6 +137,7 @@ package body p_intermediate is
                 object.Put(str.All(index));
 
             ELSIF str.All(index) = ' ' and quoteClose THEN
+                spaceCounter := spaceCounter + 1;
                 NULL;
 
             ELSIF str.All(index) = '+' AND startPlus <= index AND stopPlus < startPlus AND quoteClose THEN
@@ -143,7 +145,7 @@ package body p_intermediate is
                 stopPlus := index;
                 -- Transformation de la variable en valeur ou prise de la valeur brute
                 -- Affichage de la valeur
-                Put(Integer'Image(GetVarValue(tempVarName.All)));
+                Put(Integer'Image(GetVarValue(Upper_Case(tempVarName.All))));
             ELSIF str.All(index) = '+' AND stopPlus <= index AND startPlus < stopPlus AND quoteClose THEN
             -- Concatenation commence
                 startPlus := index;
@@ -153,11 +155,16 @@ package body p_intermediate is
                 doubleTempVarName := new String'(tempVarName.All);
                 Put("");
                 tempVarName := new String'(doubleTempVarName.All&str.All(index));
-                IF index = str.All'Last AND stopPlus < startPlus THEN
+                IF index = str.All'Last AND stopPlus <= startPlus THEN
                 -- Si il n'y pas d'autres chaine à concaténer derriere
                     -- Affichage de la valeur
-                    Put(Integer'Image(GetVarValue(tempVarName.All)));
+                    Put(Integer'Image(GetVarValue(Upper_Case(tempVarName.All))));
                 END IF;
+            
+            ELSIF index = spaceCounter+1 THEN
+                startPlus := index-2;
+                stopPlus := startPlus;
+                index := index-1;
 
             ELSE
                 RAISE bad_usage;
@@ -193,9 +200,9 @@ package body p_intermediate is
             END IF;
         END IF;
 
-        IF Index(inst, "AFFICHER(") > 0 THEN
+        IF Index(Upper_Case(inst), "AFFICHER(") > 0 THEN
         -- C'est un affichage
-            AfficherL(inst(Index(inst, "AFFICHER(")+9..Index(inst, ")")-1));
+            AfficherL(inst(Index(Upper_Case(inst), "AFFICHER(")+9..Index(inst, ")")-1));
         ELSIF Index(inst, ":") > 0 THEN
         -- Ce sont les déclarations
             TraiterDeclarations(inst);
@@ -528,6 +535,16 @@ package body p_intermediate is
         ELSE
             RETURN Integer'Value(val);
         END IF;
+    EXCEPTION
+        WHEN others =>
+            IF val = "FAUX" THEN
+                RETURN 0;
+            ELSIF val = "VRAI" THEN
+                RETURN 1;
+            ELSE
+                Put_Line("La variable : "&val&" n'existe pas");
+                RAISE;
+            END IF;
     END GetVarValue;
 
 

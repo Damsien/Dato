@@ -41,7 +41,7 @@ PACKAGE p_liste IS
 
     PROCEDURE modifier(l: IN OUT T_LISTE ; i: IN Integer ; new_e: IN T_ELEMENT);
 
-    FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer;
+    FUNCTION taille(l: IN T_LISTE) RETURN Integer;
 
     FUNCTION hasSuivant(l: IN T_LISTE) RETURN Boolean;
 

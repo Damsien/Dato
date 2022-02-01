@@ -207,7 +207,7 @@ PACKAGE BODY p_liste IS
     END modifier;
 
 
-    FUNCTION taille(l: IN OUT T_LISTE) RETURN Integer IS
+    FUNCTION taille(l: IN T_LISTE) RETURN Integer IS
         counter: Integer := 0;
         listeCourante: T_LISTE := l;
     BEGIN
