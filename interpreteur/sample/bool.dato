@@ -1,0 +1,22 @@
+-- Descriptive algorithmic type/terminology operation
+-- Ce programme présente les fonctions basiques de notre langage de programmation
+
+Programme Bool est
+
+    a : Booleen
+    --a : entier
+
+Debut
+
+    a <- VRAI
+
+    Afficher("Bonjour " + a)
+    Retour
+
+    --a <- FAUX
+    --i <- "oui"
+    --Si i >= a alors
+    --    i <- i + 1
+    --fin si
+
+Fin
