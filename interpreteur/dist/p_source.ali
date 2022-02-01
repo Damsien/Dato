@@ -14,7 +14,7 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_ELABORATION_CODE
 RV SPARK_05
 
-U p_source%b		p_source.adb		95993b1c NE OO PK IL KU
+U p_source%b		p_source.adb		9377351b NE OO PK IL KU
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.strings%s		a-string.ads		a-string.ali
@@ -24,7 +24,7 @@ Z ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
-U p_source%s		p_source.ads		749e2e28 EE OO PK IL KU
+U p_source%s		p_source.ads		26a3114d EE OO PK IL KU
 W object%s		object.adb		object.ali
 W p_liste%s		p_liste.adb		p_liste.ali
 
@@ -46,10 +46,10 @@ D a-tiinio.ads		20200312110721 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20200312110721 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20200312110721 5ab55268 interfaces%s
 D i-cstrea.ads		20200312110721 e53d8b8e interfaces.c_streams%s
-D object.ads		20220130150355 a86750f0 object%s
-D p_liste.ads		20220130140649 4254b92d p_liste%s
-D p_source.ads		20220130140649 9eadc7f5 p_source%s
-D p_source.adb		20220131125117 ad9b883c p_source%b
+D object.ads		20220201200251 a86750f0 object%s
+D p_liste.ads		20220201203334 10698648 p_liste%s
+D p_source.ads		20220201200251 9eadc7f5 p_source%s
+D p_source.adb		20220201200251 ab75863b p_source%b
 D system.ads		20200312110721 4635ec04 system%s
 D s-atocou.ads		20200312110721 b45c2d8d system.atomic_counters%s
 D s-crtl.ads		20200312110721 0ebbdb71 system.crtl%s
@@ -77,52 +77,52 @@ X 9 a-string.ads
 16K13*Strings 35e16 22|4r10 4r37 5r10 5r33
 X 10 a-strfix.ads
 18K21*Fixed 251e22 22|5w18 5r41
-36V13*Index{natural} 22|36s16 67s12 91s16
+36V13*Index{natural} 22|36s16 67s16 92s16
 X 12 a-strunb.ads
 76K21*Unbounded 491e26 22|4w18 4r45
 X 14 a-textio.ads
 49K13*Text_IO 471e16 22|1w10 1r27 3w10 3r27
-52P9*File_Type 22|138r18
-53n23*In_File{53E9} 22|143r23
-92U14*Open 22|143s9
-95a7 Name{string} 22|143r32
-98U14*Close 22|155s9
-183V13*End_Of_File{boolean} 22|144s15
-253V13*Get_Line{string} 22|145s48
+52P9*File_Type 22|139r18
+53n23*In_File{53E9} 22|144r23
+92U14*Open 22|144s9
+95a7 Name{string} 22|144r32
+98U14*Close 22|156s9
+183V13*End_Of_File{boolean} 22|145s15
+253V13*Get_Line{string} 22|146s48
 X 19 object.ads
 3K9*object 61e11 21|2w6 2r18
 5P10*T_String(string)
-9V14*StringToT{5P10} 22|149s17
-11K13*P_LISTE_CH_CHAR[20|5] 21|8r23 22|141r32 147r13
+9V14*StringToT{5P10} 22|150s17
+11K13*P_LISTE_CH_CHAR[20|5] 21|8r23 22|142r32 148r13
 X 20 p_liste.ads
-5k9*p_liste 52e12 21|1w6
+5k9*p_liste 54e12 21|1w6
 7R9*T_CELLULE
 8P9*T_LISTE(7R9[19|11]) 21|8r39[19|11]
-17V14*creerListeVide{8P9[19|11]} 22|141s48[19|11]
-38U15*ajouter 22|147s29[19|11]
+17V14*creerListeVide{8P9[19|11]} 22|142s48[19|11]
+38U15*ajouter 22|148s29[19|11]
 X 21 p_source.ads
-4K9*p_source 26l5 26e13 22|7b14 162l5 162t13
+4K9*p_source 26l5 26e13 22|7b14 163l5 163t13
 6R10*T_SOURCE 9e15 23r14
-8p9*instructions{20|8P9[19|11]} 22|141m16 148m24
+8p9*instructions{20|8P9[19|11]} 22|142m16 149m24
 11V14*Upper_Case{string} 11>26 22|11b14 25l9 25t19
 11a26 S{string} 22|11b26 15r26
 13V14*replaceString{string} 13>28 13>40 13>73 22|27b14 51s20 57l9 57t22
 13a28 s{string} 22|27b28 35r34 36r22 40r39 54r20
 13a40 pattern_to_be_replaced{string} 22|27b40 30r24 36r25 51r47
 13a73 replace_pattern{string} 22|27b73 31r24 43r47 51r71
-15V14*removeSingleSpace{string} 15>32 15>47 22|60b14 77s24 82l9 82t26
-15a32 s{string} 22|60b32 66r28 67r18 69r22 69r31 71r35
-15i47 l{integer} 22|60b47 68r34 77r51
-17V14*removeSpaces{string} 17>28 17>43 22|84b14 102s20 110l9 110t21 131s20
-17a28 s{string} 22|84b27 85r21 85r30 91r22 92r18 92r27 94r27
-17i43 l{integer} 22|84b42 102r38 104r47 105r33
-19V14*clarifyString{string} 19>28 22|112b14 135l9 135t22 149s27
-19a28 s{string} 22|112b28 117r12 118r18 118r20 120r28 124r26 127r35 129r32
-21U15*chargerInstructions 21>35 22|137b15 159l9 159t28
-21a35 Nom_Fichier{string} 22|137b35 143r40
-23r5*source{6R10} 22|141m9 148m17 148r17
+15V14*removeSingleSpace{string} 15>32 15>47 22|60b14 78s20 83l9 83t26
+15a32 s{string} 22|60b32 66r28 67r22 70r22 70r31 72r35
+15i47 l{integer} 22|60b47 69r34 78r47
+17V14*removeSpaces{string} 17>28 17>43 22|85b14 103s20 111l9 111t21 132s20
+17a28 s{string} 22|85b27 86r21 86r30 92r22 93r18 93r27 95r27
+17i43 l{integer} 22|85b42 103r38 105r47 106r33
+19V14*clarifyString{string} 19>28 22|113b14 136l9 136t22 150s27
+19a28 s{string} 22|113b28 118r12 119r18 119r20 121r28 125r26 128r35 130r32
+21U15*chargerInstructions 21>35 22|138b15 160l9 160t28
+21a35 Nom_Fichier{string} 22|138b35 144r40
+23r5*source{6R10} 22|142m9 149m17 149r17
 X 22 p_source.adb
-9P10 N_STRING(string) 86r19 115r15 139r30
+9P10 N_STRING(string) 87r19 116r15 140r30
 13E17 Lower_Case_Range{character} 20r31
 15a9 Temp{string} 19r22 20r16 21m17 21r61 24r16
 16N9 Offset 21r76
@@ -134,20 +134,20 @@ X 22 p_source.adb
 32i9 i{integer} 38r19 39r20 40r33 43r37 45m21 45r26 48m17 48r22
 33i9 j{integer} 40r41 46m21 46r26 49m17 49r22
 42i25 k{integer} 43r41 43r63
-61p9 str(string) 66m9 68m13 71r21 77r13 77r42 79r20
-62i9 pos{integer} 70r25
-63i9 j{integer} 71r29 73m21 73r26 75m17 75r22
-69i17 i{integer} 70r20 71r37
-85a9 str{string} 94m17 102r33 104r36 105r22 106r36
-86p9 finalStr{9P10} 104m13 106r17 108r20
-87i9 pos{integer} 91m9 93r21 101r12
-88i9 j{integer} 94r21 96m17 96r22 98m13 98r18
-92i13 i{integer} 93r16 94r29
-105i17 i{integer} 106r30 106r40
-113e9 c{character} 118m13 119r19 124m21
-114i9 index{integer} 120r20 123m21 123r30 124r28 127r42 129r36
-115p9 temp{9P10} 127m13 128r25 129r17 131r33 131r43
-128i17 i{integer} 129r26 129r34
-138p9 Fichier{14|52P9} 143m14 143r14 144r27 145r57 155m15 155r15
-139p9 instructionCourante{9P10} 145m13 149r41
+61p9 str(string) 66m9 69m13 72r21 78r38 80r20
+62i9 j{integer} 72r29 74m21 74r26 76m17 76r22
+63i9 pos{integer} 67m9 68r12 71r25
+70i17 i{integer} 71r20 72r37
+86a9 str{string} 95m17 103r33 105r36 106r22 107r36
+87p9 finalStr{9P10} 105m13 107r17 109r20
+88i9 pos{integer} 92m9 94r21 102r12
+89i9 j{integer} 95r21 97m17 97r22 99m13 99r18
+93i13 i{integer} 94r16 95r29
+106i17 i{integer} 107r30 107r40
+114e9 c{character} 119m13 120r19 125m21
+115i9 index{integer} 121r20 124m21 124r30 125r28 128r42 130r36
+116p9 temp{9P10} 128m13 129r25 130r17 132r33 132r43
+129i17 i{integer} 130r26 130r34
+139p9 Fichier{14|52P9} 144m14 144r14 145r27 146r57 156m15 156r15
+140p9 instructionCourante{9P10} 146m13 150r41
 

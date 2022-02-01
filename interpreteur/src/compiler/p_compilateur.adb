@@ -19,9 +19,10 @@ PACKAGE BODY p_compilateur IS
     END TQToString;
 
 
-    PROCEDURE Traitement(inst : String) IS
+    PROCEDURE Traitement(instruction : String) IS
         pos: Integer;
         exist: Boolean := False;
+        inst: String := Upper_Case(instruction);
         started_error: Exception;
         ended_error: Exception;
         debuted_error: Exception;
@@ -128,7 +129,7 @@ PACKAGE BODY p_compilateur IS
                         END IF;
                     ELSIF Index(inst, "AFFICHER(") > 0 THEN
                         --Put_Line("Afficher ==============");
-                        Inserer_L(inst);
+                        Inserer_L(instruction);
                     ELSIF Index(inst, "RETOUR") > 0 THEN
                         --Put_Line("Retour ==============");
                         Inserer_L("RETOUR");
@@ -177,7 +178,7 @@ PACKAGE BODY p_compilateur IS
     BEGIN
         inst := instructions.instructions;
         WHILE P_LISTE_CH_CHAR.isNull(inst) LOOP
-            Traitement(Upper_Case(inst.All.Element.All));
+            Traitement(inst.All.Element.All);
             CP_COMPIL := CP_COMPIL + 1;
             inst := inst.All.Suivant;
         END LOOP;
@@ -737,21 +738,39 @@ PACKAGE BODY p_compilateur IS
 
     PROCEDURE TraduireDeclaration(line : String) IS
         var: Variable;
+        var_exist: P_LISTE_VARIABLE.T_LISTE := Declared_Variables;
+        intitule: access String;
         program_error: Exception;
+        var_already_declared: Exception;
     BEGIN
         IF hasProgramStarded AND Not hasProgramDebuted THEN
-            var := (
-                new String'(removeSingleSpace(line(line'First..Index(line, ":")-1), line(line'First..Index(line, ":")-1)'Length)),
-                False,
-                0,
-                new String'(removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length))
-            );
-            P_LISTE_VARIABLE.ajouter(Declared_Variables, var);
-
+            intitule := new String'(removeSingleSpace(line(line'First..Index(line, ":")-1), line(line'First..Index(line, ":")-1)'Length));
+            var_exist := Declared_Variables;
+            WHILE P_LISTE_VARIABLE.taille(var_exist) > 0 AND THEN var_exist.All.Suivant /= NULL AND THEN var_exist.All.Element.intitule.All /= intitule.All LOOP
+                var_exist := var_exist.All.Suivant;
+            END LOOP;
+            IF P_LISTE_VARIABLE.taille(var_exist) > 0 AND THEN var_exist.All.Element.intitule.All = intitule.All THEN
+                RAISE var_already_declared;
+            ELSE
+                var := (
+                    intitule,
+                    False,
+                    0,
+                    new String'(removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length))
+                );
+                P_LISTE_VARIABLE.ajouter(Declared_Variables, var);
+            END IF;
         ELSE
             RAISE program_error;
         END IF;
         EXCEPTION
+            WHEN var_already_declared =>
+                Put("Ligne ");
+                Put(CP_COMPIL, 1);
+                Put_Line(" - La variable "&intitule.All&" a déjà été déclarée");
+                New_Line;
+                RAISE program_error;
+                
             WHEN program_error =>
                 Put("Ligne ");
                 Put(CP_COMPIL, 1);

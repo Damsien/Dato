@@ -11,7 +11,7 @@ U p_pile%b		p_pile.adb		4f316ec1 NE OO PK GE IL KU
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
-U p_pile%s		p_pile.ads		b3fab0ba BN EE NE OO PK GE KU
+U p_pile%s		p_pile.ads		e1c78fdf BN EE NE OO PK GE KU
 W ada%s			ada.ads			ada.ali
 Z ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 Z ada.text_io%s		a-textio.adb		a-textio.ali
@@ -28,10 +28,10 @@ D a-tiinio.ads		20200312110721 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20200312110721 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20200312110721 5ab55268 interfaces%s
 D i-cstrea.ads		20200312110721 e53d8b8e interfaces.c_streams%s
-D p_liste.ads		20220130140649 4254b92d p_liste%s
-D p_liste.adb		20220130234109 e6fce408 p_liste%b
-D p_pile.ads		20220130140649 f1ae0997 p_pile%s
-D p_pile.adb		20220130140649 3682d40c p_pile%b
+D p_liste.ads		20220201203334 10698648 p_liste%s
+D p_liste.adb		20220201203328 70f91607 p_liste%b
+D p_pile.ads		20220201200251 f1ae0997 p_pile%s
+D p_pile.adb		20220201200251 3682d40c p_pile%b
 D system.ads		20200312110721 4635ec04 system%s
 D s-crtl.ads		20200312110721 0ebbdb71 system.crtl%s
 D s-exctab.ads		20200312110721 54135002 system.exception_table%s
@@ -52,7 +52,7 @@ X 7 a-textio.ads
 X 12 p_liste.ads
 2+9 T_ELEMENT 14|8r44
 3V18 Image{string} 14|8r68
-5k9*p_liste 52e12 14|1w6 8r36
+5k9*p_liste 54e12 14|1w6 8r36
 7R9 T_CELLULE
 8P9 T_LISTE(7R9[14|8]) 14|11r41[8]
 10*9 Element{14|3+9} 15|39r29[14|8]

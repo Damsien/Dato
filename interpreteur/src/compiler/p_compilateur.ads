@@ -36,7 +36,7 @@ PACKAGE p_compilateur IS
 
     FUNCTION ValiderOperation(op : String) RETURN Integer;
 
-    PROCEDURE Traitement(inst : String);
+    PROCEDURE Traitement(instruction : String);
 
     PROCEDURE TraiterInstructions(instructions : T_SOURCE);
 
