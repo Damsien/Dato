@@ -1,4 +1,5 @@
 WITH p_source; USE p_source;
+WITH op_string; Use op_string;
 WITH p_liste;
 WITH object; USE object;
 with Ada.Text_IO; use Ada.Text_IO;
@@ -26,10 +27,6 @@ PACKAGE BODY p_compilateur IS
         ended_error: Exception;
         debuted_error: Exception;
     BEGIN
-        --Put("============== ");
-        --Put_Line(inst);
-        --object.Put(inst'Length);
-        --Put(" : ");
 
         IF Not hasProgramStarded THEN
             IF hasProgramEnded THEN
@@ -302,7 +299,6 @@ PACKAGE BODY p_compilateur IS
     FUNCTION CreerLabel RETURN Integer IS
     BEGIN
         LABEL_USED := LABEL_USED + 1;
-        --Put_line("LABEL_USED :" & Integer'Image(LABEL_USED));
         RETURN LABEL_USED;
     END CreerLabel;
 
@@ -928,9 +924,6 @@ PACKAGE BODY p_compilateur IS
         Inserer("L"&TrimI(Lz)&" ");
         
         object := (Lx,Tx,new String'(line(Index(line, "TANT QUE ")+9..Index(line, " FAIRE")-1)));
-        --Put_line("Empiler : ");
-        --Put(Image_TQ(object));
-        --Put_line("Label : L" & Integer'Image(object.Lx));
         P_PILE_TQ.Empiler(Pile_TQ,object);
     END TraduireTantQue;
 
@@ -940,10 +933,6 @@ PACKAGE BODY p_compilateur IS
         temp : Integer;
     BEGIN
         rec := P_PILE_TQ.Depiler(Pile_TQ);
-        --Put_line("Depiler : ");
-        --Put(Image_TQ(rec));
-        --new_line;
-        --Put_line("Label : L" & Integer'Image(rec.Lx));
         temp := VerifierCondition(rec.line.All);
         Inserer_L("T"&TrimI(rec.Tx)&" <- T"&TrimI(temp));
         Inserer_L("GOTO L"&TrimI(rec.Lx));
@@ -963,9 +952,6 @@ PACKAGE BODY p_compilateur IS
         Inserer_L("IF T"&TrimI(Tx)(2..TrimI(Tx)'Last)&" GOTO L"&TrimI(Lx));
         Put("");
         object := (p_intermediate.GetCP,Ly);
-        --Put_line("Empiler : ");
-        --Put(Image_SI(object));
-        --Put_line("Label : L" & Integer'Image(object.Lx));
         P_PILE_SI.Empiler(Pile_SI,object);
         Inserer_L("GOTO L"&TrimI(Ly));
         Put("");
@@ -980,10 +966,6 @@ PACKAGE BODY p_compilateur IS
     BEGIN
     
         el := P_Pile_SI.Depiler(Pile_SI);
-        --Put_line("Depiler : ");
-        --Put(Image_SI(el));
-        --new_line;
-        --Put_line("Label : L" & Integer'Image(el.Lx));
 
 
         Lx := CreerLabel;
@@ -992,10 +974,6 @@ PACKAGE BODY p_compilateur IS
         Put("");
         Inserer("L"&TrimI(Lx)&" ");
         Put("");
-        --Put_line("Empiler : ");
-        --Put(Image_SI(el));
-        --new_line;
-        --Put_line("Label : L" & Integer'Image(el.Lx));
         P_Pile_SI.Empiler(Pile_SI,el);
     END TraduireSinon;
 
@@ -1004,19 +982,10 @@ PACKAGE BODY p_compilateur IS
         el : SI;
     BEGIN
         el := P_Pile_SI.Depiler(Pile_SI);
-        --Put_line("Depiler : ");
-        --Put(Image_SI(el));
-        --new_line;
-        --Put_line("Label : L" & Integer'Image(el.Lx));
 
 
         Inserer_L("L"&TrimI(el.Lx)&" NULL");
     END TraduireFinSi;
-
-    FUNCTION TrimI(e : Integer) RETURN String IS
-    BEGIN
-        RETURN Integer'Image(e)(2..Integer'Image(e)'Last);
-    END TrimI;
 
 
 END p_compilateur;

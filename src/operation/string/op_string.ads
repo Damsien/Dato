@@ -1,4 +1,4 @@
-package p_op_string is
+package op_string is
 
     FUNCTION removeSubString(s: String ; sToRm: String) RETURN String;
 
@@ -12,4 +12,6 @@ package p_op_string is
 
     FUNCTION clarifyString(s: IN String) RETURN String;
 
-end package;
+    FUNCTION TrimI(e : Integer) RETURN String;
+
+end op_string;

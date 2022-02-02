@@ -15,7 +15,7 @@ with Ada.Command_Line; use Ada.Command_Line;
 WITH Ada.integer_text_io; USE Ada.integer_text_io;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
-procedure test IS
+procedure Main IS
     source : T_SOURCE;
     file : access String;
     filename : access String;
@@ -79,4 +79,4 @@ EXCEPTION
     WHEN E : others => 
         raise;
 
-end test;
+end Main;

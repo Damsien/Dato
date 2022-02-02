@@ -77,8 +77,6 @@ PACKAGE p_compilateur IS
 
 PRIVATE
 
-    FUNCTION TrimI(e : Integer) RETURN String;
-
     --TYPE T_COMPILATEUR IS
     --RECORD
     --END RECORD;

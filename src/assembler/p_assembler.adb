@@ -1,13 +1,15 @@
 with Ada.Text_IO; use Ada.Text_IO;
 WITH Ada.integer_text_io; USE Ada.integer_text_io;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
-with p_intermediate; use p_intermediate
+with p_intermediate; use p_intermediate;
 with p_source; use p_source;
+WITH object; use object;
+with Ada.Text_IO; use Ada.Text_IO;
+with op_string; use op_string;
 
 package body p_assembler is
 
-
-    PROCEDURE AfficherL(line : String) IS
+PROCEDURE AfficherL(line : String) IS
         str : access String;
         startQuote: Integer := 1;
         stopQuote: Integer := 1;
@@ -46,7 +48,7 @@ package body p_assembler is
             ELSIF index > startQuote AND stopQuote <= startQuote AND Not quoteClose THEN
             -- Le contenu du string
                 Put("");
-                tmp := str.All(index)'Length;
+                tmp := str.All'Length;
                 object.Put(str.All(index));
 
             ELSIF str.All(index) = ' ' and quoteClose THEN
@@ -60,7 +62,7 @@ package body p_assembler is
                 -- Affichage de la valeur
                 Put("");
                 tmp := tempVarName.All'Length;
-                Put(Integer'Image(GetVarValue(Upper_Case(tempVarName.All))));
+                Put(TrimI(GetVarValue(Upper_Case(tempVarName.All))));
             ELSIF str.All(index) = '+' AND stopPlus <= index AND startPlus < stopPlus AND quoteClose THEN
             -- Concatenation commence
                 startPlus := index;
@@ -75,7 +77,7 @@ package body p_assembler is
                     -- Affichage de la valeur
                     Put("");
                     tmp := tempVarName.All'Length;
-                    Put(Integer'Image(GetVarValue(Upper_Case(tempVarName.All))));
+                    Put(TrimI(GetVarValue(Upper_Case(tempVarName.All))));
                 END IF;
             
             ELSIF index = spaceCounter+1 THEN
@@ -97,6 +99,7 @@ package body p_assembler is
             New_Line;
             Put_Line("Mauvais usage de la fonction AFFICHER");
     END AfficherL;
+
 
 
     PROCEDURE Traitement(inst: String ; line: P_LISTE_CH_CHAR.T_LISTE) IS
@@ -133,12 +136,15 @@ package body p_assembler is
 
         END IF;
 
+
     END Traitement;
 
-
-    PROCEDURE TraiterInstructions IS
-        liste: P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
+    PROCEDURE TraiterInstructions(debug: Boolean) IS
+        liste: P_LISTE_CH_CHAR.T_LISTE := GetFile.instructions;
     BEGIN
+        IF debug THEN
+            Put_Line("====== MODE DEBUG ACTIVE ======");
+        END IF;
 
         -- Premier tour de boucle pour initialiser les labels
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
@@ -151,14 +157,33 @@ package body p_assembler is
                 ELSE
                 -- C'est une création de label
                     TraiterLabel(liste.All.Element.All(liste.All.Element.All'First..Index(liste.All.Element.All, " ")-1), liste);
+                    
+                    IF debug THEN
+                    -- Affichage en mode debug
+                        Put_Line("====== AJOUT D'UN LABEL | LISTE DES LABELS : ======");
+                        WHILE P_LISTE_CLEFVALEUR.isNull(label_map.All.Suivant) LOOP
+                            Put_Line(CV_ToString(label_map.All.Element));
+                        END LOOP;
+                    END IF;
+
                 END IF;
             END IF;
             liste := liste.All.Suivant;
         END LOOP;
 
         -- Deuxième tour pour effectuer les traitements
-        liste := intermediaire.instructions;
+        liste := GetFile.instructions;
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
+            IF debug THEN
+            -- Affichage en mode debug
+                Put_Line("LIGNE "&Integer'Image(GetCP));
+                Put_Line("INSTRUCTION : ");
+                Put_Line(liste.All.Element.All);
+                Put_Line("====== VARIABLES DECLAREES : ======");
+                WHILE P_LISTE_VARIABLE.isNull(Declared_Variables.All.Suivant) LOOP
+                    Put_Line(Image_Variable(Declared_Variables.All.Element));
+                END LOOP;
+            END IF;
             -- Check pour ce qui ne concerne pas le GOTO
             Traitement(liste.All.Element.All, liste);
             IF Index(liste.All.Element.All, "GOTO") > 0 THEN
@@ -218,8 +243,6 @@ package body p_assembler is
         END IF;
     END TraiterDeclarations;
 
-
-
     PROCEDURE TraiterAffectation(line : String) IS
         var: P_LISTE_VARIABLE.T_LISTE := Declared_Variables;
         val: Integer;
@@ -244,6 +267,7 @@ package body p_assembler is
         END IF;
     END TraiterAffectation;
 
+    --Pour me rappeler de raconter la dinguerie eca
 
     FUNCTION RechercherMap(liste : P_LISTE_CLEFVALEUR.T_LISTE ; label : String) RETURN P_LISTE_CLEFVALEUR.T_LISTE IS
         listeCourante : P_LISTE_CLEFVALEUR.T_LISTE := liste;
@@ -254,8 +278,6 @@ package body p_assembler is
 
         RETURN listeCourante;
     END RechercherMap;
-
-
 
     FUNCTION TraiterGOTO(listeCourante: P_LISTE_CH_CHAR.T_LISTE) RETURN P_LISTE_CH_CHAR.T_LISTE IS
         line: String := listeCourante.All.Element.All;
@@ -273,8 +295,6 @@ package body p_assembler is
             Valeur;
         END IF;
     END TraiterGOTO;
-
-
 
     FUNCTION VerifierCondition(condition: String) RETURN Boolean IS
         var: P_LISTE_VARIABLE.T_LISTE := Declared_Variables;
@@ -403,15 +423,12 @@ package body p_assembler is
         valInt1: Integer;
         valInt2: Integer;
     BEGIN
-        --Put_line("======= opération ========");
         IF Index(op, "+") > 0 THEN
             value1 := new String'(op(op'First..Index(op, " +")-1));
             valInt1 := GetVarValue(value1.All);
             Put("");
             value2 := new String'(op(Index(op, "+ ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
-            --Put_line(""&value1.All&" + "&value2.All);
-            --Put_line(""&Integer'Image(valInt1)&" + "&Integer'Image(valInt1));
             RETURN valInt1+valInt2;
         ELSIF Index(op, "-") > 0 THEN
             Put("");
@@ -427,7 +444,6 @@ package body p_assembler is
             Put("");
             value2 := new String'(op(Index(op, "* ")+2..op'Last));
             valInt2 := GetVarValue(value2.All);
-            --Put_line(""&value1.All&" * "&value2.All);
             RETURN valInt1*valInt2;
         ELSIF Index(op, "/") > 0 THEN
             Put("");
@@ -470,8 +486,12 @@ package body p_assembler is
         var_exist: P_LISTE_VARIABLE.T_LISTE;
     BEGIN
         var_exist := Declared_Variables;
-        WHILE P_LISTE_VARIABLE.isNull(var_exist.All.Suivant) AND var_exist.All.Element.intitule.All /= val LOOP
-            var_exist := var_exist.All.Suivant;
+        WHILE P_LISTE_VARIABLE.isNull(var_exist) AND THEN var_exist.All.Element.intitule.All /= val LOOP
+            IF var_exist.All.Suivant /= NULL THEN
+                var_exist := var_exist.All.Suivant;
+            ELSE
+                EXIT;
+            END IF;
         END LOOP;
         RETURN var_exist;
     END IsVarExisting;

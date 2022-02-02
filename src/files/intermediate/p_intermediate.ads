@@ -3,9 +3,6 @@ WITH object; use object;
 
 package p_intermediate is
 
-    PACKAGE P_LISTE_VARIABLE IS NEW P_LISTE(T_ELEMENT => Variable, Image => Image_Variable);
-    USE P_LISTE_VARIABLE;
-
     TYPE T_INTERMEDIAIRE IS
     RECORD
         instructions: P_LISTE_CH_CHAR.T_LISTE;
@@ -25,45 +22,13 @@ package p_intermediate is
 
     Procedure Afficher;
 
-    FUNCTION removeSubString(s: String ; sToRm: String) RETURN String;
-
-
-    PROCEDURE AfficherL(line : String);
-
-
-    PROCEDURE TraiterInstructions(debug: boolean);
-
-    PROCEDURE Traitement(inst: String ; line: P_LISTE_CH_CHAR.T_LISTE);
-
-    PROCEDURE TraiterDeclarations(line : String);
-
-    PROCEDURE TraiterAffectation(line : String);
-
-    FUNCTION TraiterGOTO(listeCourante: P_LISTE_CH_CHAR.T_LISTE) RETURN P_LISTE_CH_CHAR.T_LISTE;
-
-    FUNCTION VerifierCondition(condition: String) RETURN Boolean;
-
-    PROCEDURE TraiterLabel(label: String ; line: P_LISTE_CH_CHAR.T_LISTE);
-
-    FUNCTION AppliquerCondition(cond: String) RETURN Boolean;
-
-    FUNCTION AppliquerOperation(op: String) RETURN Integer;
-
-    FUNCTION IsVarExisting(val: String) RETURN P_LISTE_VARIABLE.T_LISTE;
-
-    FUNCTION GetVarValue(val: String) RETURN Integer;
-
     PROCEDURE Ecrire;
 
     FUNCTION RecupererNom(s : String) RETURN String;
 
     PROCEDURE setNom(fichier : String);
 
-    
-
     CP_ENTETE : Integer := 0;
-
-    Declared_Variables: P_LISTE_VARIABLE.T_LISTE;
 
 
 PRIVATE
@@ -71,7 +36,6 @@ PRIVATE
     CP : Integer := 0;
     intermediaire : T_INTERMEDIAIRE;
 
-    label_map: P_LISTE_CLEFVALEUR.T_LISTE;
     filename : access String;
 
 end p_intermediate;

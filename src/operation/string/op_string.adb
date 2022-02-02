@@ -1,8 +1,13 @@
-PACKAGE BODY p_op_string
+with object; use object;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with Ada.Text_IO; use Ada.Text_IO;
+
+PACKAGE BODY op_string IS
+
 
     FUNCTION removeSubString(s: String ; sToRm: String) RETURN String IS
         str: access String;
-        j: Integer := 1;
+        j: Integer := s'First;
         pos: Integer;
         not_exists: Exception;
     BEGIN
@@ -11,7 +16,7 @@ PACKAGE BODY p_op_string
         pos := Index(s, sToRm);
 
         IF pos > 0 THEN
-            str := new String(1..s'Last-sToRm'Length);
+            str := new String(s'First..s'Last-sToRm'Length);
             FOR i in s'First..s'Last LOOP
                 IF i >= pos AND i < pos+sToRm'Length THEN
                     j := j - 1;
@@ -24,15 +29,14 @@ PACKAGE BODY p_op_string
             RAISE not_exists;
         END IF;
 
+        RETURN str.All;
+
     EXCEPTION
         WHEN not_exists =>
             Put_Line("The string you want to remove don't exists");
             RAISE not_exists;
             
     END removeSubString;
-
-
-
 
 
     FUNCTION Upper_Case (S : String) RETURN String IS
@@ -50,9 +54,6 @@ PACKAGE BODY p_op_string
         END LOOP;
         RETURN Temp;
     END Upper_Case;
-
-
-
 
     FUNCTION replaceString(s: String ; pattern_to_be_replaced: String ; replace_pattern: String) RETURN String IS
         new_str: access String;
@@ -87,8 +88,6 @@ PACKAGE BODY p_op_string
     END replaceString;
 
 
-
-
     FUNCTION removeSingleSpace(s: IN String ; l: IN Integer) RETURN String IS
         str : access String;
         j: Integer := 1;
@@ -114,13 +113,9 @@ PACKAGE BODY p_op_string
 
     END removeSingleSpace;
 
-
-
-
-
     FUNCTION removeSpaces(s: IN String ; l: IN Integer) RETURN String IS
         str: String(s'First..s'Last);
-        finalStr: N_STRING;
+        finalStr: T_String;
         pos: Integer;
         j: Integer := 1;
     BEGIN
@@ -146,14 +141,10 @@ PACKAGE BODY p_op_string
         END IF;
     END removeSpaces;
 
-
-
-    
-
     FUNCTION clarifyString(s: IN String) RETURN String IS
         c: Character;
         index: Integer := 1;
-        temp: N_STRING;
+        temp: T_String;
     BEGIN
         IF s'Last /= 0 THEN
             c := s(s'First);
@@ -175,4 +166,13 @@ PACKAGE BODY p_op_string
         END IF;
     END clarifyString;
 
-END p_op_string;
+    FUNCTION TrimI(e : Integer) RETURN String IS
+    BEGIN
+        IF e < 0 THEN
+            RETURN Integer'Image(e)(1..Integer'Image(e)'Last);
+        ELSE
+            RETURN Integer'Image(e)(2..Integer'Image(e)'Last);
+        END IF;
+    END TrimI;
+
+END op_string;
