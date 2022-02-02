@@ -1,4 +1,4 @@
-![dato-logo](dato-text.png)
+![dato-logo](img/dato-text.png)
 
 # Le langage de programmation Dato
 
@@ -328,7 +328,12 @@ String Tx
 ## Executer un fichier Dato
 
 Il y a deux manière d'éxecuter un programme écrit en Dato
+
+### Avec les fichiers sources du langage
+
 La première consiste à utiliser le script mis à disposition qui permet de compiler, d'interpréter et d'éxecuter le code. Il faut avoir tout le code source et se situer à la racine du projet.
+
+#### Utilisation
 
 ```sh
 # Linux command
@@ -338,7 +343,7 @@ gnatmake src/main $(ls -R  | grep -oP 'src/.*(?=:)' | sed -e 's_.*_-I&_' | paste
 ./compile
 ```
 
-### Explication
+#### Explication
 Le projet étant découpé en plusieurs modules partagés dans des dossiers différents, il est nécessaire de spécifier l'emplacement de l'ensemble de ces dossiers lors de la compilation du programme.
 
 ```sh
@@ -355,4 +360,16 @@ paste -s # Transforme les lignes en espace
 gnatmake src/main -Isrc/compiler -Isrc/files -Isrc/files/intermediate -Isrc/files/source -Isrc/struct -Isrc/struct/liste -Isrc/struct/object -Isrc/struct/pile
 ```
 
-La deuxième méthode consiste à utiliser l'extension Dato mis à disposition sur Visual Studio Code si vous utilisez Windows ou Linux. Elle vous permettra d'ajouter la colloration syntaxique sur les fichiers ayant l'extension ".dato". Elle vous permettra également d'éxecuter le fichier en éxecutant la commande "Dato: Build & Run" dans l'explorateur de commandes de VSCode pouvant être ouvert grâce à la combinaison de touche Ctrl+Shift+P.
+### Uniquement avec le fichier .dato
+
+La deuxième méthode consiste à utiliser l'extension Dato mis à disposition sur Visual Studio Code si vous utilisez Windows ou Linux.
+
+![dato-ext](img/dato1.png)
+
+Elle vous permettra d'ajouter la colloration syntaxique sur les fichiers ayant l'extension ".dato".
+
+![dato-color](img/dato2.png)
+
+Elle vous permettra également d'éxecuter le fichier en éxecutant la commande "Dato: Build & Run" dans l'explorateur de commandes de VSCode pouvant être ouvert grâce à la combinaison de touche Ctrl+Shift+P.
+
+![dato-build](img/dato3.png)
