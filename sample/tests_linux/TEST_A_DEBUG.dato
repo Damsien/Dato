@@ -1,17 +1,17 @@
 -- Ce programme contient 7 erreurs. A vous de les corriger !
 -- Vous pouvez vous aider de l'extension "Dato" sur Visual Studio Code
--- Elle vous permettra d'avoir la colloration syntaxique du langage
+-- Elle vous permettra d'avoir la coloration syntaxique du langage
 
 -- Vous pourrez également lancer votre programme écrit en dato
--- Il suffit d'éxecuter le "Build & Run" en appuyant sur Ctrl+Shift+P
--- Tappez "dato" dans la barre de recherche et appuyez sur Entrée pour éxecuter la commande
+-- Il suffit d'exécuter le "Build & Run" en appuyant sur Ctrl+Shift+P
+-- Tapez "dato" dans la barre de recherche et appuyez sur Entrée pour exécuter la commande
 
--- Executer le programme au fur et à mesure vous permettra
+-- Exécuter le programme au fur et à mesure vous permettra
 -- de débugger votre code grâce aux différentes erreurs retournées
 
 -- Objectifs : 
---  1 : i doit contenir 4
---  2 : le programme doit afficher "La variable i : 4"
+--  1 : i doit contenir 3
+--  2 : le programme doit afficher "La variable i : 3"
 
 Programme TestProgramme est
 
@@ -20,8 +20,8 @@ Programme TestProgramme est
     b : booleen
     l : Booleen
 
-    i <- 4
-    l <- 1
+    i <- 3
+    l <- VRAI
 
     Tant que i > 0 Do
         

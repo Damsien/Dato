@@ -1,146 +1,10 @@
 with Ada.Text_IO; use Ada.Text_IO;
 WITH Ada.integer_text_io; USE Ada.integer_text_io;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with p_intermediate; use p_intermediate
 with p_source; use p_source;
 
-package body p_intermediate is
-
-    FUNCTION TToString(el : T_String) RETURN String IS
-        result : T_String;
-    BEGIN
-        Put("");
-        result := new String'(el.All);
-        RETURN result.All;
-    END TToString;
-
-    FUNCTION StringToT(el : String) RETURN T_String IS
-        result : T_String;
-    BEGIN
-        Put("");
-        result := new String'(el);
-        RETURN result;
-    END StringToT;
-
-    PROCEDURE Inserer_L(instruction : IN String) IS
-    BEGIN
-        Inserer(instruction);
-        CP := CP + 1;
-    END Inserer_L;
-
-    PROCEDURE Inserer_Entete(instruction : IN String) IS
-    BEGIN
-        p_intermediate.Modifier(instruction,CP_ENTETE);
-    END Inserer_Entete;
-
-    PROCEDURE Inserer(instruction : IN String) IS
-    existing : T_String;
-    concat : T_String;
-    tmp : Integer;
-    BEGIN
-
-        BEGIN
-        existing := P_LISTE_CH_CHAR.obtenir(intermediaire.instructions,CP);
-        EXCEPTION
-            WHEN E : P_LISTE_CH_CHAR.NOT_FOUND =>       
-                                    existing := StringToT("");
-        END;
-        
-        --Put_line(instruction);
-
-        IF TToString(existing)'length /= 0 THEN
-            tmp := instruction'Length;
-            concat := new String'(existing.All & instruction);
-            tmp := concat'Length;
-            p_intermediate.Modifier(concat.All,CP);     
-        ELSE
-            P_LISTE_CH_CHAR.ajouter(intermediaire.instructions,new String'(instruction));
-        END IF;
-    END Inserer;
-
-    Procedure Modifier(instruction : IN String ; ligne : IN Integer) IS
-        str : T_String;
-        tmp : Integer;
-    BEGIN
-            --Put_line("String : "&instruction);
-            --Put_Line("Size : "&Integer'Image(instruction'Length));
-            --Put_line("========= MODIFIER");
-            --Put_line("Insérer le label : "&instruction);
-            tmp := instruction'Length;
-            --Put_line("Ligne théorique : "&instruction);
-
-            str := new String(1..instruction'Length);
-            for i in 1..instruction'Length loop
-                str.All(i) := instruction(i);
-            end loop;
-            P_LISTE_CH_CHAR.modifier(intermediaire.instructions,ligne,str);
-            Put("");
-            --Put_line("Après coup :");
-            --P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
-    END Modifier;
-
-    Function GetCP RETURN Integer IS
-    BEGIN
-        return CP;
-    END GetCP;
-
-    Function GetFile RETURN T_INTERMEDIAIRE IS
-    BEGIN
-        return Intermediaire;
-    END GetFile;
-
-    Procedure Afficher IS
-    BEGIN
-        Put("");
-        P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
-    END Afficher;
-
-
-    PROCEDURE Ecrire IS
-        l : P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
-        F : File_Type;
-    BEGIN
-        Create (F, 
-        Out_File, 
-        filename.All);
-        while P_LISTE_CH_CHAR.isNull(l) loop
-            Put_Line (F, l.All.Element.All);
-            l := l.All.Suivant;
-        end loop;
-    END Ecrire;
-
-
-    FUNCTION removeSubString(s: String ; sToRm: String) RETURN String IS
-        str: access String;
-        j: Integer := s'First;
-        pos: Integer;
-        not_exists: Exception;
-    BEGIN
-        pos := Index(s, sToRm);
-        str := new String'(s);
-        pos := Index(s, sToRm);
-
-        IF pos > 0 THEN
-            str := new String(s'First..s'Last-sToRm'Length);
-            FOR i in s'First..s'Last LOOP
-                IF i >= pos AND i < pos+sToRm'Length THEN
-                    j := j - 1;
-                ELSE
-                    str.All(j) := s(i);
-                END IF;
-                j := j + 1;
-            END LOOP;
-        ELSE
-            RAISE not_exists;
-        END IF;
-
-        RETURN str.All;
-
-    EXCEPTION
-        WHEN not_exists =>
-            Put_Line("The string you want to remove don't exists");
-            RAISE not_exists;
-            
-    END removeSubString;
+package body p_assembler is
 
 
     PROCEDURE AfficherL(line : String) IS
@@ -182,7 +46,7 @@ package body p_intermediate is
             ELSIF index > startQuote AND stopQuote <= startQuote AND Not quoteClose THEN
             -- Le contenu du string
                 Put("");
-                tmp := str.All'Length;
+                tmp := str.All(index)'Length;
                 object.Put(str.All(index));
 
             ELSIF str.All(index) = ' ' and quoteClose THEN
@@ -235,12 +99,8 @@ package body p_intermediate is
     END AfficherL;
 
 
-
     PROCEDURE Traitement(inst: String ; line: P_LISTE_CH_CHAR.T_LISTE) IS
     BEGIN
-        --Put_line("====================");
-        --Put_line("A ligne : "&inst);
-        --P_LISTE_VARIABLE.afficherListe(Declared_Variables);
         IF Index(inst, "L") = 1 THEN
         -- C'est soit un label, soit une affectation
             IF Index(inst, " ") = Index(inst, "<-")-1 THEN
@@ -273,15 +133,12 @@ package body p_intermediate is
 
         END IF;
 
-
     END Traitement;
 
-    PROCEDURE TraiterInstructions(debug: Boolean) IS
+
+    PROCEDURE TraiterInstructions IS
         liste: P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
     BEGIN
-        IF debug THEN
-            Put_Line("====== MODE DEBUG ACTIVE ======");
-        END IF;
 
         -- Premier tour de boucle pour initialiser les labels
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
@@ -294,15 +151,6 @@ package body p_intermediate is
                 ELSE
                 -- C'est une création de label
                     TraiterLabel(liste.All.Element.All(liste.All.Element.All'First..Index(liste.All.Element.All, " ")-1), liste);
-                    
-                    IF debug THEN
-                    -- Affichage en mode debug
-                        Put_Line("====== AJOUT D'UN LABEL | LISTE DES LABELS : ======");
-                        WHILE P_LISTE_CLEFVALEUR.isNull(label_map.All.Suivant) LOOP
-                            Put_Line(CV_ToString(label_map.All.Element));
-                        END LOOP;
-                    END IF;
-
                 END IF;
             END IF;
             liste := liste.All.Suivant;
@@ -311,16 +159,6 @@ package body p_intermediate is
         -- Deuxième tour pour effectuer les traitements
         liste := intermediaire.instructions;
         WHILE P_LISTE_CH_CHAR.isNull(liste) LOOP
-            IF debug THEN
-            -- Affichage en mode debug
-                Put_Line("LIGNE "&Integer'Image(CP));
-                Put_Line("INSTRUCTION : ");
-                Put_Line(liste.All.Element.All);
-                Put_Line("====== VARIABLES DECLAREES : ======");
-                WHILE P_LISTE_VARIABLE.isNull(Declared_Variables.All.Suivant) LOOP
-                    Put_Line(Image_Variable(Declared_Variables.All.Element));
-                END LOOP;
-            END IF;
             -- Check pour ce qui ne concerne pas le GOTO
             Traitement(liste.All.Element.All, liste);
             IF Index(liste.All.Element.All, "GOTO") > 0 THEN
@@ -380,6 +218,8 @@ package body p_intermediate is
         END IF;
     END TraiterDeclarations;
 
+
+
     PROCEDURE TraiterAffectation(line : String) IS
         var: P_LISTE_VARIABLE.T_LISTE := Declared_Variables;
         val: Integer;
@@ -404,7 +244,6 @@ package body p_intermediate is
         END IF;
     END TraiterAffectation;
 
-    --Pour me rappeler de raconter la dinguerie eca
 
     FUNCTION RechercherMap(liste : P_LISTE_CLEFVALEUR.T_LISTE ; label : String) RETURN P_LISTE_CLEFVALEUR.T_LISTE IS
         listeCourante : P_LISTE_CLEFVALEUR.T_LISTE := liste;
@@ -415,6 +254,8 @@ package body p_intermediate is
 
         RETURN listeCourante;
     END RechercherMap;
+
+
 
     FUNCTION TraiterGOTO(listeCourante: P_LISTE_CH_CHAR.T_LISTE) RETURN P_LISTE_CH_CHAR.T_LISTE IS
         line: String := listeCourante.All.Element.All;
@@ -432,6 +273,8 @@ package body p_intermediate is
             Valeur;
         END IF;
     END TraiterGOTO;
+
+
 
     FUNCTION VerifierCondition(condition: String) RETURN Boolean IS
         var: P_LISTE_VARIABLE.T_LISTE := Declared_Variables;
@@ -627,40 +470,10 @@ package body p_intermediate is
         var_exist: P_LISTE_VARIABLE.T_LISTE;
     BEGIN
         var_exist := Declared_Variables;
-        WHILE P_LISTE_VARIABLE.isNull(var_exist) AND THEN var_exist.All.Element.intitule.All /= val LOOP
-            IF var_exist.All.Suivant /= NULL THEN
-                var_exist := var_exist.All.Suivant;
-            ELSE
-                EXIT;
-            END IF;
+        WHILE P_LISTE_VARIABLE.isNull(var_exist.All.Suivant) AND var_exist.All.Element.intitule.All /= val LOOP
+            var_exist := var_exist.All.Suivant;
         END LOOP;
         RETURN var_exist;
     END IsVarExisting;
 
-    Function Empty(s : String) RETURN String IS
-    BEGIN
-        RETURN "";
-    END Empty;
-
-    FUNCTION RecupererNom(s : String) RETURN String IS
-    BEGIN
-        -- Linux / Mac
-        IF Index(s, "/") > 0 THEN
-            RETURN RecupererNom(s(Index(s, "/")+1..s'Last));
-        -- Windows
-        ELSIF Index(s, "\") > 0 THEN
-            RETURN RecupererNom(s(Index(s, "\")+1..s'Last));
-        END IF;
-        RETURN s;
-    END;
-
-    PROCEDURE setNom(fichier : String) IS
-        s : String(1..fichier'Length);
-    BEGIN
-        s := fichier;
-        p_intermediate.filename := new String'(s(s'First..s'Last-4)&"toda");
-    END;
-
-
-
-end p_intermediate;
+end p_assembler;

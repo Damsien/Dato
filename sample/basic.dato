@@ -37,4 +37,6 @@ Debut
 
     Fin Si
 
+    Afficher("Somme : " + somme)
+
 Fin

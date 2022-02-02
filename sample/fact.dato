@@ -7,7 +7,7 @@ Programme Facto est
 
     i : Entier -- entier naturel, variable intermédiaire
 
-Debut
+Début
 
     n <- 5
 
@@ -20,7 +20,7 @@ Debut
 
         Fact <- Fact * i 
 
-        i <- i + 1 
+        i <- i + 1
 
     Fin Tant Que
 

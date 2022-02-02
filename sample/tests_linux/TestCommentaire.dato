@@ -23,8 +23,9 @@ Debut
     -- Afficher("i = 0")
     -- Fin si
 
-    Si i = 0 Alors
+    Si i == 0 Alors
 
+        Retour
         Afficher("Test valide !")
         Retour
 

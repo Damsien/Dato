@@ -27,7 +27,8 @@ PACKAGE BODY p_compilateur IS
         debuted_error: Exception;
     BEGIN
         --Put("============== ");
-        --object.Put(inst);
+        --Put_Line(inst);
+        --object.Put(inst'Length);
         --Put(" : ");
 
         IF Not hasProgramStarded THEN
@@ -40,14 +41,15 @@ PACKAGE BODY p_compilateur IS
                 ELSIF Index(inst, "--") > 0 THEN
                     --Put_Line("Commentaire ==============");
                     pos := Index(inst, "--");
-                    Traitement(inst(inst'First..pos-1));
+                    Traitement(instruction(inst'First..pos-1));
+                    RETURN;
                 ELSIF clarifyString(inst) = "" THEN
                     --Put_Line("Ligne vide ==============");
                     NULL;
                 ELSIF Index(inst, "PROGRAMME ") > 0 AND Index(inst, " EST")+3 = inst'Last THEN
-                    IF Index(removeSingleSpace(inst, inst'Length), "EST") > Index(removeSingleSpace(inst, inst'Length), "PROGRAMME")+9+1
+                    IF Index(removeSingleSpace(inst, inst'Length), "EST") >= Index(removeSingleSpace(inst, inst'Length), "PROGRAMME")+9+1
                     AND inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1)'Length = removeSingleSpace(inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1), inst(Index(inst, "PROGRAMME ")+10..Index(inst, " EST")-1)'Length)'Length THEN
-                       --Put_Line("Program start ==============");
+                        --Put_Line("Program start ==============");
                         hasProgramStarded := True;
                         Inserer_L(inst);
                         p_intermediate.CP_ENTETE := p_intermediate.GetCP;
@@ -64,7 +66,8 @@ PACKAGE BODY p_compilateur IS
                 ELSIF Index(inst, "--") > 0 THEN
                     --Put_Line("Commentaire ==============");
                     pos := Index(inst, "--");
-                    Traitement(inst(inst'First..pos-1));
+                    Traitement(instruction(inst'First..pos-1));
+                    RETURN;
                 ELSIF clarifyString(inst) = "" THEN
                     --Put_Line("Ligne vide ==============");
                     NULL;
@@ -72,9 +75,8 @@ PACKAGE BODY p_compilateur IS
                     RAISE ended_error;
                 END IF;
             ELSE
-
                 IF Not hasProgramDebuted THEN
-                    IF inst = "DEBUT" OR inst = "DéBUT" THEN
+                    IF inst = "DEBUT" OR inst = "DéBUT" OR inst = "DEBUT " OR inst = "DéBUT " THEN
                         --Put_Line("Program Debut ==============");
                         hasProgramDebuted := True;
                         Inserer_L(inst);
@@ -84,7 +86,8 @@ PACKAGE BODY p_compilateur IS
                     ELSIF Index(inst, "--") > 0 THEN
                         --Put_Line("Commentaire ==============");
                         pos := Index(inst, "--");
-                        Traitement(inst(inst'First..pos-1));
+                        Traitement(instruction(inst'First..pos-1));
+                        RETURN;
                     ELSIF clarifyString(inst) = "" THEN
                         --Put_Line("Program Debut ==============");
                         NULL;
@@ -101,7 +104,8 @@ PACKAGE BODY p_compilateur IS
                     ELSIF Index(inst, "--") > 0 THEN
                         --Put_Line("Commentaire ==============");
                         pos := Index(inst, "--");
-                        Traitement(inst(inst'First..pos-1));
+                        Traitement(instruction(inst'First..pos-1));
+                        RETURN;
                     ELSIF clarifyString(inst) = "" THEN
                         --Put_Line("Ligne vide ==============");
                         NULL;
@@ -117,7 +121,7 @@ PACKAGE BODY p_compilateur IS
                         --Put_Line("Fin Si ==============");
                         TraduireFinSi;
                         exist := True;
-                    ELSIF inst = "FIN" THEN
+                    ELSIF inst = "FIN" OR inst = "FIN " THEN
                         --Put_Line("Fin ==============");
                         hasProgramEnded := True;
                         Inserer_L(inst);
@@ -129,7 +133,8 @@ PACKAGE BODY p_compilateur IS
                     ELSIF Index(inst, "--") > 0 THEN
                         --Put_Line("Commentaire ==============");
                         pos := Index(inst, "--");
-                        Traitement(inst(inst'First..pos-1));
+                        Traitement(instruction(inst'First..pos-1));
+                        RETURN;
                     ELSIF clarifyString(inst) = "" THEN
                         --Put_Line("Ligne vide ==============");
                         NULL;
@@ -570,7 +575,7 @@ PACKAGE BODY p_compilateur IS
         var_exist: P_LISTE_VARIABLE.T_LISTE;
     BEGIN
         var_exist := Declared_Variables;
-        WHILE var_exist.All.Suivant /= NULL AND var_exist.All.Element.intitule.All /= value LOOP
+        WHILE P_LISTE_VARIABLE.isNull(var_exist.All.Suivant) AND var_exist.All.Element.intitule.All /= value LOOP
             var_exist := var_exist.All.Suivant;
         END LOOP;
 
@@ -645,22 +650,22 @@ PACKAGE BODY p_compilateur IS
             temp := ValiderOperation(spaceVal.All);
             IF Index(spaceVal.All, "+") > 0 THEN
                 FormaliserOperation(spaceVal.All, value1, value2);
-                IF (Integer'Value(value1.All) = 0 OR Integer'Value(value1.All) = 1)
-                 AND (Integer'Value(value2.All) = 0 OR Integer'Value(value2.All) = 1) THEN
+                --IF (Integer'Value(value1.All) = 0 OR Integer'Value(value1.All) = 1)
+                -- AND (Integer'Value(value2.All) = 0 OR Integer'Value(value2.All) = 1) THEN
                     var.All.Element.initialisation := True;
-                    RETURN IntToBool(value1.All)&" OU "&IntToBool(value2.All);
-                ELSE
-                    RAISE WrongType;
-                END IF;
+                    RETURN IntToBool(value1.All)&" OR "&IntToBool(value2.All);
+                --ELSE
+                --    RAISE WrongType;
+                --END IF;
             ELSIF Index(spaceVal.All, "*") > 0 THEN
                 FormaliserOperation(spaceVal.All, value1, value2);
-                IF (Integer'Value(value1.All) = 0 OR Integer'Value(value1.All) = 1)
-                 AND (Integer'Value(value2.All) = 0 OR Integer'Value(value2.All) = 1) THEN
+                --IF (Integer'Value(value1.All) = 0 OR Integer'Value(value1.All) = 1)
+                -- AND (Integer'Value(value2.All) = 0 OR Integer'Value(value2.All) = 1) THEN
                     var.All.Element.initialisation := True;
-                    RETURN IntToBool(value1.All)&" ET "&IntToBool(value2.All);
-                ELSE
-                    RAISE WrongType;
-                END IF;
+                    RETURN IntToBool(value1.All)&" AND "&IntToBool(value2.All);
+                --ELSE
+                --    RAISE WrongType;
+                --END IF;
             ELSIF Index(value, "-") > 0 OR Index(value, "/") > 0 THEN
                 RAISE operation_type_error;
             ELSE
@@ -771,9 +776,18 @@ PACKAGE BODY p_compilateur IS
         intitule: access String;
         program_error: Exception;
         var_already_declared: Exception;
+        bad_var_name : exception;
+        wrongType : exception;
     BEGIN
         IF hasProgramStarded AND Not hasProgramDebuted THEN
             intitule := new String'(removeSingleSpace(line(line'First..Index(line, ":")-1), line(line'First..Index(line, ":")-1)'Length));
+            IF Index(intitule.All, "?") > 0 OR Index(intitule.All, ":") > 0 OR Index(intitule.All, "-") > 0 OR
+            Index(intitule.All, "<") > 0 OR Index(intitule.All, ">") > 0 OR Index(intitule.All, "=") > 0 OR
+            Index(intitule.All, ".") > 0 OR Index(intitule.All, ";") > 0 OR Index(intitule.All, ",") > 0 OR
+            Index(intitule.All, "!") > 0 OR Index(intitule.All, "/") > 0 OR Index(intitule.All, "\") > 0  THEN
+                RAISE bad_var_name;
+            ELSE NULL;
+            END IF;
             var_exist := Declared_Variables;
             WHILE P_LISTE_VARIABLE.taille(var_exist) > 0 AND THEN var_exist.All.Suivant /= NULL AND THEN var_exist.All.Element.intitule.All /= intitule.All LOOP
                 var_exist := var_exist.All.Suivant;
@@ -781,6 +795,8 @@ PACKAGE BODY p_compilateur IS
             IF P_LISTE_VARIABLE.taille(var_exist) > 0 AND THEN var_exist.All.Element.intitule.All = intitule.All THEN
                 RAISE var_already_declared;
             ELSE
+                IF removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length) = "ENTIER" 
+                OR removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length) = "BOOLEEN" THEN
                 var := (
                     new String'(removeSingleSpace(line(line'First..Index(line, ":")-1), line(line'First..Index(line, ":")-1)'Length)),
                     False,
@@ -788,6 +804,9 @@ PACKAGE BODY p_compilateur IS
                     new String'(removeSingleSpace(line(Index(line, ":")+1..line'Last), line(Index(line, ":")+1..line'Last)'Length))
                 );
                 P_LISTE_VARIABLE.ajouter(Declared_Variables, var);
+                ELSE
+                    raise wrongType;
+                END IF;
             END IF;
         ELSE
             RAISE program_error;
@@ -810,6 +829,20 @@ PACKAGE BODY p_compilateur IS
                 END IF;
                 New_Line;
                 RAISE program_error;
+
+            WHEN bad_var_name =>
+                Put("Ligne ");
+                Put(CP_COMPIL, 1);
+                Put_Line(" - Le nom de la variable contient des caractères spéciaux");
+                New_Line;
+                RAISE bad_var_name;
+
+            WHEN wrongType =>
+                Put("Ligne ");
+                Put(CP_COMPIL, 1);
+                Put_Line(" - Une variable ne peut être qu'un entier ou un booléen");
+                New_Line;
+                RAISE wrongType;
     END TraduireDeclaration;
 
 

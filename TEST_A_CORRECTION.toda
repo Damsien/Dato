@@ -1,0 +1,33 @@
+PROGRAMME TESTPROGRAMME EST
+I, J, B, L, T1, T2, T3, T4, T5, T6, T7 : Entier
+DEBUT 
+I <- 3
+L <- VRAI
+J <- 1
+T1 <- I > 0
+L1 IF T1 GOTO L3
+GOTO L2
+L3 I <- I - 1
+T2 <- I > 0
+T1 <- T2
+GOTO L1
+L2 NULL
+T3 <- I == 0
+IF T3 GOTO L4
+GOTO L5
+L4 T4 <- J > 1
+T5 <- J = 1
+T6 <- T4 OR T5
+IF T6 GOTO L6
+GOTO L7
+L6 B <- FAUX OR L
+L7 NULL
+L5 NULL
+T7 <- B == 1
+IF T7 GOTO L8
+GOTO L9
+L8 I <- 4
+L9 NULL
+Afficher("La variable i : " + i) 
+RETOUR
+FIN 

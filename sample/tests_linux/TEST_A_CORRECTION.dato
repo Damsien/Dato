@@ -9,33 +9,29 @@ Programme TestProgramme est
 
 Debut   -- Le programme doit d'abord débuter
 
-    i <- 4
-    l <- 1
+    i <- 3
+    l <- VRAI
 
-    j <- 1  -- La variable devait être initialisé avant d'être utilisée à la ligne 27
+    j <- 1  -- La variable devait être initialisée avant d'être utilisée à la ligne 27
 
     Tant que i > 0 Faire
         
-        i <- i - 1  -- Une opération ne peux se faire qu'avec deux éléments maximum
+        i <- i - 1  -- Une opération ne peut se faire qu'avec deux éléments maximum
 
     Fin tant que
 
-    Si i = 0 Alors
+    Si i == 0 Alors
 
         Si j >= 1 alors
 
-            b <- 0 OU l  -- Une condition ne peux se faire qu'avec deux éléments maximum
+            b <- 0 OU l  -- Une condition ne peut se faire qu'avec deux éléments maximum
 
         Fin si
-
-    Sinon
-
-        NULL
     
     Fin si
 
 
-    Si b = 1 Alors
+    Si b == 1 Alors
 
         i <- 4
 
