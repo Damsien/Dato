@@ -1,4 +1,4 @@
-![dato-logo](img/dato-text.png)
+![dato-logo](doc/img/dato-text.png)
 
 # Le langage de programmation Dato
 
