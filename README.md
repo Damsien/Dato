@@ -1,4 +1,4 @@
-![dato-logo](dato-text.png)
+![dato-logo](img/dato-text.png)
 
 # Le langage de programmation Dato
 
@@ -362,4 +362,14 @@ gnatmake src/main -Isrc/compiler -Isrc/files -Isrc/files/intermediate -Isrc/file
 
 ### Uniquement avec le fichier .dato
 
-La deuxième méthode consiste à utiliser l'extension Dato mis à disposition sur Visual Studio Code si vous utilisez Windows ou Linux. Elle vous permettra d'ajouter la colloration syntaxique sur les fichiers ayant l'extension ".dato". Elle vous permettra également d'éxecuter le fichier en éxecutant la commande "Dato: Build & Run" dans l'explorateur de commandes de VSCode pouvant être ouvert grâce à la combinaison de touche Ctrl+Shift+P.
+La deuxième méthode consiste à utiliser l'extension Dato mis à disposition sur Visual Studio Code si vous utilisez Windows ou Linux.
+
+![dato-ext](img/dato1.png)
+
+Elle vous permettra d'ajouter la colloration syntaxique sur les fichiers ayant l'extension ".dato".
+
+![dato-color](img/dato2.png)
+
+Elle vous permettra également d'éxecuter le fichier en éxecutant la commande "Dato: Build & Run" dans l'explorateur de commandes de VSCode pouvant être ouvert grâce à la combinaison de touche Ctrl+Shift+P.
+
+![dato-build](img/dato3.png)
