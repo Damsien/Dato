@@ -24,6 +24,8 @@ package p_intermediate is
 
     PROCEDURE Ecrire;
 
+    PROCEDURE Ecrire(path : String);
+
     FUNCTION RecupererNom(s : String) RETURN String;
 
     PROCEDURE setNom(fichier : String);

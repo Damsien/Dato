@@ -73,6 +73,22 @@ package body p_intermediate is
         P_LISTE_CH_CHAR.afficherListe(intermediaire.instructions);
     END Afficher;
 
+    PROCEDURE Ecrire(path : String) IS
+        l : P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;
+        F : File_Type;
+        s : String(1..path'Length);
+    BEGIN
+        s := path;
+        s(s'Last-3..s'Last) := "toda";
+        Create (F, 
+        Out_File, 
+        s);
+        while P_LISTE_CH_CHAR.isNull(l) loop
+            Put_Line (F, l.All.Element.All);
+            l := l.All.Suivant;
+        end loop;
+    END Ecrire;
+
 
     PROCEDURE Ecrire IS
         l : P_LISTE_CH_CHAR.T_LISTE := intermediaire.instructions;

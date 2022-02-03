@@ -61,7 +61,7 @@ p_compilateur.TraiterInstructions(p_source.source);
 IF ecrireIntermediaire THEN
     filename := new String'(p_intermediate.RecupererNom(file.All));
     p_intermediate.setNom(filename.All);
-    p_intermediate.Ecrire;
+    p_intermediate.Ecrire(file.All);
 END IF;
 
 p_assembler.TraiterInstructions(afficherDebug);
